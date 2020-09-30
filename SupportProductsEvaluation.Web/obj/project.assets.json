@@ -1534,6 +1534,9 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.8",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.8",
           "SupportProductsEvaluation.Core": "1.0.0"
         },
         "compile": {
@@ -1541,7 +1544,10 @@
         },
         "runtime": {
           "bin/placeholder/SupportProductsEvaluation.Data.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "SupportProductsEvaluation.Infrastructure/1.0.0": {
         "type": "project",
@@ -1555,7 +1561,10 @@
         },
         "runtime": {
           "bin/placeholder/SupportProductsEvaluation.Infrastructure.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },

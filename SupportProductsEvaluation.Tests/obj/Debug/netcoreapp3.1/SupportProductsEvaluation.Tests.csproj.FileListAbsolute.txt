@@ -6,3 +6,11 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\ob
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.csproj.CoreCompileInputs.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Core.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Infrastructure.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Core.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Infrastructure.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.csprojAssemblyReference.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.csproj.CopyComplete

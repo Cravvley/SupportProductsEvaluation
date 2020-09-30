@@ -6,7 +6,10 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\bin
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.csprojAssemblyReference.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.AssemblyInfoInputs.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.AssemblyInfo.cs
-C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.csproj.CoreCompileInputs.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.csproj.CopyComplete
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.runtimeconfig.json
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.runtimeconfig.dev.json
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.genruntimeconfig.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Data\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.csproj.CoreCompileInputs.cache

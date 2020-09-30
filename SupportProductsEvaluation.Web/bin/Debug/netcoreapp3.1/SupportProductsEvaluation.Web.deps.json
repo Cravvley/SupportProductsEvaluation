@@ -1466,6 +1466,9 @@
       },
       "SupportProductsEvaluation.Data/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.8",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.8",
           "SupportProductsEvaluation.Core": "1.0.0"
         },
         "runtime": {
