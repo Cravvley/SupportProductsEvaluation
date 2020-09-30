@@ -1,0 +1,9 @@
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.deps.json
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.csprojAssemblyReference.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.AssemblyInfoInputs.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.AssemblyInfo.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests.EndToEnd\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.EndToEnd.pdb

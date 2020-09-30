@@ -1,0 +1,8 @@
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.deps.json
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.pdb
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.AssemblyInfoInputs.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.AssemblyInfo.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.csproj.CoreCompileInputs.cache
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.dll
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Tests.pdb

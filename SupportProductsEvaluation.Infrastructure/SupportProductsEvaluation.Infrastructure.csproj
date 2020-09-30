@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SupportProductsEvaluation.Core\SupportProductsEvaluation.Core.csproj" />
+    <ProjectReference Include="..\SupportProductsEvaluation.Data\SupportProductsEvaluation.Data.csproj" />
+  </ItemGroup>
+
+</Project>

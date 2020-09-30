@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "SupportProductsEvaluation.Infrastructure/1.0.0": {
+        "dependencies": {
+          "SupportProductsEvaluation.Core": "1.0.0",
+          "SupportProductsEvaluation.Data": "1.0.0"
+        },
+        "runtime": {
+          "SupportProductsEvaluation.Infrastructure.dll": {}
+        }
+      },
+      "SupportProductsEvaluation.Core/1.0.0": {
+        "runtime": {
+          "SupportProductsEvaluation.Core.dll": {}
+        }
+      },
+      "SupportProductsEvaluation.Data/1.0.0": {
+        "dependencies": {
+          "SupportProductsEvaluation.Core": "1.0.0"
+        },
+        "runtime": {
+          "SupportProductsEvaluation.Data.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SupportProductsEvaluation.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SupportProductsEvaluation.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SupportProductsEvaluation.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
