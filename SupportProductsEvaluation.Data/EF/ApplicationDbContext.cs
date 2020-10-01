@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SupportProductsEvaluation.Core.Entities;
 
 namespace SupportProductsEvaluation.Data
 {
@@ -9,5 +10,14 @@ namespace SupportProductsEvaluation.Data
             : base(options)
         {
         }
+
+        public DbSet<User> User { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Category> SubCategory { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Rate> Rate { get; set; }
+        public DbSet<Shop> Shop { get; set; }
+        public DbSet<Article> Article { get; set; }
     }
 }
