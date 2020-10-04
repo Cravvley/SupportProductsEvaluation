@@ -24,24 +24,22 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
 
         public async Task Delete(int id)
         {
-            var shop = await _db.Shop.Where(s => s.Id == id).FirstOrDefaultAsync();
+            var shop = await Get(id);
             _db.Shop.Remove(shop);
             await _db.SaveChangesAsync();
         }
 
-        public Task<Shop> Get(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<Shop> Get(int id)
+            => await _db.Shop.Where(s=>s.Id==id).SingleOrDefaultAsync();
 
-        public IEnumerable<Task<Shop>> GetAll()
+        public async Task<IEnumerable<Shop>> GetAll()
+            => await _db.Shop.AsQueryable().ToListAsync();
+        public async Task Update(Shop shop)
         {
-            throw new NotImplementedException();
+            _db.Shop.Update(shop);
+            await _db.SaveChangesAsync();
         }
+        
 
-        public Task Update(Shop shop)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -15,7 +15,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         }
         public async Task Create(Shop shop)
         {
-            await _shopRepository.Create(shop);
+            throw new NotImplementedException();
         }
 
         public Task Delete()
