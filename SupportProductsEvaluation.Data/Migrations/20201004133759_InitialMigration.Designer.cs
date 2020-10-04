@@ -10,7 +10,7 @@ using SupportProductsEvaluation.Data;
 namespace SupportProductsEvaluation.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201001032122_InitialMigration")]
+    [Migration("20201004133759_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -371,15 +371,15 @@ namespace SupportProductsEvaluation.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -420,16 +420,13 @@ namespace SupportProductsEvaluation.Data.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("User");
@@ -517,7 +514,7 @@ namespace SupportProductsEvaluation.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("SupportProductsEvaluation.Core.Entities.Shop", "Shop")
-                        .WithMany("Products")
+                        .WithMany()
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

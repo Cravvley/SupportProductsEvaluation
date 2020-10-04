@@ -42,9 +42,8 @@ namespace SupportProductsEvaluation.Data.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
-                    StreetAddress = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
                     PostalCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -73,9 +72,9 @@ namespace SupportProductsEvaluation.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     City = table.Column<string>(nullable: false),
+                    PostalCode = table.Column<string>(nullable: false),
                     StreetAddress = table.Column<string>(nullable: false),
-                    State = table.Column<string>(nullable: false),
-                    PostalCode = table.Column<string>(nullable: false)
+                    Country = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -241,7 +240,7 @@ namespace SupportProductsEvaluation.Data.Migrations
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategory",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

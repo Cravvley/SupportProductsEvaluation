@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace SupportProductsEvaluation.Core.Entities
 {
@@ -33,6 +33,9 @@ namespace SupportProductsEvaluation.Core.Entities
         [ForeignKey("SubCategoryId")]
         public virtual SubCategory SubCategory { get; set; }
         public byte[] Picture { get; set; }
+
+        [NotMapped]
+        public double AverageGrade => Rates== null || Rates.Count == 0 ? 0.0d : Math.Round(Rates.Average(g =>g.Grade), 1);
         public virtual IList<Comment> Comments { get; set; }
         public virtual IList<Rate> Rates { get; set; }
     }

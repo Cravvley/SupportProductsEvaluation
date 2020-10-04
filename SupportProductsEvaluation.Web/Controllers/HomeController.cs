@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.VMs;
 using System.Diagnostics;
 
@@ -8,7 +9,8 @@ namespace SupportProductsEvaluation.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        
+        public HomeController(ILogger<HomeController> logger, IShopRepository shopRepository)
         {
             _logger = logger;
         }
@@ -20,6 +22,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
         public IActionResult Privacy()
         {
+            
             return View();
         }
 
@@ -28,5 +31,7 @@ namespace SupportProductsEvaluation.Web.Controllers
         {
             return View(new ErrorVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        
     }
 }

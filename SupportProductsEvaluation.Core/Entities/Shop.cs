@@ -15,13 +15,13 @@ namespace SupportProductsEvaluation.Core.Entities
         public string City { get; set; }
 
         [Required]
+        public string PostalCode { get; set; }
+
+        [Required]
         public string StreetAddress { get; set; }
 
         [Required]
-        public string State { get; set; }
+        public string Country { get; set; }
 
-        [Required]
-        public string PostalCode { get; set; }
-        public virtual IList<Product> Products { get; set; }
     }
 }

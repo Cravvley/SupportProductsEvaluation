@@ -11,6 +11,8 @@ namespace SupportProductsEvaluation.Core.Entities
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
         public DateTime UpdateAt { get; set; }
 
         [Display(Name = "User")]
@@ -22,7 +24,6 @@ namespace SupportProductsEvaluation.Core.Entities
         public int ProductId { get; set; }
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
-
 
     }
 }

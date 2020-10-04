@@ -1,5 +1,3 @@
-using System;
-
 namespace SupportProductsEvaluation.Infrastructure.VMs
 {
     public class ErrorVM
