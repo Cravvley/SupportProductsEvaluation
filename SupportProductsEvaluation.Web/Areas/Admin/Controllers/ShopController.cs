@@ -5,6 +5,7 @@ using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
@@ -13,20 +14,53 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly IShopService _shopService;
-        private int PageSize = 1;
+        private int PageSize = 5;
         public ShopController(IShopService shopService)
         {
             _shopService = shopService;
         }
-        public async Task<IActionResult> Index(int productPage = 1)
+        public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCity = null)
         {
 
-            ShopListViewModel shopListVM= new ShopListViewModel()
+            ShopListViewModel shopListVM = new ShopListViewModel()
             {
                 Shops = await _shopService.GetAll()
             };
 
-            int count =  shopListVM.Shops.Count;
+            StringBuilder param = new StringBuilder();
+            param.Append("/Admin/Shop/Index?productPage=:");
+            param.Append("&searchName=");
+            if (searchName != null)
+            {
+                param.Append(searchName);
+            }
+            param.Append("&searchCity=");
+            if (searchCity != null)
+            {
+                param.Append(searchCity);
+            }
+
+            if (searchName != null & searchCity != null)
+            {
+                shopListVM.Shops = shopListVM.Shops.Where(s => s.Name.ToLower()
+                                    .Contains(searchName.ToLower()) && s.City.ToLower()
+                                    .Contains(searchCity.ToLower())).OrderByDescending(o => o.Name)
+                                    .ToList();
+            }
+            else if (searchName != null)
+            {
+                shopListVM.Shops = shopListVM.Shops.Where(s => s.Name.ToLower()
+                                    .Contains(searchName.ToLower())).OrderByDescending(o => o.Name)
+                                    .ToList();
+            }
+            else if (searchCity != null)
+            {
+                shopListVM.Shops = shopListVM.Shops.Where(s => s.City.ToLower()
+                                    .Contains(searchCity.ToLower())).OrderByDescending(o => o.City)
+                                    .ToList();
+            }
+
+            int count = shopListVM.Shops.Count;
             shopListVM.Shops = shopListVM.Shops.OrderByDescending(p => p.Id)
                                  .Skip((productPage - 1) * PageSize)
                                  .Take(PageSize).ToList();
@@ -39,7 +73,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             };
             return View(shopListVM);
         }
-            
+
 
         public IActionResult Create()
         {
@@ -57,7 +91,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
             return View(shop);
         }
-        public async Task<IActionResult>Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -100,12 +134,12 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id== null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var shopEntity =await _shopService.Get(id.Value);
+            var shopEntity = await _shopService.Get(id.Value);
             if (shopEntity == null)
             {
                 return NotFound();
@@ -114,9 +148,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(shopEntity);
 
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var shopEntity = await _shopService.Get(id);
             if (shopEntity == null)
