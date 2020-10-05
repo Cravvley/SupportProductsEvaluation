@@ -11,5 +11,6 @@ namespace SupportProductsEvaluation.Core.Repositories
         Task Update(Shop shop);
         Task<IEnumerable<Shop>> GetAll();
         Task<Shop> Get(int id);
+        Task<Shop> Get(Shop shop);
     }
 }
