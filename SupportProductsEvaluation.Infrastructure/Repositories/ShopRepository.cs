@@ -2,14 +2,13 @@
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
 {
-    public class ShopRepository : IShopRepository
+    public class ShopRepository: IShopRepository
     {
         private readonly ApplicationDbContext _db;
         public ShopRepository(ApplicationDbContext db)
@@ -30,8 +29,11 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         }
 
         public async Task<Shop> Get(int id)
-            => await _db.Shop.Where(s=>s.Id==id).SingleOrDefaultAsync();
+            => await _db.Shop.Where(s => s.Id == id).SingleOrDefaultAsync();
 
+        public async Task<Shop> Get(Shop shop)
+            => await _db.Shop.Where(s => s.City == shop.City && s.Country == shop.Country && s.Name == shop.Name && s.PostalCode == shop.PostalCode && s.StreetAddress == shop.StreetAddress)
+            .SingleOrDefaultAsync();
         public async Task<IEnumerable<Shop>> GetAll()
             => await _db.Shop.AsQueryable().ToListAsync();
         public async Task Update(Shop shop)
@@ -39,7 +41,6 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             _db.Shop.Update(shop);
             await _db.SaveChangesAsync();
         }
-        
 
     }
 }

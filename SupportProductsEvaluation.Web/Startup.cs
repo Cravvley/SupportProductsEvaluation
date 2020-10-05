@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
 using SupportProductsEvaluation.Infrastructure.Mappers;
 using SupportProductsEvaluation.Infrastructure.Repositories;
+using SupportProductsEvaluation.Core.Repositories;
+using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
+using SupportProductsEvaluation.Infrastructure.Services;
 
 namespace SupportProductsEvaluation.Web
 {
@@ -33,6 +35,8 @@ namespace SupportProductsEvaluation.Web
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddRazorPages().AddRazorRuntimeCompilation();
             services.AddScoped<IShopRepository, ShopRepository>();
+            services.AddScoped<IShopService, ShopService>();
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
