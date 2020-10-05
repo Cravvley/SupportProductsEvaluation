@@ -48,7 +48,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return shopEntity;
         }
 
-        public async Task<IEnumerable<Shop>> GetAll()
+        public async Task<IList<Shop>> GetAll()
             => await _shopRepository.GetAll();
 
         public async Task Update(Shop shop)

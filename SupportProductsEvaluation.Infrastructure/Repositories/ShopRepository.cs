@@ -34,7 +34,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task<Shop> Get(Shop shop)
             => await _db.Shop.Where(s => s.City == shop.City && s.Country == shop.Country && s.Name == shop.Name && s.PostalCode == shop.PostalCode && s.StreetAddress == shop.StreetAddress)
             .SingleOrDefaultAsync();
-        public async Task<IEnumerable<Shop>> GetAll()
+        public async Task<IList<Shop>> GetAll()
             => await _db.Shop.AsQueryable().ToListAsync();
         public async Task Update(Shop shop)
         {

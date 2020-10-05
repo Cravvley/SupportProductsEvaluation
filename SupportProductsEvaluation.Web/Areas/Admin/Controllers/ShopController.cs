@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SupportProductsEvaluation.Core.Entities;
+using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
+using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
@@ -10,12 +13,33 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly IShopService _shopService;
+        private int PageSize = 1;
         public ShopController(IShopService shopService)
         {
             _shopService = shopService;
         }
-        public async Task<IActionResult> Index()
-            => View(await _shopService.GetAll());
+        public async Task<IActionResult> Index(int productPage = 1)
+        {
+
+            ShopListViewModel shopListVM= new ShopListViewModel()
+            {
+                Shops = await _shopService.GetAll()
+            };
+
+            int count =  shopListVM.Shops.Count;
+            shopListVM.Shops = shopListVM.Shops.OrderByDescending(p => p.Id)
+                                 .Skip((productPage - 1) * PageSize)
+                                 .Take(PageSize).ToList();
+            shopListVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItem = count,
+                urlParam = "/Admin/Shop/Index?productPage=:"
+            };
+            return View(shopListVM);
+        }
+            
 
         public IActionResult Create()
         {

@@ -9,7 +9,7 @@ namespace SupportProductsEvaluation.Core.Repositories
         Task Create(Shop shop);
         Task Delete(int id);
         Task Update(Shop shop);
-        Task<IEnumerable<Shop>> GetAll();
+        Task<IList<Shop>> GetAll();
         Task<Shop> Get(int id);
         Task<Shop> Get(Shop shop);
     }
