@@ -20,6 +20,7 @@ namespace SupportProductsEvaluation.Tests
 
             var shopService = new ShopService(shopRepositoryMock.Object);
             await shopService.Create(shop.Object);
+            await shopService.Create(shop.Object);
 
             shopRepositoryMock.Verify(x => x.Create(It.IsAny<Shop>()), Times.Once);
         }

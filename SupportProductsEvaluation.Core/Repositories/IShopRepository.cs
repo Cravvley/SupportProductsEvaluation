@@ -7,10 +7,10 @@ namespace SupportProductsEvaluation.Core.Repositories
     public interface IShopRepository
     {
         Task Create(Shop shop);
-        Task Delete(int id);
+        Task Delete(int ?id);
         Task Update(Shop shop);
         Task<IList<Shop>> GetAll();
-        Task<Shop> Get(int id);
+        Task<Shop> Get(int ?id);
         Task<Shop> Get(Shop shop);
     }
 }

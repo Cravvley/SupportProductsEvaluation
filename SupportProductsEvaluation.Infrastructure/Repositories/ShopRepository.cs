@@ -20,17 +20,14 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             await _db.Shop.AddAsync(shop);
             await _db.SaveChangesAsync();
         }
-
-        public async Task Delete(int id)
+        public async Task Delete(int ?id)
         {
             var shop = await Get(id);
             _db.Shop.Remove(shop);
             await _db.SaveChangesAsync();
         }
-
-        public async Task<Shop> Get(int id)
+        public async Task<Shop> Get(int ?id)
             => await _db.Shop.Where(s => s.Id == id).SingleOrDefaultAsync();
-
         public async Task<Shop> Get(Shop shop)
             => await _db.Shop.Where(s => s.City == shop.City && s.Country == shop.Country && s.Name == shop.Name && s.PostalCode == shop.PostalCode && s.StreetAddress == shop.StreetAddress)
             .SingleOrDefaultAsync();

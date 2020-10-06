@@ -1,4 +1,4 @@
-﻿@model ShopListViewModel
+﻿@model ShopListVM
 
 @{
     ViewData["Title"] = "Index";
@@ -57,7 +57,7 @@
                     </tr>
                     @foreach (var item in Model.Shops)
                     {
-                        <tr>
+                        <tr >
                             <td>
                                 @Html.DisplayFor(m => item.Name)
                             </td>

@@ -10,59 +10,63 @@
 <br />
 
 <form method="post" asp-action="Edit">
-        <div>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Name" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="Name" class="form-control" />
-                </div>
-                <span asp-validation-for="Name" class="text-danger"></span>
+    @if (ViewBag.IsExist)
+    {
+    <p class="text-danger text-uppercase font-weight-bolder">Shop is already exists.</p>
+    }
+    <div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Name" class="col-form-label"></label>
             </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="City" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="City" class="form-control" />
-                </div>
-                <span asp-validation-for="City" class="text-danger"></span>
+            <div class="col-5">
+                <input asp-for="Name" class="form-control" />
             </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="Country" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="Country" class="form-control" />
-                </div>
-                <span asp-validation-for="Country" class="text-danger"></span>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="City" class="col-form-label"></label>
             </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="StreetAddress" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="StreetAddress" class="form-control" />
-                </div>
-                <span asp-validation-for="StreetAddress" class="text-danger"></span>
+            <div class="col-5">
+                <input asp-for="City" class="form-control" />
             </div>
-            <div class="form-group row">
-                <div class="col-2">
-                    <label asp-for="PostalCode" class="col-form-label"></label>
-                </div>
-                <div class="col-5">
-                    <input asp-for="PostalCode" class="form-control" />
-                </div>
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Country" class="col-form-label"></label>
             </div>
-            <div class="form-group row">
-                <div class="col-5 offset-2">
-                    <partial name="_EditAndBackToListButton" model="Model.Id" />
-                </div>
+            <div class="col-5">
+                <input asp-for="Country" class="form-control" />
+            </div>
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="StreetAddress" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="StreetAddress" class="form-control" />
+            </div>
+            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="PostalCode" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="PostalCode" class="form-control" />
+            </div>
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_EditAndBackToListButton" model="Model.Id" />
             </div>
         </div>
+    </div>
 </form>
 
 

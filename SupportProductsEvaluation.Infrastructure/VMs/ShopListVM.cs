@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SupportProductsEvaluation.Infrastructure.VMs
 {
-    public class ShopListViewModel
+    public class ShopListVM
     {
         public IList<Shop> Shops{ get; set; }
         public PagingInfo PagingInfo{ get; set; }

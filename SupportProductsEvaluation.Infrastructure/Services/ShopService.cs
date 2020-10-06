@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
 {
-    public class ShopService: IShopService
+    public class ShopService : IShopService
     {
         private readonly IShopRepository _shopRepository;
         public ShopService(IShopRepository shopRepository)
@@ -20,15 +20,10 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("shop doesn't exist");
             }
-            var shopEntity = _shopRepository.Get(shop);
-            if (shopEntity.Result !=null)
-            {
-                throw new ArgumentException("shop already exsits");
-            }
             await _shopRepository.Create(shop);
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int? id)
         {
             var shopEntity = await _shopRepository.Get(id);
             if (shopEntity == null)
@@ -38,7 +33,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             await _shopRepository.Delete(id);
         }
 
-        public async Task<Shop> Get(int id)
+        public async Task<Shop> Get(int? id)
         {
             var shopEntity = await _shopRepository.Get(id);
             if (shopEntity == null)
@@ -50,6 +45,18 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<IList<Shop>> GetAll()
             => await _shopRepository.GetAll();
+
+        public async Task<bool> IsExist(Shop shop)
+        {
+
+            var shopEntity = await _shopRepository.Get(shop);
+            if (shopEntity == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         public async Task Update(Shop shop)
         {

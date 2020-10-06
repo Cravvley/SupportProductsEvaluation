@@ -3,7 +3,6 @@ using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
-using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +21,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCity = null)
         {
 
-            ShopListViewModel shopListVM = new ShopListViewModel()
+            ShopListVM shopListVM = new ShopListVM()
             {
                 Shops = await _shopService.GetAll()
             };
@@ -74,9 +73,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(shopListVM);
         }
 
-
         public IActionResult Create()
         {
+            ViewBag.IsExist = false;
             return View();
         }
 
@@ -86,6 +85,13 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isExist = await _shopService.IsExist(shop);
+                if (isExist)
+                {
+                    ViewBag.IsExist = true;
+                    return View(shop);
+                }
+                
                 await _shopService.Create(shop);
                 return RedirectToAction(nameof(Index));
             }
@@ -93,16 +99,19 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var shopEntity = await _shopService.Get(id.Value);
+            var shopEntity = await _shopService.Get(id);
             if (shopEntity == null)
             {
                 return NotFound();
             }
+
+            ViewBag.IsExist = false;
             return View(shopEntity);
         }
 
@@ -112,6 +121,13 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var isExist = await _shopService.IsExist(shop);
+                if (isExist)
+                {
+                    ViewBag.IsExist = true;
+                    return View(shop);
+                }
+
                 await _shopService.Update(shop);
                 return RedirectToAction(nameof(Index));
             }
@@ -125,7 +141,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var shopEntity = await _shopService.Get(id.Value);
+            var shopEntity = await _shopService.Get(id);
             if (shopEntity == null)
             {
                 return NotFound();
@@ -139,7 +155,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var shopEntity = await _shopService.Get(id.Value);
+            var shopEntity = await _shopService.Get(id);
             if (shopEntity == null)
             {
                 return NotFound();
@@ -148,6 +164,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(shopEntity);
 
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

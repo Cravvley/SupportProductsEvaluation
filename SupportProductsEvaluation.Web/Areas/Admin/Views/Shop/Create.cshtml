@@ -9,6 +9,10 @@
 <br />
 
 <form method="post" asp-action="Create">
+    @if (ViewBag.IsExist)
+    {
+    <p class="text-danger text-uppercase font-weight-bolder">Shop is already exists.</p>
+    }
     <div >
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
