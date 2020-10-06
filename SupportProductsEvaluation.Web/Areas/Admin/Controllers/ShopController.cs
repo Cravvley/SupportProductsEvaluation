@@ -27,19 +27,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             {
                 Shops = await _shopService.GetAllHeaders()
             };
-            StringBuilder param = new StringBuilder();
-            param.Append("/Admin/Shop/Index?productPage=:");
-            param.Append("&searchName=");
-            if (searchName != null)
-            {
-                param.Append(searchName);
-            }
-            param.Append("&searchCity=");
-            if (searchCity != null)
-            {
-                param.Append(searchCity);
-            }
-
+            
             if (searchName != null & searchCity != null)
             {
                 shopListVM.Shops = shopListVM.Shops.Where(s => s.Name.ToLower()

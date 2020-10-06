@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.VMs;
-using System.Collections.Generic;
 
 namespace SupportProductsEvaluation.Infrastructure.Mappers
 {
