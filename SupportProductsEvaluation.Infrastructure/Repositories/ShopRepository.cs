@@ -42,6 +42,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             shopEntity.Name = shop.Name;
             shopEntity.PostalCode = shop.PostalCode;
             shopEntity.StreetAddress = shop.StreetAddress;
+
             await _db.SaveChangesAsync();
         }
 

@@ -56,16 +56,13 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             var shops = await _shopRepository.GetAll();
             return _mapper.Map<IList<Shop>, IList<ShopVM>>(shops);
         }
-
         public async Task<bool> IsExist(Shop shop)
         {
-
             var shopEntity = await _shopRepository.Get(shop);
             if (shopEntity == null)
             {
                 return false;
             }
-
             return true;
         }
 
