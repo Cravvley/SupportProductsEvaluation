@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using System;
+using SupportProductsEvaluation.Core.Entities;
+using SupportProductsEvaluation.Infrastructure.VMs;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SupportProductsEvaluation.Infrastructure.Mappers
 {
@@ -10,7 +10,7 @@ namespace SupportProductsEvaluation.Infrastructure.Mappers
         public static IMapper Initialize()
             => new MapperConfiguration(cfg =>
              {
-
+                 cfg.CreateMap<Shop,ShopVM>();
              }).CreateMapper();
     }
 }

@@ -3,6 +3,8 @@ using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +25,8 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             ShopListVM shopListVM = new ShopListVM()
             {
-                Shops = await _shopService.GetAll()
+                Shops = await _shopService.GetAllHeaders()
             };
-
             StringBuilder param = new StringBuilder();
             param.Append("/Admin/Shop/Index?productPage=:");
             param.Append("&searchName=");

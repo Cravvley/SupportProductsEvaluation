@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using AutoMapper;
+using Moq;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services;
@@ -17,9 +18,9 @@ namespace SupportProductsEvaluation.Tests
         {
             var shopRepositoryMock = new Mock<IShopRepository>();
             var shop = new Mock<Shop>();
+            var mapper = new Mock<IMapper>();
 
-            var shopService = new ShopService(shopRepositoryMock.Object);
-            await shopService.Create(shop.Object);
+            var shopService = new ShopService(shopRepositoryMock.Object,mapper.Object);
             await shopService.Create(shop.Object);
 
             shopRepositoryMock.Verify(x => x.Create(It.IsAny<Shop>()), Times.Once);

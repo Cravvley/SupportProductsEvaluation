@@ -11,6 +11,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
     public class ShopRepository: IShopRepository
     {
         private readonly ApplicationDbContext _db;
+
         public ShopRepository(ApplicationDbContext db)
         {
             _db = db;
@@ -35,7 +36,12 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             => await _db.Shop.AsQueryable().ToListAsync();
         public async Task Update(Shop shop)
         {
-            _db.Shop.Update(shop);
+            var shopEntity = await Get(shop.Id);
+            shopEntity.City = shop.City;
+            shopEntity.Country = shop.Country;
+            shopEntity.Name = shop.Name;
+            shopEntity.PostalCode = shop.PostalCode;
+            shopEntity.StreetAddress = shop.StreetAddress;
             await _db.SaveChangesAsync();
         }
 

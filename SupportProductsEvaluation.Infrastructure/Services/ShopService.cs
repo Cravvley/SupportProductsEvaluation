@@ -1,6 +1,8 @@
-﻿using SupportProductsEvaluation.Core.Entities;
+﻿using AutoMapper;
+using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
+using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,9 +12,12 @@ namespace SupportProductsEvaluation.Infrastructure.Services
     public class ShopService : IShopService
     {
         private readonly IShopRepository _shopRepository;
-        public ShopService(IShopRepository shopRepository)
+        private readonly IMapper _mapper;
+
+        public ShopService(IShopRepository shopRepository,IMapper mapper)
         {
             _shopRepository = shopRepository;
+            _mapper = mapper;
         }
         public async Task Create(Shop shop)
         {
@@ -43,8 +48,14 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return shopEntity;
         }
 
-        public async Task<IList<Shop>> GetAll()
+        public async Task<IList<Shop>> GetAllDetails()
             => await _shopRepository.GetAll();
+
+        public async Task<IList<ShopVM>> GetAllHeaders()
+        {
+            var shops = await _shopRepository.GetAll();
+            return _mapper.Map<IList<Shop>, IList<ShopVM>>(shops);
+        }
 
         public async Task<bool> IsExist(Shop shop)
         {
