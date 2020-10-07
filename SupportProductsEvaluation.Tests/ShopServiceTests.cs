@@ -2,6 +2,8 @@
 using Moq;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
+using SupportProductsEvaluation.Data;
+using SupportProductsEvaluation.Infrastructure.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services;
 using System;
 using System.Collections.Generic;

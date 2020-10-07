@@ -456,3 +456,4 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Create.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_TableButtonWithoutDetailsPartial.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Delete.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Edit.cshtml.g.cs

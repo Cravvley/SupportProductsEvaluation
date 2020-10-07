@@ -10,7 +10,7 @@ using SupportProductsEvaluation.Data;
 namespace SupportProductsEvaluation.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201004133759_InitialMigration")]
+    [Migration("20201007000210_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
