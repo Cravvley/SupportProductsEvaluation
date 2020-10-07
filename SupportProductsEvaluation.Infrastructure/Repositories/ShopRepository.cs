@@ -28,10 +28,9 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
         public async Task<Shop> Get(int ?id)
-            => await _db.Shop.Where(s => s.Id == id).SingleOrDefaultAsync();
+            => await _db.Shop.SingleOrDefaultAsync(s => s.Id == id);
         public async Task<Shop> Get(Shop shop)
-            => await _db.Shop.Where(s => s.City == shop.City && s.Country == shop.Country && s.Name == shop.Name && s.PostalCode == shop.PostalCode && s.StreetAddress == shop.StreetAddress)
-            .SingleOrDefaultAsync();
+            => await _db.Shop.SingleOrDefaultAsync(s => s.City == shop.City && s.Country == shop.Country && s.Name == shop.Name && s.PostalCode == shop.PostalCode && s.StreetAddress == shop.StreetAddress);
         public async Task<IList<Shop>> GetAll()
             => await _db.Shop.AsQueryable().ToListAsync();
         public async Task Update(Shop shop)
