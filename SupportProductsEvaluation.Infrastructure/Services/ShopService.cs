@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
+using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
@@ -51,10 +52,10 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         public async Task<IList<Shop>> GetAllDetails()
             => await _shopRepository.GetAll();
 
-        public async Task<IList<ShopVM>> GetAllHeaders()
+        public async Task<IList<ShopDto>> GetAllHeaders()
         {
             var shops = await _shopRepository.GetAll();
-            return _mapper.Map<IList<Shop>, IList<ShopVM>>(shops);
+            return _mapper.Map<IList<Shop>, IList<ShopDto>>(shops);
         }
         public async Task<bool> IsExist(Shop shop)
         {

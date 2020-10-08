@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Infrastructure.VMs;
+using SupportProductsEvaluation.Infrastructure.DTOs;
 
 namespace SupportProductsEvaluation.Infrastructure.Mappers
 {
@@ -9,7 +9,7 @@ namespace SupportProductsEvaluation.Infrastructure.Mappers
         public static IMapper Initialize()
             => new MapperConfiguration(cfg =>
              {
-                 cfg.CreateMap<Shop,ShopVM>();
+                 cfg.CreateMap<Shop,ShopDto>();
              }).CreateMapper();
     }
 }

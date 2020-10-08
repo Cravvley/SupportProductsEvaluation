@@ -3,10 +3,7 @@ using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers

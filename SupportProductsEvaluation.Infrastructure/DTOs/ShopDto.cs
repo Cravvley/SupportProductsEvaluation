@@ -1,6 +1,6 @@
-﻿namespace SupportProductsEvaluation.Infrastructure.VMs
+﻿namespace SupportProductsEvaluation.Infrastructure.DTOs
 {
-    public class ShopVM
+    public class ShopDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
