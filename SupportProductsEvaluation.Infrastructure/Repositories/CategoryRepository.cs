@@ -28,10 +28,9 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
         public async Task<Category> Get(int? id)
-            => await _db.Category.Where(s => s.Id == id).SingleOrDefaultAsync();
+            => await _db.Category.SingleOrDefaultAsync(s => s.Id == id);
         public async Task<Category> Get(Category category)
-            => await _db.Category.Where(c => c.Name == category.Name)
-            .SingleOrDefaultAsync();
+            => await _db.Category.SingleOrDefaultAsync(c => c.Name == category.Name);
         public async Task<IList<Category>> GetAll()
             => await _db.Category.AsQueryable().ToListAsync();
         public async Task Update(Category category)
