@@ -1,7 +1,7 @@
-﻿@model CategoryListVM
+﻿@model SubCategoryListVM
 
 @{
-    ViewData["Title"] = "Categories list";
+    ViewData["Title"] = "Subcategories list";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <div class="border p-3">
         <div class="row p-1">
             <div class="col-6">
-                <h2 class="text-info"> Categories List</h2>
+                <h2 class="text-info"> Subcategories List</h2>
             </div>
             <div class="col-6 text-right">
                 <partial name="_CreateButtonPartial" />
@@ -20,8 +20,11 @@
             <div class="row container">
                 <div class="col-11">
                     <div class="row" style="padding-top:10px">
-                        <div class="col-11">
-                            @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Name..." } })
+                        <div class="col-16">
+                            @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category..." } })
+                        </div>
+                        <div class="col-6">
+                            @Html.Editor("searchSubCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Subcategory..." } })
                         </div>
                     </div>
                 </div>
@@ -36,25 +39,30 @@
         <br />
         <br />
         <div class="p-1">
-            @if (Model.Categories.Count() > 0)
+            @if (Model.SubCategories.Count() > 0)
             {
                 <table class="table table-striped border">
                     <tr class="table-secondary">
                         <th>
-                            @Html.DisplayNameFor(s => s.Categories[0].Name)
+                            @Html.DisplayNameFor(s => s.SubCategories[0].Name)
                         </th>
+                        <th>@Html.DisplayNameFor(s => s.SubCategories[0].Category.Name)</th>
                         <th></th>
                         <th></th>
                     </tr>
-                    @foreach (var item in Model.Categories)
+                    @foreach (var item in Model.SubCategories)
                     {
                         <tr>
                             <td>
                                 @Html.DisplayFor(m => item.Name)
                             </td>
                             <td>
+                                @Html.DisplayFor(m=>item.Category.Name)
+                            </td>
+                            <td>
                                 <partial name="_TableButtonWithoutDetailsPartial" model="item.Id" />
                             </td>
+                            
                         </tr>
                     }
                 </table>
@@ -65,7 +73,7 @@
             }
             else
             {
-                <p>No categories exist...</p>
+                <p>No subcategories exist...</p>
             }
         </div>
     </div>

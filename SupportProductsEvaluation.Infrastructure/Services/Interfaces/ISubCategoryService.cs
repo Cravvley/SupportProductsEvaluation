@@ -1,10 +1,16 @@
-﻿using System;
+﻿using SupportProductsEvaluation.Core.Entities;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
 {
-    class ISubCategoryService
+    public interface ISubCategoryService
     {
+        Task Create(SubCategory subCategory);
+        Task Delete(int? id);
+        Task Update(SubCategory subCategory);
+        Task<SubCategory> Get(int? id);
+        Task<IList<SubCategory>> GetAll();
+        Task<bool> IsExist(SubCategory subCategory);
     }
 }

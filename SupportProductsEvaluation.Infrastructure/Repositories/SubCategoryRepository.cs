@@ -3,6 +3,7 @@ using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -27,11 +28,11 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
         public async Task<SubCategory> Get(int? id)
-            => await _db.SubCategory.SingleOrDefaultAsync(s => s.Id == id);
+            => await _db.SubCategory.Include(c => c.Category).SingleOrDefaultAsync(s => s.Id == id);
         public async Task<SubCategory> Get(SubCategory subCategory)
-            => await _db.SubCategory.SingleOrDefaultAsync(c => c.Name == subCategory.Name);
+            => await _db.SubCategory.Include(c => c.Category).SingleOrDefaultAsync(c => c.Name == subCategory.Name);
         public async Task<IList<SubCategory>> GetAll()
-            => await _db.SubCategory.AsQueryable().ToListAsync();
+            => await _db.SubCategory.Include(c=>c.Category).AsQueryable().ToListAsync();
         public async Task Update(SubCategory subCategory)
         {
             var subCategoryEntity = await Get(subCategory.Id);
