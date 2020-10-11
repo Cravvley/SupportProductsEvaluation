@@ -2,8 +2,10 @@
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -32,12 +34,14 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         
         public async Task<SubCategory> Get(int? id)
             => await _db.SubCategory.Include(c => c.Category).SingleOrDefaultAsync(s => s.Id == id);
-        
+
         public async Task<SubCategory> Get(SubCategory subCategory)
             => await _db.SubCategory.Include(c => c.Category).SingleOrDefaultAsync(c => c.Name.ToLower() == subCategory.Name.ToLower()&&c.CategoryId==subCategory.CategoryId);
         
         public async Task<IList<SubCategory>> GetAll()
             => await _db.SubCategory.Include(c=>c.Category).AsQueryable().ToListAsync();
+        public async Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter=null)
+            => await _db.SubCategory.Include(c=>c.Category).Where(filter).AsQueryable().ToListAsync();
         
         public async Task Update(SubCategory subCategory)
         {

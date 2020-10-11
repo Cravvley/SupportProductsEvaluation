@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.VMs;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -180,6 +182,14 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             await _subCategoryService.Delete(id);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        [ActionName("GetSubCategoryByCategory")]
+        public async Task<IActionResult> GetSubCategoryByCategory(int id)
+        {
+            var subCategories = await _subCategoryService.GetAll(x => x.CategoryId == id);
+            return Json(new SelectList(subCategories, "Id", "Name"));
         }
 
     }

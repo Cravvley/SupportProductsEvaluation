@@ -3,6 +3,7 @@ using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
@@ -46,7 +47,16 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<IList<SubCategory>> GetAll()
             => await _subCategoryRepository.GetAll();
-       
+
+        public async Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter = null)
+        {
+            if (filter == null)
+            {
+                throw new ArgumentNullException("filter expression is null");
+            }
+            return await _subCategoryRepository.GetAll(filter);
+        }
+
         public async Task<bool> IsExist(SubCategory subCategory)
         {
             var subCategoryEntity = await _subCategoryRepository.Get(subCategory);

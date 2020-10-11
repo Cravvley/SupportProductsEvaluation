@@ -1,0 +1,115 @@
+﻿@model SupportProductsEvaluation.Infrastructure.VMs.ProductCreateEditVM
+@using SupportProductsEvaluation.Infrastructure.Extensions
+
+@{
+    ViewData["Title"] = "Create product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info">Create Product</h2>
+<br />
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div class="border backgroundWhite">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.Name" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Product.Name" class="form-control" />
+            </div>
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.Description" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                @Html.TextAreaFor(m => m.Product.Description)
+            </div>
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.Price" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Product.Price" class="form-control" />
+            </div>
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.Picture" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input type="file" name="files" multiple class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.CategoryId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="@Model.Product.CategoryId" id="CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.Product.CategoryId)" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.SubCategoryId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="@Model.Product.SubCategoryId" name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Product.ShopId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="@Model.Product.ShopId" id="CategoryId" asp-items="Model.ShopList.ToSelectListItem(Model.Product.ShopId)" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_CreateAndBackToListButton" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getSubCategory();
+            $('#CategoryId').change(function () {
+                getSubCategory();
+            });
+        });
+        function getSubCategory() {
+            var url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategoryByCategory";
+            var ddlsoruce = '#CategoryId';
+            $.getJSON(url, { id: $(ddlsoruce).val() }, function (data) {
+                var items = '';
+                $('#SubCategoryId').empty();
+                $.each(data, function (i, subcategory) {
+                    items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
+                });
+                $('#SubCategoryId').html(items);
+            })
+        }
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
