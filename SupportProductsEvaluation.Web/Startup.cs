@@ -40,6 +40,8 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<ISubCategoryService, SubCategoryService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
 
         }
 

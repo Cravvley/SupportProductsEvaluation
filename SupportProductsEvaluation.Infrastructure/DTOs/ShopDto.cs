@@ -1,4 +1,6 @@
-﻿namespace SupportProductsEvaluation.Infrastructure.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SupportProductsEvaluation.Infrastructure.DTOs
 {
     public class ShopDto
     {

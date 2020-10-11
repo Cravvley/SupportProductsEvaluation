@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
 {
-    public class ProductsRepository : IProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _db;
 
-        public ProductsRepository(ApplicationDbContext db)
+        public ProductRepository(ApplicationDbContext db)
         {
             _db = db;
         }
