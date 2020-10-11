@@ -21,7 +21,6 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
-
         public async Task<IActionResult> Index(int productPage = 1, string searchCategoryName = null, string searchSubCategoryName = null)
         {
             SubCategoryListVM subCategoryListVM = new SubCategoryListVM()
@@ -36,12 +35,14 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                                      .Contains(searchSubCategoryName.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
+
             else if (searchCategoryName != null)
             {
                 subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Category.Name.ToLower()
                                      .Contains(searchCategoryName.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
+
             else if (searchSubCategoryName != null)
             {
                 subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Name.ToLower()
@@ -73,7 +74,6 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             ViewBag.IsExist = false;
             return View(subCategoryAndCategoryVM);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -150,6 +150,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                     ViewBag.IsExist = true;
                     return View(subCategoryAndCategoryErrorVM);
                 }
+             
                 await _subCategoryService.Update(subCategoryAndCategoryVM.SubCategory);
                 return RedirectToAction(nameof(Index));
 
@@ -157,6 +158,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             return View(subCategoryAndCategoryErrorVM);
         }
+        
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

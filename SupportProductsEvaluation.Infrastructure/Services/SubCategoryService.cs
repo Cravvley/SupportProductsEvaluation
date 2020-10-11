@@ -46,6 +46,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<IList<SubCategory>> GetAll()
             => await _subCategoryRepository.GetAll();
+       
         public async Task<bool> IsExist(SubCategory subCategory)
         {
             var subCategoryEntity = await _subCategoryRepository.Get(subCategory);
@@ -55,6 +56,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             }
             return true;
         }
+        
         public async Task Update(SubCategory subCategory)
         {
             var subCategoryEntity = await _subCategoryRepository.Get(subCategory.Id);

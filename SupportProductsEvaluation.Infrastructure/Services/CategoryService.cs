@@ -11,10 +11,12 @@ namespace SupportProductsEvaluation.Infrastructure.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        
         public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
+        
         public async Task Create(Category category)
         {
             if (category == null)
@@ -46,6 +48,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<IList<Category>> GetAll()
             => await _categoryRepository.GetAll();
+        
         public async Task<bool> IsExist(Category category)
         {
             var categoryEntity = await _categoryRepository.Get(category);
@@ -55,6 +58,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             }
             return true;
         }
+        
         public async Task Update(Category category)
         {
             var categoryEntity = await _categoryRepository.Get(category.Id);

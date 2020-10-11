@@ -18,7 +18,6 @@ namespace SupportProductsEvaluation.Data
         public DbSet<Product> Product { get; set; }
         public DbSet<Rate> Rate { get; set; }
         public DbSet<Shop> Shop { get; set; }
-        public DbSet<Article> Article { get; set; }
         public DbSet<Report> Report { get; set; }
     }
 }

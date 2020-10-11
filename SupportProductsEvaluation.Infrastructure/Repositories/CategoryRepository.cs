@@ -15,23 +15,29 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         {
             _db = db;
         }
+       
         public async Task Create(Category category)
         {
             await _db.Category.AddAsync(category);
             await _db.SaveChangesAsync();
         }
+        
         public async Task Delete(int? id)
         {
             var category = await Get(id);
             _db.Category.Remove(category);
             await _db.SaveChangesAsync();
         }
+        
         public async Task<Category> Get(int? id)
             => await _db.Category.SingleOrDefaultAsync(s => s.Id == id);
+        
         public async Task<Category> Get(Category category)
-            => await _db.Category.SingleOrDefaultAsync(c => c.Name == category.Name);
+            => await _db.Category.SingleOrDefaultAsync(c => c.Name.ToLower() == category.Name.ToLower());
+        
         public async Task<IList<Category>> GetAll()
             => await _db.Category.AsQueryable().ToListAsync();
+        
         public async Task Update(Category category)
         {
             var categoryEntity = await Get(category.Id);

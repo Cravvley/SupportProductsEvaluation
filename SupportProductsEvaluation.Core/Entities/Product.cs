@@ -13,7 +13,9 @@ namespace SupportProductsEvaluation.Core.Entities
 
         [Required]
         public string Name { get; set; }
-        public virtual Article Article { get; set; }
+
+        [Required]
+        public string Description { get; set; }
 
         [Required, Range(0.01, int.MaxValue, ErrorMessage = "Price should be greater than 1 cent")]
         public double Price { get; set; }
