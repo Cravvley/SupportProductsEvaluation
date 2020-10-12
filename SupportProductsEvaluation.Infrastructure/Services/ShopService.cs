@@ -3,7 +3,6 @@ using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
-using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

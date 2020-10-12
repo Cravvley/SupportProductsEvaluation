@@ -7,12 +7,13 @@ namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
 {
     public interface IProductService
     {
-        Task Create(Product product);
+        Task Create(ProductDto product);
         Task Delete(int? id);
-        Task Update(Product product);
+        Task Update(ProductDto product);
         Task<IList<Product>> GetAllDetails();
         Task<IList<ProductDto>> GetAllHeaders();
         Task<Product> Get(int? id);
-        Task<bool> IsExist(Product shop);
+        Task<ProductDto> GetDto(int? id);
+        Task<bool> IsExist(ProductDto product);
     }
 }

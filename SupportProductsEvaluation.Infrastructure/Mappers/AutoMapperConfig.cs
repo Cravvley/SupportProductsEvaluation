@@ -10,7 +10,7 @@ namespace SupportProductsEvaluation.Infrastructure.Mappers
             => new MapperConfiguration(cfg =>
              {
                  cfg.CreateMap<Shop,ShopDto>();
-                 cfg.CreateMap<Product, ProductDto>();
+                 cfg.CreateMap<Product, ProductDto>().ReverseMap();
              }).CreateMapper();
     }
 }

@@ -2,19 +2,20 @@
 @using SupportProductsEvaluation.Infrastructure.Extensions
 
 @{
-    ViewData["Title"] = "Create product";
+    ViewData["Title"] = "Edit product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <br />
-<h2 class="text-info">Create Product</h2>
+<h2 class="text-info">Edit product</h2>
 <br />
 
 @if (ViewBag.IsExist)
 {
-    <p class="text-danger text-uppercase font-weight-bolder">category is already exists.</p>
+    <p class="text-danger text-uppercase font-weight-bolder">product is already exists.</p>
 }
 <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Product.Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-2">
@@ -78,9 +79,9 @@
             <select asp-for="@Model.Product.ShopId" id="ShopId" asp-items="Model.ShopList.ToSelectListItem(Model.Product.ShopId)" class="form-control"></select>
         </div>
     </div>
-    <div class="form-group row">
-        <div class="col-5 offset-2">
-            <partial name="_CreateAndBackToListButton" />
+    <div class="col-8">
+        <div class="col-8 offset-4">
+            <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
         </div>
     </div>
 </form>

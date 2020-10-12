@@ -17,7 +17,7 @@ namespace SupportProductsEvaluation.Core.Entities
         [Required]
         public string Description { get; set; }
 
-        [Required, Range(0.01, int.MaxValue, ErrorMessage = "Price should be greater than 1 cent")]
+        [DataType(DataType.Currency), Required, Range(0.01, double.MaxValue, ErrorMessage = "Price should be greater than 0")]
         public double Price { get; set; }
 
         [Display(Name = "Shop")]

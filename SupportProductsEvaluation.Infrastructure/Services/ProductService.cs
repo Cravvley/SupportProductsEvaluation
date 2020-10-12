@@ -14,18 +14,18 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository,IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
         }
-        public async Task Create(Product product)
+        public async Task Create(ProductDto product)
         {
-            if (product== null)
+            if (product == null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
-            await _productRepository.Create(product);
+            await _productRepository.Create(_mapper.Map<ProductDto, Product>(product));
         }
 
         public async Task Delete(int? id)
@@ -57,9 +57,19 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return _mapper.Map<IList<Product>, IList<ProductDto>>(products);
         }
 
-        public async Task<bool> IsExist(Product product)
+        public async Task<ProductDto> GetDto(int? id)
         {
-            var productyEntity = await _productRepository.Get(product);
+            var productEntity = await _productRepository.Get(id);
+            if (productEntity == null)
+            {
+                throw new ArgumentNullException("product doesn't exist");
+            }
+            return _mapper.Map<Product,ProductDto>(productEntity);
+        }
+
+        public async Task<bool> IsExist(ProductDto product)
+        {
+            var productyEntity = await _productRepository.Get(_mapper.Map<ProductDto, Product>(product));
             if (productyEntity == null)
             {
                 return false;
@@ -67,14 +77,14 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return true;
         }
 
-        public async Task Update(Product product)
+        public async Task Update(ProductDto product)
         {
             var productEntity = await _productRepository.Get(product.Id);
             if (productEntity == null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
-            await _productRepository.Update(product);
+            await _productRepository.Update(_mapper.Map<ProductDto, Product>(product));
         }
     }
 }

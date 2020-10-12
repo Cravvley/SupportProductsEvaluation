@@ -44,7 +44,10 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
                                  p.ShopId == product.ShopId);
 
         public async Task<IList<Product>> GetAll()
-                => await _db.Product.AsQueryable().ToListAsync();
+                => await _db.Product.AsQueryable().Include(s => s.Shop)
+                                .Include(c => c.Category).Include(sc => sc.SubCategory)
+                                .Include(co => co.Comments).Include(r => r.Rates)
+                                .ToListAsync();
 
         public async Task Update(Product product)
         {
