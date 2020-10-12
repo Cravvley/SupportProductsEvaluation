@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SupportProductsEvaluation.Core.Repositories
+namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
 {
-    public interface IReportRepository
+    public interface IReportService
     {
         Task Create(Report report);
         Task Delete(int? id);
         Task Update(Report report);
-        Task<IList<Report>> GetAll();
         Task<Report> Get(int? id);
-        Task<Report> Get(Report report);
-
+        Task<IList<Report>> GetAll();
+        Task<bool> IsExist(Report report);
     }
 }
