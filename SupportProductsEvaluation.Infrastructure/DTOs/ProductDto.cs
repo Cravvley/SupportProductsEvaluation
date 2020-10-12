@@ -18,8 +18,7 @@ namespace SupportProductsEvaluation.Infrastructure.DTOs
 
         public double AverageGrade { get; set; }
 
-        
-        [DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true),DataType(DataType.Currency), Required, Range(0.01, double.MaxValue, ErrorMessage = "Price should be greater than 0")]
+        [DataType(DataType.Currency), Required, Range(0.01, double.MaxValue, ErrorMessage = "Price should be greater than 0")]
         public double Price { get; set; }
 
         [Display(Name = "Shop")]

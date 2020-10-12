@@ -10,5 +10,6 @@ namespace SupportProductsEvaluation.Core.Entities
         [Display(Name = "Category Name")]
         [Required]
         public string Name { get; set; }
+        
     }
 }
