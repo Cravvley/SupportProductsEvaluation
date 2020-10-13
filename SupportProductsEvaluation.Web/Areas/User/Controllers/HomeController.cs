@@ -30,6 +30,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             {
                 Products = await _productService.GetAllHeaders()
             };
+            
 
             if (searchName != null && searchCategoryName != null)
             {
@@ -135,6 +136,9 @@ namespace SupportProductsEvaluation.Web.Controllers
             return View(new ErrorVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        public IActionResult TODO()
+        {
+            return View();
+        }
     }
 }
