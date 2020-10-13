@@ -62,7 +62,7 @@ namespace SupportProductsEvaluation.Web.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/Admin/Product/Index?productPage=:"
+                urlParam = "/User/Home/Index?productPage=:"
             };
             return View(productListVM);
         }
@@ -104,7 +104,7 @@ namespace SupportProductsEvaluation.Web.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/Admin/Report/Index?productPage=:"
+                urlParam = "/User/Home/Reports?productPage=:"
             };
             return View(reportListVM);
         }

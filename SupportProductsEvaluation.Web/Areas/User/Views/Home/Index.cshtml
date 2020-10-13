@@ -2,73 +2,74 @@
 
 <br />
 <br />
-
-<div class="row container">
-    <a asp-action="Reports" class="btn btn-outline-warning form-control offset-11 col-1" style="margin-bottom:20px">
-        <i class="fas fa-newspaper"></i>
-    </a>
-    <div class="col-11">
-        <div class="row" style="padding-top:10px">
-            <div class="col-4">
-                @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Name..." } })
+    
+<form asp-action="Home/Index" method="get">
+    <div class="row container">
+        <a asp-action="Reports" class="btn btn-outline-warning form-control offset-11 col-1" style="margin-bottom:20px">
+            <i class="fas fa-newspaper"></i>
+        </a>
+        <div class="col-11">
+            <div class="row" style="padding-top:10px">
+                <div class="col-4">
+                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Name..." } })
+                </div>
+                <div class="col-4">
+                    @Html.Editor("searchShopName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Shop..." } })
+                </div>
+                <div class="col-4">
+                    @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category..." } })
+                </div>
             </div>
-            <div class="col-4">
-                @Html.Editor("searchShopName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Shop..." } })
-            </div>
-            <div class="col-4">
-                @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category..." } })
+        </div>
+        <div class="col-1">
+            <div class="row" style="padding-top:10px;">
+                <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
+                    <i class="fas fa-search"></i>
+                </button>
             </div>
         </div>
     </div>
-    <div class="col-1">
-        <div class="row" style="padding-top:10px;">
-            <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-</div>
-<br />
-<div>
-    @foreach (var product in Model.Products)
-    {
-        <div class="row" id="menu-wrapper">
-            <div class="border border-info rounded col-12" style="margin-bottom:10px; margin-top:10px; padding:10px;">
-                <div class="row">
-                    <div class="col-md-3 col-sm-12">
-                        @{
-                            var base64 = Convert.ToBase64String(product.Picture);
-                            var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
-                        }
-                        <img src="@imgsrc" width="99%" style="border-radius:5px;border:1px solid #bbb9b9" />
-                    </div>
-                    <div class="col-md-9 col-sm-12 ">
-                        <div class="row pr-3">
-                            <div class="col-8">
-                                <label class="text-primary" style="font-size:21px;color:maroon">@product.Name</label>
-                            </div>
-                            <div class="col-4 text-right" style="color:maroon">
-                                <h4>$@product.Price</h4>
-                            </div>
+    <br />
+    <div>
+        @foreach (var product in Model.Products)
+        {
+            <div class="row" id="menu-wrapper">
+                <div class="border border-info rounded col-12" style="margin-bottom:10px; margin-top:10px; padding:10px;">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12">
+                            @{
+                                var base64 = Convert.ToBase64String(product.Picture);
+                                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                            }
+                            <img src="@imgsrc" width="99%" style="border-radius:5px;border:1px solid #bbb9b9" />
                         </div>
-                        <div class="row col-12 text-justify d-none d-md-block">
-                            <p>@Html.Raw(product.Description)</p>
-                        </div>
-                        <div class="col-md-3 col-sm-12 offset-md-9 text-center " style="position:absolute;bottom:0;right:1%;">
-                            <a asp-action="Details" class="btn btn-success form-control" asp-route-id="@product.Id">Details</a>
+                        <div class="col-md-9 col-sm-12 ">
+                            <div class="row pr-3">
+                                <div class="col-8">
+                                    <label class="text-primary" style="font-size:21px;color:maroon">@product.Name</label>
+                                </div>
+                                <div class="col-4 text-right" style="color:maroon">
+                                    <h4>$@product.Price</h4>
+                                </div>
+                            </div>
+                            <div class="row col-12 text-justify d-none d-md-block">
+                                <p>@Html.Raw(product.Description)</p>
+                            </div>
+                            <div class="col-md-3 col-sm-12 offset-md-9 text-center " style="position:absolute;bottom:0;right:1%;">
+                                <a asp-action="Details" class="btn btn-success form-control" asp-route-id="@product.Id">Details</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
-<br />
-<div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-     page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
-     class="btn-group float-right "></div>
-<br />
-<br />
-
+        }
+    </div>
+    <br />
+    <div  page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
+         page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
+         class="btn-group float-right "></div>
+    <br />
+    <br />
+   </form>
 
 
