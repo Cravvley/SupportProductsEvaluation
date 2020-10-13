@@ -2,7 +2,10 @@
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -34,6 +37,12 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
                                 .Include(r => r.Rates).SingleOrDefaultAsync(p => p.Id == id);
 
+        public async Task<IList<Product>> GetAll(string ProductName,string CategoryName,string SubCategoryName)
+                => await _db.Product.Include(s => s.Shop).Include(c => c.Category).Include(sc => sc.SubCategory)
+                                .Where(p => p.Name.ToLower()==ProductName.ToLower() &&
+                                 p.Category.Name== CategoryName &&
+                                 p.SubCategory.Name == SubCategoryName).AsQueryable().ToListAsync();
+
         public async Task<Product> Get(Product product)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
@@ -48,6 +57,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
                                 .Include(c => c.Category).Include(sc => sc.SubCategory)
                                 .Include(co => co.Comments).Include(r => r.Rates)
                                 .ToListAsync();
+
 
         public async Task Update(Product product)
         {

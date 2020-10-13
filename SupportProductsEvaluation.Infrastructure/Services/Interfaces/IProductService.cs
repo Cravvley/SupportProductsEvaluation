@@ -1,6 +1,8 @@
 ﻿using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Infrastructure.DTOs;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
@@ -15,5 +17,6 @@ namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
         Task<Product> Get(int? id);
         Task<ProductDto> GetDto(int? id);
         Task<bool> IsExist(ProductDto product);
+        Task<bool> IsExist(string ProductName, string CategoryName, string SubCategoryName);
     }
 }

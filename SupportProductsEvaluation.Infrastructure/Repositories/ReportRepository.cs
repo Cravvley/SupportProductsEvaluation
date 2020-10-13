@@ -40,6 +40,8 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task Update(Report report)
         {
             var reportEntity = await Get(report);
+            reportEntity.MinPrice = report.MinPrice;
+            reportEntity.MaxPrice = report.MaxPrice;
             reportEntity.AvgPrice = report.AvgPrice;
             reportEntity.AvgRate = report.AvgRate;
             reportEntity.CategoryName = report.CategoryName;

@@ -27,7 +27,7 @@ using SupportProductsEvaluation.Infrastructure.VMs;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b2e727a2b99b43a637dc1d22a35f1fcc7b2076d7", @"/Areas/User/Views/Home/Privacy.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"557b846a2a2bb982b445ee2962ddb8873594d941", @"/Areas/User/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2905cff12b76a6490b3b7924d4a56e0cfa054628", @"/Areas/User/Views/_ViewImports.cshtml")]
     public class Areas_User_Views_Home_Privacy : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

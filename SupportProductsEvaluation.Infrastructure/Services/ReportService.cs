@@ -32,6 +32,10 @@ namespace SupportProductsEvaluation.Infrastructure.Services
               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.AverageGrade).Average();
             report.AvgPrice= products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
+            report.MinPrice= products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
+            report.MaxPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Max();
 
             await _reportRepository.Create(report);
         }
@@ -87,6 +91,10 @@ namespace SupportProductsEvaluation.Infrastructure.Services
               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.AverageGrade).Average();
             report.AvgPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
+            report.MinPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
+            report.MaxPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Max();
 
             await _reportRepository.Update(report);
         }
