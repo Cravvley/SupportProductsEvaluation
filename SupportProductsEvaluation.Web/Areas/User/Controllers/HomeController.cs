@@ -14,12 +14,14 @@ namespace SupportProductsEvaluation.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly IReportService _reportService;
 
-        private readonly int PageSize=5;
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        private readonly int PageSize = 5;
+        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService)
         {
             _logger = logger;
             _productService = productService;
+            _reportService = reportService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategoryName = null)
@@ -65,11 +67,67 @@ namespace SupportProductsEvaluation.Web.Controllers
             return View(productListVM);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Reports(int productPage = 1, string searchName = null, string searchCategory = null)
         {
-            
-            return View();
+            ReportListVM reportListVM = new ReportListVM()
+            {
+                Reports = await _reportService.GetAll()
+            };
+
+            if (searchName != null && searchCategory != null)
+            {
+                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
+                                      .Contains(searchName.ToLower()) && s.CategoryName.ToLower().Contains(searchCategory.ToLower()))
+                                        .OrderByDescending(o => o.ProductName)
+                                        .ToList();
+            }
+            else if (searchName != null)
+            {
+                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
+                                      .Contains(searchName.ToLower())).OrderByDescending(o => o.ProductName)
+                                     .ToList();
+            }
+            else if (searchCategory != null)
+            {
+                reportListVM.Reports = reportListVM.Reports.Where(s => s.CategoryName.ToLower()
+                                      .Contains(searchCategory.ToLower())).OrderByDescending(o => o.ProductName)
+                                     .ToList();
+            }
+
+            int count = reportListVM.Reports.Count;
+            reportListVM.Reports = reportListVM.Reports.OrderByDescending(p => p.Id)
+                                     .Skip((productPage - 1) * PageSize)
+                                     .Take(PageSize).ToList();
+
+            reportListVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItem = count,
+                urlParam = "/Admin/Report/Index?productPage=:"
+            };
+            return View(reportListVM);
         }
+
+
+        public async Task<IActionResult> ReportDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var report = await _reportService.Get(id);
+
+
+            if (report == null)
+            {
+                return NotFound();
+            }
+
+            return View(report);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

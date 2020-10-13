@@ -471,3 +471,5 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Report\Delete.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Report\Details.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Report\Edit.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Reports.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\ReportDetails.cshtml.g.cs

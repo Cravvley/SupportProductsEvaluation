@@ -20,4 +20,8 @@
     <ProjectReference Include="..\SupportProductsEvaluation.Infrastructure\SupportProductsEvaluation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\User\Views\Home\Report\" />
+  </ItemGroup>
+
 </Project>
