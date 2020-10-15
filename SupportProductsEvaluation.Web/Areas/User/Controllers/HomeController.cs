@@ -22,14 +22,16 @@ namespace SupportProductsEvaluation.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
+        private readonly IRateService _rateService;
         private readonly ApplicationDbContext _db;
 
         private readonly int PageSize = 9;
-        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, IRateService rateService,ApplicationDbContext db)
         {
             _logger = logger;
             _productService = productService;
             _reportService = reportService;
+            _rateService = rateService;
             _db = db;
         }
 
@@ -138,9 +140,9 @@ namespace SupportProductsEvaluation.Web.Controllers
 
                 },
             };
-
-            var rate = await _db.Rate.SingleOrDefaultAsync(x => x.UserId == claim.Value);
-
+            
+            var rate = await _rateService.Get(claim.Value, id);
+            
             if(rate!=null)
             {
                 productDetailsVM.Rate = rate;
@@ -189,18 +191,16 @@ namespace SupportProductsEvaluation.Web.Controllers
         public async Task<ActionResult> AddRateToProduct(Rate rate)
         {
 
-            var rateEntity =await  _db.Rate.SingleOrDefaultAsync(r=>r.Id==rate.Id);
+            var rateEntity =await  _rateService.Get(rate.Id);
 
             if (rateEntity == null)
             {
-                await _db.Rate.AddAsync(rate);
+                await _rateService.Create(rate);
             }
             else
             {
-                rateEntity.Grade = rate.Grade;
+                await _rateService.Update(rate);
             }
-
-            await _db.SaveChangesAsync();
 
             return RedirectToAction("ProductDetails", new { Id = rate.ProductId });
         }

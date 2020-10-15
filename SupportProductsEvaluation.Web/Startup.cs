@@ -54,7 +54,10 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IReportService, ReportService>();
-            
+            services.AddScoped<IRateRepository, RateRepository>();
+            services.AddScoped<IRateService, RateService>();
+
+
 
         }
 
