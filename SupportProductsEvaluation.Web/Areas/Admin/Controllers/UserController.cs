@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SupportProductsEvaluation.Data;
+using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.Utility;
 using System;
 using System.Linq;
@@ -14,17 +15,17 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class UserController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public UserController(ApplicationDbContext db)
+        private readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
-            _db = db;
+            _userService = userService;
         }
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            return View(await _db.User.Where(u=>u.Id!=claim.Value).ToListAsync());
+            return View(await _userService.GetAll(u => u.Id != claim.Value));
         }
 
         public async Task<IActionResult> Lock(string id)
@@ -34,7 +35,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userService.Get(id);
 
             if (user == null)
             {
@@ -42,7 +43,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
 
             user.LockoutEnd = DateTime.Now.AddYears(1000);
-            await _db.SaveChangesAsync();
+            await _userService.Update(user);
 
             return RedirectToAction(nameof(Index));
 
@@ -56,7 +57,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var user = await _db.User.FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _userService.Get(id);
 
             if (user == null)
             {
@@ -64,7 +65,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
 
             user.LockoutEnd = DateTime.Now;
-            await _db.SaveChangesAsync();
+            await _userService.Update(user);
 
             return RedirectToAction(nameof(Index));
 

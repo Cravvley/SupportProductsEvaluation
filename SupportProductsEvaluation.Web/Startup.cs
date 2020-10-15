@@ -59,6 +59,8 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<IRateService, RateService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
 
         }
 
