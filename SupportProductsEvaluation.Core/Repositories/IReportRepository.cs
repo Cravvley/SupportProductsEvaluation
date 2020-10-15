@@ -12,6 +12,5 @@ namespace SupportProductsEvaluation.Core.Repositories
         Task<IList<Report>> GetAll();
         Task<Report> Get(int? id);
         Task<Report> Get(Report report);
-
     }
 }

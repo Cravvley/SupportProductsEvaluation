@@ -14,6 +14,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         {
             _db=db;
         }
+        
         public async Task Create(Rate rate)
         {
             await _db.Rate.AddAsync(rate);

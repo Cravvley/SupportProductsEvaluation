@@ -10,16 +10,13 @@ namespace SupportProductsEvaluation.Core.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [Display(Name = "Product name")]
+        [Required,Display(Name = "Product name")]
         public string ProductName { get; set; }
-        
-        [Required]
-        [Display(Name = "Category name")]
+       
+        [Required,Display(Name = "Category name")]
         public string CategoryName { get; set; }
         
-        [Required]
-        [Display(Name = "Subcategory name")]
+        [Required,Display(Name = "Subcategory name")]
         public string SubCategoryName { get; set; }
         
         [Required]
@@ -36,6 +33,5 @@ namespace SupportProductsEvaluation.Core.Entities
         
         [Required, Display(Name = "Update at")]
         public DateTime UpdateAt { get; set; }
-
     }
 }

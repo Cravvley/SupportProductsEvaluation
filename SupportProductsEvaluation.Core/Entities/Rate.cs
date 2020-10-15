@@ -14,11 +14,13 @@ namespace SupportProductsEvaluation.Core.Entities
 
         [Display(Name = "User")]
         public string UserId { get; set; }
+        
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
 
         [Display(Name = "Product")]
         public int ProductId { get; set; }
+        
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
     }

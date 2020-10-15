@@ -2,10 +2,8 @@
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -13,7 +11,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _db;
-
+        
         public ProductRepository(ApplicationDbContext db)
         {
             _db = db;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Data;
@@ -23,16 +22,16 @@ namespace SupportProductsEvaluation.Web.Controllers
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
         private readonly IRateService _rateService;
-        private readonly ApplicationDbContext _db;
+        private readonly ICommentService _commentService;
 
         private readonly int PageSize = 9;
-        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, IRateService rateService,ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, IRateService rateService, ICommentService commentService)
         {
             _logger = logger;
             _productService = productService;
             _reportService = reportService;
             _rateService = rateService;
-            _db = db;
+            _commentService = commentService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategoryName = null)
@@ -179,9 +178,8 @@ namespace SupportProductsEvaluation.Web.Controllers
         {
 
             comment.UpdateAt = DateTime.Now;
-            await _db.Comment.AddAsync(comment);
-            await _db.SaveChangesAsync();
-
+            await _commentService.Add(comment);
+            
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
         }
 

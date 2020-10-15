@@ -22,6 +22,5 @@ namespace SupportProductsEvaluation.Core.Entities
 
         [Required]
         public string Country { get; set; }
-
     }
 }

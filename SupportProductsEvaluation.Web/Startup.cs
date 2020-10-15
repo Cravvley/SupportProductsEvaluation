@@ -44,6 +44,7 @@ namespace SupportProductsEvaluation.Web
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
             });
+        
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -56,8 +57,8 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<IReportService, ReportService>();
             services.AddScoped<IRateRepository, RateRepository>();
             services.AddScoped<IRateService, RateService>();
-
-
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<ICommentService, CommentService>();
 
         }
 

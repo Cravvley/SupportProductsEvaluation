@@ -15,7 +15,7 @@ namespace SupportProductsEvaluation.Infrastructure.DTOs
 
         [Required]
         public string Description { get; set; }
-
+        
         public double AverageGrade { get; set; }
 
         [DataType(DataType.Currency), Required, Range(0.01, double.MaxValue, ErrorMessage = "Price should be greater than 0")]
@@ -33,8 +33,9 @@ namespace SupportProductsEvaluation.Infrastructure.DTOs
 
         [Display(Name = "SubCategory")]
         public int SubCategoryId { get; set; }
+        
         public virtual SubCategory SubCategory { get; set; }
+        
         public byte[] Picture { get; set; }
-
     }
 }
