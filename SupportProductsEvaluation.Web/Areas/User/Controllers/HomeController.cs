@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Data;
@@ -128,7 +129,6 @@ namespace SupportProductsEvaluation.Web.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-
             ProductDetailsVM productDetailsVM = new ProductDetailsVM()
             {
                 Product = product,
@@ -136,8 +136,24 @@ namespace SupportProductsEvaluation.Web.Controllers
                 {
                     ProductId = id,
                     UserId = claim.Value
-                }
+
+                },
             };
+
+            var rate = await _db.Rate.SingleOrDefaultAsync(x => x.UserId == claim.Value);
+
+            if(rate!=null)
+            {
+                productDetailsVM.Rate = rate;
+            }
+            else
+            {
+                productDetailsVM.Rate = new Rate()
+                {
+                    ProductId = id,
+                    UserId = claim.Value
+                };
+            }
 
             int count = productDetailsVM.Product.Comments.Count;
             productDetailsVM.Product.Comments = productDetailsVM.Product.Comments.OrderByDescending(p => p.UpdateAt)
@@ -166,6 +182,28 @@ namespace SupportProductsEvaluation.Web.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
+        }
+
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddRateToProduct(Rate rate)
+        {
+
+            var rateEntity =await  _db.Rate.SingleOrDefaultAsync(r=>r.Id==rate.Id);
+
+            if (rateEntity == null)
+            {
+                await _db.Rate.AddAsync(rate);
+            }
+            else
+            {
+                rateEntity.Grade = rate.Grade;
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("ProductDetails", new { Id = rate.ProductId });
         }
 
 

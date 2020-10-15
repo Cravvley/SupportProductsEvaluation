@@ -7,8 +7,6 @@
 
 
 <br />
-<h2 class="text-info">Product Details</h2>
-<br />
 
 <form method="post">
     <div class="row">
@@ -21,6 +19,7 @@
             }
             <img src="@imgsrc" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
         </div>
+
         <div class="col-md-8">
             <div class="form-group row">
                 <div class="col-md-4">
@@ -80,6 +79,28 @@
 </form>
 
 <br />
+
+<div class="col-md-8">
+    @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
+    {
+        @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
+        @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
+        @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
+        <div class="form-group row">
+            <div class="col-md-4 ">
+                <label asp-for="Rate.Grade" class="text-info font-weight-bold">Your rate:</label>
+                <input type="submit" class="btn btn-info form-control mb-2" value="Add rate" />
+            </div>
+            <div class="col-md-8 ">
+                @Html.DropDownListFor(m => m.Rate.Grade,
+            new SelectList(Enumerable.Range(0,6)),
+            "Select Grade")
+            </div>
+        </div>
+
+    }
+</div>
+
 <div class="col-md-8">
     @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
     {
@@ -88,7 +109,7 @@
         @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
         <div class="form-group row">
             <div class="col-md-4 ">
-                <label asp-for="Product.Description" class="text-info font-weight-bold">Your comment:</label>
+                <label asp-for="Comment.Description" class="text-info font-weight-bold">Your comment:</label>
                 <input type="submit" class="btn btn-info form-control mb-2" value="Add Comment" />
             </div>
             <div class="col-md-8 ">
