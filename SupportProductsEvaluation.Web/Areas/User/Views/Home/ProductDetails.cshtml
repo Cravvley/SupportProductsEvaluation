@@ -79,45 +79,44 @@
 </form>
 
 <br />
-
-<div class="col-md-8">
-    @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
-    {
-        @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
-        @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
-        @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
-        <div class="form-group row">
-            <div class="col-md-4 ">
-                <label asp-for="Rate.Grade" class="text-info font-weight-bold">Your rate:</label>
-                <input type="submit" class="btn btn-info form-control mb-2" value="Add rate" />
+<div class="col-md-12 row">
+    <div class="col-md-7">
+        @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
+            @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
+            @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
+            <div class="form-group row">
+                <div class="col-md-4 ">
+                    <label asp-for="Comment.Description" class="text-info font-weight-bold">Your comment:</label>
+                    <input type="submit" class="btn btn-info form-control mb-2" value="Comment" />
+                </div>
+                <div class="col-md-8 ">
+                    @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
+                </div>
             </div>
-            <div class="col-md-8 ">
-                @Html.DropDownListFor(m => m.Rate.Grade,
-            new SelectList(Enumerable.Range(0,6)),
-            "Select Grade")
-            </div>
-        </div>
 
-    }
-</div>
-
-<div class="col-md-8">
-    @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
-    {
-        @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
-        @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
-        @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
-        <div class="form-group row">
-            <div class="col-md-4 ">
-                <label asp-for="Comment.Description" class="text-info font-weight-bold">Your comment:</label>
-                <input type="submit" class="btn btn-info form-control mb-2" value="Add Comment" />
+        }
+    </div>
+    <div class="col-md-4 offset-1">
+        @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
+            @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
+            @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
+            <div class="form-group row col-md-9 ">
+                <div class="col-md-4">
+                    <label asp-for="Rate.Grade" class="text-info font-weight-bold">Your rate:</label>
+                    <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" value="+" />
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.Rate.Grade,
+                new SelectList(Enumerable.Range(0, 6)),
+                "Select Grade")
+                </div>
             </div>
-            <div class="col-md-8 ">
-                @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
-            </div>
-        </div>
-
-    }
+        }
+    </div>
 </div>
 
 <br />

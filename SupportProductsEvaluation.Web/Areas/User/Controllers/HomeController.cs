@@ -40,7 +40,6 @@ namespace SupportProductsEvaluation.Web.Controllers
                 Products = await _productService.GetAllHeaders()
             };
 
-
             if (searchName != null && searchCategoryName != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
