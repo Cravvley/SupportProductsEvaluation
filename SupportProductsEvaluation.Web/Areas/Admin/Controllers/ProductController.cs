@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
+using SupportProductsEvaluation.Infrastructure.Utility;
 using SupportProductsEvaluation.Infrastructure.VMs;
 using System;
 using System.IO;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = SD.Admin)]
     [Area("Admin")]
     public class ProductController : Controller
     {
@@ -33,7 +36,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             ProductListVM productListVM = new ProductListVM()
             {
-                Products = await _productService.GetAllHeaders()
+                Products = await _productService.GetAllHeaders(),
             };
 
             if (searchName != null && searchCategoryName != null)

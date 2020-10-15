@@ -35,6 +35,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task<Product> Get(int? id)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
+                                                               .ThenInclude(u=>u.User)
                                 .Include(r => r.Rates).SingleOrDefaultAsync(p => p.Id == id);
 
         public async Task<IList<Product>> GetAll(string ProductName,string CategoryName,string SubCategoryName)

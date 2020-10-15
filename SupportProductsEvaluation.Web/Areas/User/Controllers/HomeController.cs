@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SupportProductsEvaluation.Core.Entities;
+using SupportProductsEvaluation.Data;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
+using SupportProductsEvaluation.Infrastructure.Utility;
 using SupportProductsEvaluation.Infrastructure.VMs;
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Controllers
@@ -15,13 +21,15 @@ namespace SupportProductsEvaluation.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
+        private readonly ApplicationDbContext _db;
 
-        private readonly int PageSize = 5;
-        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService)
+        private readonly int PageSize = 9;
+        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, ApplicationDbContext db)
         {
             _logger = logger;
             _productService = productService;
             _reportService = reportService;
+            _db = db;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategoryName = null)
@@ -30,7 +38,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             {
                 Products = await _productService.GetAllHeaders()
             };
-            
+
 
             if (searchName != null && searchCategoryName != null)
             {
@@ -68,6 +76,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             return View(productListVM);
         }
 
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> Reports(int productPage = 1, string searchName = null, string searchCategory = null)
         {
             ReportListVM reportListVM = new ReportListVM()
@@ -111,6 +120,56 @@ namespace SupportProductsEvaluation.Web.Controllers
         }
 
 
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        public async Task<IActionResult> ProductDetails(int id, int productPage = 1)
+        {
+            var product = await _productService.Get(id);
+
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+
+            ProductDetailsVM productDetailsVM = new ProductDetailsVM()
+            {
+                Product = product,
+                Comment = new Comment()
+                {
+                    ProductId = id,
+                    UserId = claim.Value
+                }
+            };
+
+            int count = productDetailsVM.Product.Comments.Count;
+            productDetailsVM.Product.Comments = productDetailsVM.Product.Comments.OrderByDescending(p => p.UpdateAt)
+                                     .Skip((productPage - 1) * PageSize)
+                                     .Take(PageSize).ToList();
+
+            productDetailsVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItem = count,
+                urlParam = $"/User/Home/ProductDetails/{id}?productPage=:"
+            };
+
+            return View(productDetailsVM);
+        }
+
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddComentToProduct(Comment comment)
+        {
+
+            comment.UpdateAt = DateTime.Now;
+            await _db.Comment.AddAsync(comment);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
+        }
+
+
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> ReportDetails(int? id)
         {
             if (id == null)
@@ -128,7 +187,6 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             return View(report);
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

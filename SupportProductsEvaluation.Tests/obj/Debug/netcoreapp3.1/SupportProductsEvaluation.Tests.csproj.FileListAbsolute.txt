@@ -429,7 +429,6 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bi
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Razor.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.CodeAnalysis.Workspaces.dll
-C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Tests\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll

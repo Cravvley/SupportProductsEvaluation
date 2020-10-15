@@ -11,6 +11,8 @@ using SupportProductsEvaluation.Infrastructure.Repositories;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using System;
 
 namespace SupportProductsEvaluation.Web
 {
@@ -29,11 +31,19 @@ namespace SupportProductsEvaluation.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSenderService>();
             services.AddControllersWithViews();
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+            });
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -44,6 +54,7 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IReportService, ReportService>();
+            
 
         }
 
@@ -63,7 +74,7 @@ namespace SupportProductsEvaluation.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
