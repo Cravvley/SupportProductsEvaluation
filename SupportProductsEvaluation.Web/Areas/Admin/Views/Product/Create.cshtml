@@ -95,9 +95,11 @@
             });
         });
          const getSubCategory=()=> {
-            const url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategoryByCategory";
-            const soruce = '#CategoryId';
-            $.getJSON(url, { id: $(soruce).val() }, data=> {
+
+             const url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategoryByCategory";
+             const source = '#CategoryId';
+
+            $.getJSON(url, { id: $(source).val() }, data=> {
                 let items = '';
                 $('#SubCategoryId').empty();
                 $.each(data, (i, subcategory)=> {

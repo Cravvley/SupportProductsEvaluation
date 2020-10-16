@@ -2,8 +2,10 @@
 using SupportProductsEvaluation.Core.Entities;
 using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -11,7 +13,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _db;
-        
+
         public ProductRepository(ApplicationDbContext db)
         {
             _db = db;
@@ -33,13 +35,13 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task<Product> Get(int? id)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
-                                                               .ThenInclude(u=>u.User)
+                                                               .ThenInclude(u => u.User)
                                 .Include(r => r.Rates).SingleOrDefaultAsync(p => p.Id == id);
 
-        public async Task<IList<Product>> GetAll(string ProductName,string CategoryName,string SubCategoryName)
+        public async Task<IList<Product>> GetAll(string ProductName, string CategoryName, string SubCategoryName)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category).Include(sc => sc.SubCategory)
-                                .Where(p => p.Name.ToLower()==ProductName.ToLower() &&
-                                 p.Category.Name== CategoryName &&
+                                .Where(p => p.Name.ToLower() == ProductName.ToLower() &&
+                                 p.Category.Name == CategoryName &&
                                  p.SubCategory.Name == SubCategoryName).AsQueryable().ToListAsync();
 
         public async Task<Product> Get(Product product)
@@ -69,5 +71,9 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             productEntity.ShopId = product.ShopId;
             await _db.SaveChangesAsync();
         }
+
+        public async Task<Product> Get(Expression<Func<Product, bool>> filter)
+                    => await _db.Product.Include(s => s.Shop).Include(s => s.Category).
+                    Include(s => s.SubCategory).Include(s => s.Rates).SingleOrDefaultAsync(filter);
     }
 }

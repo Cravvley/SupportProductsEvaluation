@@ -8,7 +8,7 @@
     <div class="row container">
         @if (User.IsInRole(SupportProductsEvaluation.Infrastructure.Utility.SD.Admin) || User.IsInRole(SupportProductsEvaluation.Infrastructure.Utility.SD.User))
         {
-            <a asp-action="Compare" class="btn btn-outline-info form-control offset-7 col-2" style="margin-bottom:20px">
+            <a asp-action="Comparison" class="btn btn-outline-info form-control offset-7 col-2" style="margin-bottom:20px">
                 Compare
             </a>
             <a asp-action="Reports" class="btn btn-outline-info offset-1 col-2" style="margin-bottom:20px">

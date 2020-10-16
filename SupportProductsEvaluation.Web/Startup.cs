@@ -13,6 +13,7 @@ using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using System;
+using System.Globalization;
 
 namespace SupportProductsEvaluation.Web
 {
@@ -78,6 +79,10 @@ namespace SupportProductsEvaluation.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseRequestLocalization();
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();

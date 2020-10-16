@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Data;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.Utility;
@@ -139,10 +139,10 @@ namespace SupportProductsEvaluation.Web.Controllers
 
                 },
             };
-            
+
             var rate = await _rateService.Get(claim.Value, id);
-            
-            if(rate!=null)
+
+            if (rate != null)
             {
                 productDetailsVM.Rate = rate;
             }
@@ -179,7 +179,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             comment.UpdateAt = DateTime.Now;
             await _commentService.Add(comment);
-            
+
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
         }
 
@@ -189,7 +189,7 @@ namespace SupportProductsEvaluation.Web.Controllers
         public async Task<ActionResult> AddRateToProduct(Rate rate)
         {
 
-            var rateEntity =await  _rateService.Get(rate.Id);
+            var rateEntity = await _rateService.Get(rate.Id);
 
             if (rateEntity == null)
             {
@@ -221,6 +221,48 @@ namespace SupportProductsEvaluation.Web.Controllers
             }
 
             return View(report);
+        }
+
+        public async Task<IActionResult> Comparison()
+        {
+            var productEntities = await _productService.GetAllHeaders();
+            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryName = x.Category.Name, SubCategoryName = x.SubCategory.Name })
+                                                .Distinct();
+
+            ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
+            {
+                Text = $"{p.ProductName}, {p.CategoryName}, {p.SubCategoryName}",
+                Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryName={p.CategoryName}&subCategoryName={p.SubCategoryName}"
+            }), "Url", "Text");
+
+            return View();
+        }
+
+
+        public async Task<IActionResult> ProductsLocalization(string productName = null, string categoryName = null, string subCategoryName = null)
+        {
+            var products = await _productService.GetAllHeaders();
+
+            var localizationList = products.Where(x => x.Name == productName && x.Category.Name == categoryName && x.SubCategory.Name == subCategoryName)
+                                            .Select(p => new { p.Shop.Name, p.Shop.Country, p.Shop.PostalCode, p.Shop.StreetAddress, p.Shop.City }).ToList();
+
+            var lolcalizationSelectList = new SelectList(localizationList.Select(s => new
+            {
+                Text = $"{s.Name}, {s.Country}, {s.City}, {s.StreetAddress}, {s.PostalCode}",
+                Url = $"User/Home/ProductByShop?productName={productName}&categoryName={categoryName}&subCategoryName={subCategoryName}&shopName={s.Name}&country={s.Country}&city={s.City}&street={s.StreetAddress}&postalCode={s.PostalCode}"
+            }), "Url", "Text"); ;
+
+            return Json(lolcalizationSelectList);
+        }
+
+        public async Task<IActionResult> ProductByShop(string productName = null, string categoryName = null, string subCategoryName = null,string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
+        {
+            var productEntity = await _productService.Get(p=>p.Name==productName&&p.Category.Name==categoryName&&p.SubCategory.Name==subCategoryName
+                                                            &&p.Shop.Name==shopName&&p.Shop.Country==country&& p.Shop.City == city &&
+                                                            p.Shop.StreetAddress==street&&p.Shop.PostalCode==postalCode);
+
+            var productDto = new {productEntity.Price, productEntity.AverageGrade, productEntity.Description};
+            return Json(productDto);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

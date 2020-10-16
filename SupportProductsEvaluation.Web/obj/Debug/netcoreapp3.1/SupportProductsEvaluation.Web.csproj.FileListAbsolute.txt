@@ -513,3 +513,4 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\User\Index.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\ProductDetails.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Comparison.cshtml.g.cs

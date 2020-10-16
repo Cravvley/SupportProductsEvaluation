@@ -15,6 +15,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
         Task<IList<Product>> GetAllDetails();
         Task<IList<ProductDto>> GetAllHeaders();
         Task<Product> Get(int? id);
+        Task<Product> Get(Expression<Func<Product, bool>> filter);
         Task<ProductDto> GetDto(int? id);
         Task<bool> IsExist(ProductDto product);
         Task<bool> IsExist(string ProductName, string CategoryName, string SubCategoryName);

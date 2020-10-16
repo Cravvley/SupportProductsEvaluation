@@ -133,6 +133,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             }
 
+            ViewBag.isExist = false;
             return View(productCreateEditVMError);
         }
 

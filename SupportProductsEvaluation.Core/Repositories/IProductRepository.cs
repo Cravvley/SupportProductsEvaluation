@@ -14,6 +14,7 @@ namespace SupportProductsEvaluation.Core.Repositories
         Task<IList<Product>> GetAll();
         Task<IList<Product>> GetAll(string ProductName, string CategoryName, string SubCategoryName);
         Task<Product> Get(int? id);
+        Task<Product> Get(Expression<Func<Product,bool>>filter);
         Task<Product> Get(Product category);
     }
 }

@@ -49,7 +49,8 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return productEntity;
         }
 
-       
+        public async Task<Product> Get(Expression<Func<Product, bool>> filter)
+                    => await _productRepository.Get(filter);
 
         public async Task<IList<Product>> GetAllDetails()
                 => await _productRepository.GetAll();

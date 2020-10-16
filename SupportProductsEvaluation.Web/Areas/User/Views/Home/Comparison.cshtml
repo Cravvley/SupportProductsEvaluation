@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewData["Title"] = "Comparison";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Comparison</h1>
+
+
+<select id="ProductsId" asp-items="@ViewBag.ProductsSelectList "></select>
+
+<div class="row col-12 m-5">
+    <div class="col-6">
+        <select name="FirstShops" id="FirstShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+    </div>
+    <div class="col-6">
+        <select name="SecondShops" id="SecondShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+    </div>
+</div>
+<div id="test"></div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+
+            getProducts();
+
+            $('#ProductsId').change(()=> {
+                getProducts();
+            });
+            $('#FirstShopsId').change(() => {
+                getProductFromFirstShop();
+            });
+            $('#SecondShopsId').change(() => {
+                getProductFromSecondShop ();
+            });
+        });
+
+        const getProducts= () => {
+
+            const source = '#ProductsId';
+            const url = '@Url.Content("~/")' + $(source).val();
+
+            $.getJSON(url, data => {
+
+                let items = '';
+
+                $('#ShopsId').empty();
+                $.each(data, (i, shops)=> {
+                    items += "<option value='" + shops.value + "'>" + shops.text + "</option>";
+                });
+
+                $('#FirstShopsId').html(items);
+                $('#SecondShopsId').html(items);
+
+                getProductFromFirstShop();
+                getProductFromSecondShop();
+            })
+        }
+
+        const getProductFromFirstShop = () => {
+
+            const source = '#FirstShopsId';
+            const url = '@Url.Content("~/")' + $(source).val();
+
+            const $list = $('#test');
+
+            $.getJSON(url, data => {
+                console.log(data.price);
+                $list.html('');
+                $list.append(' <ul class="list-group"> ');
+                $list.append('<li class="list-group-item">' + data.price + '</li>');
+                $list.append('</ul>');
+            })
+           
+        }
+
+        const getProductFromSecondShop = () => {
+
+            const source = '#SecondShopsId';
+            const url = '@Url.Content("~/")' + $(source).val();
+
+            const $list = $('#SubCategoryList');
+
+            $.getJSON(url, data => {
+                console.log(data.price);
+                $list.html('');
+                $list.append(' <ul class="list-group"> ');
+                    $list.append('<li class="list-group-item">' + data.price + '</li>');
+                
+                $list.append('</ul>');
+            })
+        }
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
