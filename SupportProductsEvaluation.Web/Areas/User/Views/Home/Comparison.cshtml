@@ -4,20 +4,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Comparison</h1>
+<h1 class="text-center text-info">Product Comparison</h1>
 
-
-<select id="ProductsId" asp-items="@ViewBag.ProductsSelectList "></select>
-
-<div class="row col-12 m-5">
-    <div class="col-6">
-        <select name="FirstShops" id="FirstShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+<div class="form-group row col-md-12">
+    <div class="col-1">
+        <label for="ProductsId" class="col-form-label text-info text-uppercase mt-3 ml-2">Product:</label>
     </div>
-    <div class="col-6">
-        <select name="SecondShops" id="SecondShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+    <div class="col-4">
+        <select id="ProductsId" class="custom-select col-md-12 ml-5 my-3" asp-items="@ViewBag.ProductsSelectList "></select>
     </div>
 </div>
-<div id="test"></div>
+
+<div class="col-12  row mb-4">
+    <div class="form-group row col-sm-7 col-md-5 col-11">
+        <div class="col-1 ">
+            <label for="FirstShopsId" class="col-form-label text-info text-uppercase mt-3 ml-2">Shop:</label>
+        </div>
+        <div class="col-8 offset-2  mt-3">
+            <select name="FirstShops" id="FirstShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+        </div>
+    </div>
+    <div class="form-group offset-md-1 row col-sm-7 col-md-5 col-11">
+        <div class="col-1">
+            <label for="SecondShopsId" class="col-form-label text-info text-uppercase mt-3 ml-2">Shop:</label>
+        </div>
+        <div class="col-8 offset-2 mt-3">
+            <select name="SecondShops" id="SecondShopsId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
+        </div>
+    </div>
+</div>
+
+<div class="row col-12">
+    <div id="firstProduct" class="col-md-5 mb-5"></div>
+    <div id="secondProduct" class="col-md-5 offset-1"></div>
+</div>
+
+<div class="col-5">
+    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+</div>
+
 
 
 @section Scripts{
@@ -65,32 +90,78 @@
             const source = '#FirstShopsId';
             const url = '@Url.Content("~/")' + $(source).val();
 
-            const $list = $('#test');
+            const $list = $('#firstProduct');
 
             $.getJSON(url, data => {
-                console.log(data.price);
+                console.log(data);
                 $list.html('');
-                $list.append(' <ul class="list-group"> ');
-                $list.append('<li class="list-group-item">' + data.price + '</li>');
-                $list.append('</ul>');
+                $list.append(`
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.description}" class="col-form-label">Description:</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.description}" value=${data.description} disabled class="form-control" />
+                 </div>
+                </div>
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.price}" class="col-form-label">Price</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.price}" value=${data.price} disabled class="form-control" />
+                 </div>
+                </div>
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.averageGrade}" class="col-form-label">Average Grade</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.averageGrade}" value=${data.averageGrade} disabled class="form-control" />
+                 </div>
+                </div>
+               `);
             })
-           
+
         }
+
 
         const getProductFromSecondShop = () => {
 
             const source = '#SecondShopsId';
             const url = '@Url.Content("~/")' + $(source).val();
 
-            const $list = $('#SubCategoryList');
+            const $list = $('#secondProduct');
 
             $.getJSON(url, data => {
                 console.log(data.price);
                 $list.html('');
-                $list.append(' <ul class="list-group"> ');
-                    $list.append('<li class="list-group-item">' + data.price + '</li>');
-                
-                $list.append('</ul>');
+                $list.append(`
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.description}"class="col-form-label">Description:</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.description}" value=${data.description} disabled class="form-control" />
+                 </div>
+                </div>
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.price}" class="col-form-label">Price:</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.price}" value=${data.price} disabled class="form-control" />
+                 </div>
+                </div>
+                <div class="form-group row">
+                 <div class="col-2">
+                  <label asp-for="${data.averageGrade}" class="col-form-label">Average Grade:</label>
+                 </div>
+                 <div class="offset-1 col-md-8">
+                    <input asp-for="${data.averageGrade}" value=${data.averageGrade} disabled class="form-control" />
+                 </div>
+                </div>
+               `);
             })
         }
     </script>
