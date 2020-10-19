@@ -1,5 +1,5 @@
-﻿using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Core.Repositories;
+﻿using SupportProductsEvaluation.Data.Entities;
+using SupportProductsEvaluation.Data.Repositories;
 using System;
 using System.Threading.Tasks;
 

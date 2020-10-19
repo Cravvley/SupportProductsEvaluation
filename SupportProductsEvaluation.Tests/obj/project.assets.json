@@ -3183,27 +3183,13 @@
           "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
         }
       },
-      "SupportProductsEvaluation.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8"
-        },
-        "compile": {
-          "bin/placeholder/SupportProductsEvaluation.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SupportProductsEvaluation.Core.dll": {}
-        }
-      },
       "SupportProductsEvaluation.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.8",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8",
-          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.8",
-          "SupportProductsEvaluation.Core": "1.0.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.8"
         },
         "compile": {
           "bin/placeholder/SupportProductsEvaluation.Data.dll": {}
@@ -3221,7 +3207,6 @@
         "dependencies": {
           "AutoMapper": "10.0.0",
           "Microsoft.AspNetCore.Identity.UI": "3.1.9",
-          "SupportProductsEvaluation.Core": "1.0.0",
           "SupportProductsEvaluation.Data": "1.0.0"
         },
         "compile": {
@@ -3245,7 +3230,6 @@
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.9",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
-          "SupportProductsEvaluation.Core": "1.0.0",
           "SupportProductsEvaluation.Infrastructure": "1.0.0"
         },
         "compile": {
@@ -10045,11 +10029,6 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "SupportProductsEvaluation.Core/1.0.0": {
-      "type": "project",
-      "path": "../SupportProductsEvaluation.Core/SupportProductsEvaluation.Core.csproj",
-      "msbuildProject": "../SupportProductsEvaluation.Core/SupportProductsEvaluation.Core.csproj"
-    },
     "SupportProductsEvaluation.Data/1.0.0": {
       "type": "project",
       "path": "../SupportProductsEvaluation.Data/SupportProductsEvaluation.Data.csproj",
@@ -10071,7 +10050,6 @@
       "FluentAssertions >= 5.10.3",
       "Microsoft.NET.Test.Sdk >= 16.7.1",
       "Moq >= 4.14.6",
-      "SupportProductsEvaluation.Core >= 1.0.0",
       "SupportProductsEvaluation.Infrastructure >= 1.0.0",
       "SupportProductsEvaluation.Web >= 1.0.0",
       "xunit >= 2.4.1",
@@ -10108,9 +10086,6 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Core\\SupportProductsEvaluation.Core.csproj": {
-              "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Core\\SupportProductsEvaluation.Core.csproj"
-            },
             "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj"
             },

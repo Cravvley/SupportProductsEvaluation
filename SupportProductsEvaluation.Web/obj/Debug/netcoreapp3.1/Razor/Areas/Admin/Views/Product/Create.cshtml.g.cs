@@ -28,7 +28,7 @@ using SupportProductsEvaluation.Infrastructure.VMs;
 #nullable disable
 #nullable restore
 #line 3 "C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\Areas\Admin\Views\_ViewImports.cshtml"
-using SupportProductsEvaluation.Core.Entities;
+using SupportProductsEvaluation.Data.Entities;
 
 #line default
 #line hidden
@@ -41,7 +41,7 @@ using SupportProductsEvaluation.Infrastructure.Extensions;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"e70de221cffb5b560f94e0cfd85d22f08a4b1d5e", @"/Areas/Admin/Views/Product/Create.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4ecb59160d33a439babf3bdee78452f6ac8de9d8", @"/Areas/Admin/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bfffc26c7d73997f5a702c842635f2087fb35d8f", @"/Areas/Admin/Views/_ViewImports.cshtml")]
     public class Areas_Admin_Views_Product_Create : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<SupportProductsEvaluation.Infrastructure.VMs.ProductCreateEditVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("text-danger"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);

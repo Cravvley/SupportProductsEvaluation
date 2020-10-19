@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SupportProductsEvaluation.Data;
+using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.Mappers;
 using SupportProductsEvaluation.Infrastructure.Repositories;
-using SupportProductsEvaluation.Core.Repositories;
-using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using SupportProductsEvaluation.Infrastructure.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Globalization;
 

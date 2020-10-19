@@ -1,4 +1,4 @@
-﻿using SupportProductsEvaluation.Core.Entities;
+﻿using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 using System.Collections.Generic;
 

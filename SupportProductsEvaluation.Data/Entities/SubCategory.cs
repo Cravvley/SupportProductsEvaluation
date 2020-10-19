@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SupportProductsEvaluation.Core.Entities
+namespace SupportProductsEvaluation.Data.Entities
 {
     public class SubCategory
     {
@@ -18,6 +18,5 @@ namespace SupportProductsEvaluation.Core.Entities
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
-
     }
 }

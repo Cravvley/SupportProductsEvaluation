@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Core.Repositories;
+using SupportProductsEvaluation.Data.Entities;
+using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;

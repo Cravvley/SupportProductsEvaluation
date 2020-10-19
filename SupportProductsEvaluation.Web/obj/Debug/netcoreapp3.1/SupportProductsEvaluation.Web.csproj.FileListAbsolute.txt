@@ -87,11 +87,9 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.pdb
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.genruntimeconfig.cache
-C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Core.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Infrastructure.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Infrastructure.pdb
-C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Core.pdb
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\SupportProductsEvaluation.Data.pdb
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.AspNetCore.Antiforgery.dll
 C:\Users\HP\Desktop\SupportProductsEvaluation\SupportProductsEvaluation.Web\bin\Debug\netcoreapp3.1\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll

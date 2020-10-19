@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Core.Repositories;
+using SupportProductsEvaluation.Data.Entities;
+using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
@@ -84,7 +84,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<bool> IsExist(string ProductName, string CategoryName, string SubCategoryName)
         {
-            var productyEntity = await _productRepository.GetAll(ProductName,CategoryName,SubCategoryName);
+            var productyEntity = await _productRepository.Get(ProductName,CategoryName,SubCategoryName);
             if (productyEntity == null)
             {
                 return false;

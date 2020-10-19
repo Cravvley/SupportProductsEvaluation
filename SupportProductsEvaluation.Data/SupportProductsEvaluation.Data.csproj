@@ -14,8 +14,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SupportProductsEvaluation.Core\SupportProductsEvaluation.Core.csproj" />
-  </ItemGroup>
-
 </Project>

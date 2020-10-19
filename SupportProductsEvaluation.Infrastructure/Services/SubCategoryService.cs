@@ -1,5 +1,5 @@
-﻿using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Core.Repositories;
+﻿using SupportProductsEvaluation.Data.Entities;
+using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;

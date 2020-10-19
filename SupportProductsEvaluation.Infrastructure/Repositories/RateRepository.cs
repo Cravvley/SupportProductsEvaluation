@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SupportProductsEvaluation.Core.Entities;
-using SupportProductsEvaluation.Core.Repositories;
 using SupportProductsEvaluation.Data;
-using System;
+using SupportProductsEvaluation.Data.Entities;
+using SupportProductsEvaluation.Data.Repositories;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories

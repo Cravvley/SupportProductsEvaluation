@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SupportProductsEvaluation.Infrastructure.VMs
 {
-    public class CategoryListVM
+    public class UserListVM
     {
-        public IList<Category> Categories { get; set; }
+        public IList<User> Users { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
 }

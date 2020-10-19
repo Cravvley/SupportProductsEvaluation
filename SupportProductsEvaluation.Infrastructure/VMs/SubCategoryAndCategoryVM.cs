@@ -1,7 +1,5 @@
-﻿using SupportProductsEvaluation.Core.Entities;
-using System;
+﻿using SupportProductsEvaluation.Data.Entities;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SupportProductsEvaluation.Infrastructure.VMs
 {

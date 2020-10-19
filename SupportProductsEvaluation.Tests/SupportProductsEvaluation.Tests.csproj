@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SupportProductsEvaluation.Core\SupportProductsEvaluation.Core.csproj" />
     <ProjectReference Include="..\SupportProductsEvaluation.Infrastructure\SupportProductsEvaluation.Infrastructure.csproj" />
     <ProjectReference Include="..\SupportProductsEvaluation.Web\SupportProductsEvaluation.Web.csproj" />
   </ItemGroup>

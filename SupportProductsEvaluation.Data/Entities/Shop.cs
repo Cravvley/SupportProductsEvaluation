@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SupportProductsEvaluation.Core.Entities
+namespace SupportProductsEvaluation.Data.Entities
 {
     public class Shop
     {

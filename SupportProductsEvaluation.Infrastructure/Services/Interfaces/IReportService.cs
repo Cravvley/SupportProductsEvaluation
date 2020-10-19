@@ -1,4 +1,4 @@
-﻿using SupportProductsEvaluation.Core.Entities;
+﻿using SupportProductsEvaluation.Data.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1572,19 +1572,6 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
-      },
-      "SupportProductsEvaluation.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.8"
-        },
-        "compile": {
-          "bin/placeholder/SupportProductsEvaluation.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SupportProductsEvaluation.Core.dll": {}
-        }
       }
     }
   },
@@ -5903,11 +5890,6 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
-    },
-    "SupportProductsEvaluation.Core/1.0.0": {
-      "type": "project",
-      "path": "../SupportProductsEvaluation.Core/SupportProductsEvaluation.Core.csproj",
-      "msbuildProject": "../SupportProductsEvaluation.Core/SupportProductsEvaluation.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5915,8 +5897,7 @@
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore >= 3.1.8",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 3.1.8",
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.8",
-      "Microsoft.EntityFrameworkCore.Tools >= 3.1.8",
-      "SupportProductsEvaluation.Core >= 1.0.0"
+      "Microsoft.EntityFrameworkCore.Tools >= 3.1.8"
     ]
   },
   "packageFolders": {
@@ -5948,11 +5929,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {
-            "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Core\\SupportProductsEvaluation.Core.csproj": {
-              "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\SupportProductsEvaluation.Core\\SupportProductsEvaluation.Core.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {

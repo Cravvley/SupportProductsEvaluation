@@ -27,7 +27,6 @@
           "FluentAssertions": "5.10.3",
           "Microsoft.NET.Test.Sdk": "16.7.1",
           "Moq": "4.14.6",
-          "SupportProductsEvaluation.Core": "1.0.0",
           "SupportProductsEvaluation.Infrastructure": "1.0.0",
           "SupportProductsEvaluation.Web": "1.0.0",
           "xunit": "2.4.1",
@@ -2810,23 +2809,11 @@
         }
       },
       "xunit.runner.visualstudio/2.4.3": {},
-      "SupportProductsEvaluation.Core/1.0.0": {
-        "dependencies": {
-          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.9"
-        },
-        "runtime": {
-          "SupportProductsEvaluation.Core.dll": {}
-        },
-        "compile": {
-          "SupportProductsEvaluation.Core.dll": {}
-        }
-      },
       "SupportProductsEvaluation.Data/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "3.1.8",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "3.1.9",
-          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.9",
-          "SupportProductsEvaluation.Core": "1.0.0"
+          "Microsoft.EntityFrameworkCore.SqlServer": "3.1.9"
         },
         "runtime": {
           "SupportProductsEvaluation.Data.dll": {}
@@ -2839,7 +2826,6 @@
         "dependencies": {
           "AutoMapper": "10.0.0",
           "Microsoft.AspNetCore.Identity.UI": "3.1.9",
-          "SupportProductsEvaluation.Core": "1.0.0",
           "SupportProductsEvaluation.Data": "1.0.0"
         },
         "runtime": {
@@ -2858,7 +2844,6 @@
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "3.1.8",
           "Microsoft.EntityFrameworkCore.SqlServer": "3.1.9",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.4",
-          "SupportProductsEvaluation.Core": "1.0.0",
           "SupportProductsEvaluation.Infrastructure": "1.0.0"
         },
         "runtime": {
@@ -2866,6 +2851,14 @@
         },
         "compile": {
           "SupportProductsEvaluation.Web.dll": {}
+        }
+      },
+      "SupportProductsEvaluation.Core/1.0.0.0": {
+        "runtime": {
+          "SupportProductsEvaluation.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Microsoft.AspNetCore.Antiforgery/3.1.0.0": {
@@ -5764,11 +5757,6 @@
       "path": "xunit.runner.visualstudio/2.4.3",
       "hashPath": "xunit.runner.visualstudio.2.4.3.nupkg.sha512"
     },
-    "SupportProductsEvaluation.Core/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "SupportProductsEvaluation.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
@@ -5781,6 +5769,11 @@
     },
     "SupportProductsEvaluation.Web/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "SupportProductsEvaluation.Core/1.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     },

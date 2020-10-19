@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SupportProductsEvaluation.Core.Entities;
+using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Infrastructure.DTOs;
 
 namespace SupportProductsEvaluation.Infrastructure.Mappers

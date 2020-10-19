@@ -1,4 +1,4 @@
-﻿using SupportProductsEvaluation.Core.Entities;
+﻿using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 
 namespace SupportProductsEvaluation.Infrastructure.VMs

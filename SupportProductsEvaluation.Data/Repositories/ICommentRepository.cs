@@ -1,9 +1,9 @@
 ﻿using SupportProductsEvaluation.Data.Entities;
 using System.Threading.Tasks;
 
-namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
+namespace SupportProductsEvaluation.Data.Repositories
 {
-    public interface ICommentService
+    public interface ICommentRepository
     {
         Task Add(Comment comment);
     }
