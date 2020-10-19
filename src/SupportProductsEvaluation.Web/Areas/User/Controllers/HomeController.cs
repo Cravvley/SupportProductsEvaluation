@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Logging;
 using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Infrastructure.Pagination;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
@@ -18,16 +17,14 @@ namespace SupportProductsEvaluation.Web.Controllers
     [Area("User")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
         private readonly IReportService _reportService;
         private readonly IRateService _rateService;
         private readonly ICommentService _commentService;
 
-        private readonly int PageSize = 9;
-        public HomeController(ILogger<HomeController> logger, IProductService productService, IReportService reportService, IRateService rateService, ICommentService commentService)
+        private const int PageSize = 9;
+        public HomeController(IProductService productService, IReportService reportService, IRateService rateService, ICommentService commentService)
         {
-            _logger = logger;
             _productService = productService;
             _reportService = reportService;
             _rateService = rateService;
@@ -255,13 +252,13 @@ namespace SupportProductsEvaluation.Web.Controllers
             return Json(lolcalizationSelectList);
         }
 
-        public async Task<IActionResult> ProductByShop(string productName = null, string categoryName = null, string subCategoryName = null,string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
+        public async Task<IActionResult> ProductByShop(string productName = null, string categoryName = null, string subCategoryName = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
         {
-            var productEntity = await _productService.Get(p=>p.Name==productName&&p.Category.Name==categoryName&&p.SubCategory.Name==subCategoryName
-                                                            &&p.Shop.Name==shopName&&p.Shop.Country==country&& p.Shop.City == city &&
-                                                            p.Shop.StreetAddress==street&&p.Shop.PostalCode==postalCode);
+            var productEntity = await _productService.Get(p => p.Name == productName && p.Category.Name == categoryName && p.SubCategory.Name == subCategoryName
+                                                            && p.Shop.Name == shopName && p.Shop.Country == country && p.Shop.City == city &&
+                                                            p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
 
-            var productDto = new {productEntity.Price, productEntity.AverageGrade, productEntity.Description};
+            var productDto = new { productEntity.Price, productEntity.AverageGrade, productEntity.Description };
             return Json(productDto);
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SupportProductsEvaluation.Data.Entities;
+using System.Reflection;
 
 namespace SupportProductsEvaluation.Data
 {
@@ -10,7 +11,13 @@ namespace SupportProductsEvaluation.Data
             : base(options)
         {
         }
-        
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
         public DbSet<User> User { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
