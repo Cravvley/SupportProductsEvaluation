@@ -4,7 +4,7 @@ namespace SupportProductsEvaluation.Data.Entities
 {
     public class Category
     {
-        
+        //TODO : remove subcategory model, views, repositories and services
         public int Id { get; set; }
         
         public string Name { get; set; }

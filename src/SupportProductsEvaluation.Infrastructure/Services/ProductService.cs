@@ -82,9 +82,9 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return true;
         }
 
-        public async Task<bool> IsExist(string ProductName, string CategoryName, string SubCategoryName)
+        public async Task<bool> IsExist(string ProductName, string CategoryName, string SubcategoryName)
         {
-            var productyEntity = await _productRepository.Get(ProductName,CategoryName,SubCategoryName);
+            var productyEntity = await _productRepository.Get(ProductName,CategoryName,SubcategoryName);
             if (productyEntity == null)
             {
                 return false;

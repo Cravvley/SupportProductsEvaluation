@@ -5,7 +5,6 @@ namespace SupportProductsEvaluation.Data.Entities
 {
     public class SubCategory
     {
-        //Before you start flame, just go and look into category model :P
 
         [Key]
         public int Id { get; set; }

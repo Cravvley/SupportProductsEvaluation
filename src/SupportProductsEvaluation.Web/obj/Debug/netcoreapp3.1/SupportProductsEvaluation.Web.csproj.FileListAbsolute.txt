@@ -1027,4 +1027,3 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.genruntimeconfig.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Details.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Report\Details.cshtml.g.cs
-C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\CreateSubcategory.cshtml.g.cs
