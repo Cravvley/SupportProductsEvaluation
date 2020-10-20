@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20201019212426_add parent category to category model.cs" />
+    <Compile Remove="Migrations\20201019212426_add parent category to category model.Designer.cs" />
+    <Compile Remove="Migrations\20201019212611_add parent category to category .cs" />
+    <Compile Remove="Migrations\20201019212611_add parent category to category .Designer.cs" />
+    <Compile Remove="Migrations\20201019214647_add parent category to category test .cs" />
+    <Compile Remove="Migrations\20201019214647_add parent category to category test .Designer.cs" />
+    <Compile Remove="Migrations\20201019214825_add parent category to category test .cs" />
+    <Compile Remove="Migrations\20201019214825_add parent category to category test .Designer.cs" />
+    <Compile Remove="Migrations\20201019220829_add parent category to category tests .cs" />
+    <Compile Remove="Migrations\20201019220829_add parent category to category tests .Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

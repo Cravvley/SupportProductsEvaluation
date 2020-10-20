@@ -1,0 +1,153 @@
+﻿@model ProductDetailsVM
+
+@{
+    ViewData["Title"] = "Product Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<br />
+
+<form method="post">
+    <div class="row">
+        <input type="hidden" asp-for="Product.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-12 pb-4 d-md-none">
+            @{
+                var base64 = Convert.ToBase64String(Model.Product.Picture);
+                var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+            }
+            <img src="@imgsrc" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
+        </div>
+
+        <div class="col-md-8">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.Name" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Product.Name" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.Description" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <div class="border p-2">
+                        @Html.Raw(Model.Product.Description)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.Price" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Product.Price" readonly class="form-control" />
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.CategoryId" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Product.Category.Name" readonly class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.SubCategoryId" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Product.SubCategory.Name" readonly class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4 offset-4">
+                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 offset-1 d-none d-md-block">
+            <img src="@imgsrc" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
+        </div>
+    </div>
+
+</form>
+
+<br />
+<div class="col-md-12 row">
+    <div class="col-md-7">
+        @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
+            @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
+            @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
+            <div class="form-group row">
+                <div class="col-md-4 ">
+                    <label asp-for="Comment.Description" class="text-info font-weight-bold">Your comment:</label>
+                    <input type="submit" class="btn btn-info form-control mb-2" value="Comment" />
+                </div>
+                <div class="col-md-8 ">
+                    @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="col-md-4 offset-1">
+        @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
+        {
+            @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
+            @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
+            @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
+            <div class="form-group row col-md-9 ">
+                <div class="col-md-4">
+                    <label asp-for="Rate.Grade" class="text-info font-weight-bold">Your rate:</label>
+                    <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" value="+" />
+                </div>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.Rate.Grade,
+                new SelectList(Enumerable.Range(0, 6)),
+                "Select Grade")
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br />
+<div class="col-md-12 ">
+    <ul>
+        @foreach (var comment in Model.Product.Comments)
+        {
+
+            <li class="card text-center mb-3">
+                <div class="card-header row">
+                    <p class="text-left col-6">@comment.User.Name</p>
+                    <p class="text-right col-6">@comment.UpdateAt</p>
+                </div>
+                <div class="card-body text-left">
+                    <p class="card-text">@comment.Description</p>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+<br />
+
+<div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
+     page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
+     class="btn-group float-right "></div>
+
+<br />
+<br />
+
+@section Scripts{
+
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

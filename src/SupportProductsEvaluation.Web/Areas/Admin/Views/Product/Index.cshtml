@@ -1,0 +1,101 @@
+﻿@model ProductListVM
+
+@{
+    ViewData["Title"] = "Product's list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<form method="get">
+    <div class="border p-3">
+        <div class="row p-1">
+            <div class="col-6">
+                <h2 class="text-info"> Product's List</h2>
+            </div>
+            <div class="col-6 text-right">
+                <partial name="_CreateButtonPartial" />
+            </div>
+        </div>
+        <br />
+        <div class="row container">
+            <div class="col-11">
+                <div class="row" style="padding-top:10px">
+                    <div class="col-6">
+                        @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Name..." } })
+                    </div>
+                    <div class="col-6">
+                        @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category..." } })
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <div class="row" style="padding-top:10px;">
+                    <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="p-1">
+            @if (Model.Products.Count>0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(p => p.Products[0].Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(p => p.Products[0].ShopId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(p => p.Products[0].CategoryId)
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Products)
+                    {
+                <tr>
+                    <td>
+                        @{
+                            var base64 = Convert.ToBase64String(item.Picture);
+                            var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                        }
+                        <div class="col-3">
+                            <img src="@imgsrc" height="100%" width="100%" />
+                        </div>
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Shop.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Category.Name)
+                    </td>
+                    <td>
+                        <partial name="_TableButtonPartial" model="item.Id" />
+                    </td>
+                </tr>
+                    }
+                </table>
+                <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
+                     page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
+                     class="btn-group float-right "></div>
+                <br />
+            }
+            else
+            {
+                <p>No products exist...</p>
+            }
+        </div>
+    </div>
+</form>
+
