@@ -180,6 +180,9 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
+              "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Data\\SupportProductsEvaluation.Data.csproj": {
+                "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Data\\SupportProductsEvaluation.Data.csproj"
+              },
               "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj": {
                 "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj"
               }

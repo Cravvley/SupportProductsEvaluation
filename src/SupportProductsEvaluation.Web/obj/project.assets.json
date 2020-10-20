@@ -9055,6 +9055,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.9",
       "Microsoft.EntityFrameworkCore.Tools >= 3.1.9",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.4",
+      "SupportProductsEvaluation.Data >= 1.0.0",
       "SupportProductsEvaluation.Infrastructure >= 1.0.0"
     ]
   },
@@ -9088,6 +9089,9 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
+            "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Data\\SupportProductsEvaluation.Data.csproj": {
+              "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Data\\SupportProductsEvaluation.Data.csproj"
+            },
             "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\HP\\Desktop\\SupportProductsEvaluation\\src\\SupportProductsEvaluation.Infrastructure\\SupportProductsEvaluation.Infrastructure.csproj"
             }

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace SupportProductsEvaluation.Data.Entities
 {
@@ -8,10 +8,11 @@ namespace SupportProductsEvaluation.Data.Entities
         public int Id { get; set; }
         
         public string Name { get; set; }
+        
+        public int? ParentCategoryId { get; set; }
+        
+        public virtual Category ParentCategory { get; set; }
 
-      //I know, that code below is much better way for category tree than entity like "subcategory", but, don't blame me for this step please :D
-      /*public int ParentCategoryId { get; set; }
-        [ForeignKey("ParentCategoryId")]
-        public virtual Category ParentCategory { get; set; }*/
+        public virtual IList<Category> ChildrenCategories { get; set; }
     }
 }

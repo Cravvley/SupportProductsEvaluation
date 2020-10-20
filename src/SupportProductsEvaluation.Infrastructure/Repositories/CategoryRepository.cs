@@ -33,18 +33,20 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         }
 
         public async Task<Category> Get(int? id)
-            => await _db.Category.SingleOrDefaultAsync(s => s.Id == id);
+            => await _db.Category.Include(p => p.ChildrenCategories).Include(p => p.ParentCategory).SingleOrDefaultAsync(s => s.Id == id);
 
         public async Task<Category> Get(Expression<Func<Category, bool>> filter)
-            => await _db.Category.SingleOrDefaultAsync(filter);
+            => await _db.Category.Include(p => p.ChildrenCategories).Include(p => p.ParentCategory).SingleOrDefaultAsync(filter);
 
         public async Task<IList<Category>> GetAll(Expression<Func<Category, bool>> filter)
-            => await _db.Category.AsNoTracking().Where(filter).OrderBy(p=>p.Name).AsQueryable().ToListAsync();
+            => await _db.Category.AsNoTracking().Include(p => p.ChildrenCategories).Include(p => p.ParentCategory)
+                      .Where(filter).OrderBy(p => p.Name).AsQueryable().ToListAsync();
 
-        public async Task<IList<Category>> GetPaginated(Expression<Func<Category, bool>> filter=null, int pageSize=1, int productPage=1)
-        => await _db.Category.Where(filter).OrderBy(p => p.Name)
-                                     .Skip((productPage - 1) * pageSize)
-                                     .Take(pageSize).ToListAsync();
+        public async Task<IList<Category>> GetPaginated(Expression<Func<Category, bool>> filter = null, int pageSize = 1, int productPage = 1)
+        => await _db.Category.AsNoTracking().Include(p => p.ChildrenCategories).Include(p => p.ParentCategory).
+                           Where(filter).OrderBy(p => p.Name)
+                          .Skip((productPage - 1) * pageSize)
+                          .Take(pageSize).ToListAsync();
 
         public async Task Update(Category category)
         {

@@ -1,20 +1,20 @@
 ﻿@model Category
 @{
-    ViewData["Title"] = "Create" + ViewBag.Title;
+    ViewData["Title"] = "Create subcategory";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <br />
-<h2 class="text-info mb-5">Create @ViewBag.Title</h2>
+<h2 class="text-info mb-5">Create subcategory</h2>
 <br />
 
-<form method="post" asp-action="Create">
+<form method="post" asp-action="CreateSubcategory">
     @if (ViewBag.Exist)
     {
-        <p class="text-danger text-uppercase font-weight-bolder">@ViewBag.Title is already exists.</p>
+        <p class="text-danger text-uppercase font-weight-bolder">subcategory is already exists.</p>
     }
 <div>
-    <input type="hidden" asp-for="ParentCategoryId"/>
+    <input type="hidden" asp-for="ParentCategoryId" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-2">

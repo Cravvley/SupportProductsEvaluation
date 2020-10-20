@@ -23,21 +23,22 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null)
         {
-            CategoryListVM categoryListVM = new CategoryListVM()
+            var categoryListVM = new CategoryListVM()
             {
-                Categories =await _categoryService.GetAll()
+                Categories = await _categoryService.GetAll(c => c.ParentCategoryId == null)
             };
 
             var count = categoryListVM.Categories.Count;
 
-            categoryListVM.Categories = await _categoryService.GetPaginated(null, PageSize, productPage);
+            categoryListVM.Categories = await _categoryService.GetPaginated(c => c.ParentCategoryId == null, PageSize, productPage);
 
             if (searchName != null)
             {
-                categoryListVM.Categories = await _categoryService.GetPaginated(p=>p.Name.ToLower().Contains(searchName.ToLower()), PageSize, productPage);
-                count= categoryListVM.Categories.Count;
+                categoryListVM.Categories = await _categoryService.GetPaginated(c => c.Name.ToLower().Contains(searchName.ToLower()) && c.ParentCategoryId == null,
+                                                                                PageSize, productPage);
+                count = categoryListVM.Categories.Count;
             }
-            
+
             const string Url = "/Admin/Category/Index?productPage=:";
 
             categoryListVM.PagingInfo = new PagingInfo
@@ -51,10 +52,18 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(categoryListVM);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int? id = null)
         {
             ViewBag.Exist = false;
-            return View();
+
+            var category = new Category();
+            
+            if(!(id is null))
+            {
+                category.ParentCategoryId = id;
+            }
+                
+            return View(category);
         }
 
         [HttpPost]
@@ -66,17 +75,31 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return View(category);
             }
 
-            var exist = await _categoryService.Exist(x => x.Name.ToLower() == category.Name.ToLower());
+            ViewBag.Title = "category";
+            var exist = await _categoryService.Exist(c => c.Name.ToLower() == category.Name.ToLower());
+
+            if (!(category.ParentCategoryId is null))
+            {
+                exist = await _categoryService.Exist(c => c.Name.ToLower() == category.Name.ToLower()
+                                           && c.ParentCategoryId == category.ParentCategoryId);
+
+                ViewBag.Title = "subcategory";
+            }
+            
             if (exist)
             {
                 ViewBag.Exist = true;
                 return View(category);
             }
 
+            category.Id = 0;
             await _categoryService.Create(category);
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Details(int? id)
+            => View(await _categoryService.Get(id));
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -95,7 +118,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             {
                 return View(category);
             }
-            
+
             var exist = await _categoryService.Exist(x => x.Name.ToLower() == category.Name.ToLower());
             if (exist)
             {
@@ -104,7 +127,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
 
             await _categoryService.Update(category);
-            
+
             return RedirectToAction(nameof(Index));
         }
 

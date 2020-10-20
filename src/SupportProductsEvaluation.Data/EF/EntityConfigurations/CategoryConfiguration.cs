@@ -13,6 +13,11 @@ namespace SupportProductsEvaluation.Data.EF.EntityConfigurations
             builder.Property(c => c.Id)
                 .HasMaxLength(100)
                 .IsRequired();
+
+            builder.HasMany(c => c.ChildrenCategories)
+                .WithOne(c => c.ParentCategory)
+                .HasForeignKey(c => c.ParentCategoryId);
+            
         }
     }
 
