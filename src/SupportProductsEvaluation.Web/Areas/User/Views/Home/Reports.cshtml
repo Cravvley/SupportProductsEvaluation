@@ -8,77 +8,79 @@
         </div>
     </div>
     <br />
-    <div class="row container">
-        <div class="col-11">
-            <div class="row" style="padding-top:10px">
-                <div class="col-6">
-                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Name..." } })
+    <form method="get">
+        <div class="row container">
+            <div class="col-11">
+                <div class="row" style="padding-top:10px">
+                    <div class="col-6">
+                        @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Name..." } })
+                    </div>
+                    <div class="col-6">
+                        @Html.Editor("searchCategory", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Category..." } })
+                    </div>
                 </div>
-                <div class="col-6">
-                    @Html.Editor("searchCategory", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product Category..." } })
+            </div>
+            <div class="col-1">
+                <div class="row" style="padding-top:10px;">
+                    <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="col-1">
-            <div class="row" style="padding-top:10px;">
-                <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br />
-    <br />
-    <div class="p-1">
-        @if (Model.Reports.Count() > 0)
-        {
-            <table class="table table-striped border">
-                <tr class="table-secondary">
-                    <th>
-                        @Html.DisplayNameFor(s => s.Reports[0].ProductName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(s => s.Reports[0].CategoryName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(s => s.Reports[0].SubCategoryName)
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                @foreach (var item in Model.Reports)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.ProductName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.CategoryName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.SubCategoryName)
-                        </td>
-                        <td>
-                            <a asp-action="ReportDetails" class="btn btn-success form-control" asp-route-id="@item.Id">Details</a>
-                        </td>
+        <br />
+        <br />
+        <div class="p-1">
+            @if (Model.Reports.Count() > 0)
+            {
+                <table class="table table-striped border">
+                    <tr class="table-secondary">
+                        <th>
+                            @Html.DisplayNameFor(s => s.Reports[0].ProductName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(s => s.Reports[0].CategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(s => s.Reports[0].SubCategoryName)
+                        </th>
+                        <th></th>
+                        <th></th>
                     </tr>
-                }
-            </table>
-            <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-                 page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
-                 class="btn-group float-right "></div>
-            <br />
-        }
-        else
-        {
-            <p>No reports exist...</p>
-        }
-    </div>
-    <div class="form-group row">
-        <div class="col-3 ">
-            <a asp-action="Index" class="btn btn-success form-control">Back</a>
+                    @foreach (var item in Model.Reports)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.ProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.SubCategoryName)
+                            </td>
+                            <td>
+                                <a asp-action="ReportDetails" class="btn btn-success form-control" asp-route-id="@item.Id">Details</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
+                     page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
+                     class="btn-group float-right "></div>
+                <br />
+            }
+            else
+            {
+                <p>No reports exist...</p>
+            }
         </div>
-    </div>
+        <div class="form-group row">
+            <div class="col-3 ">
+                <a asp-action="Index" class="btn btn-success form-control">Back</a>
+            </div>
+        </div>
+    </form>
 </div>
 
 

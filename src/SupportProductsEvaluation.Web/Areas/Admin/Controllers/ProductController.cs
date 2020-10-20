@@ -186,8 +186,6 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ViewBag.IsExist = false;
-
             ProductCreateEditVM productCreateEditVM= new ProductCreateEditVM()
             {
                 Product = await _productService.GetDto(id),
@@ -201,26 +199,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPOST(ProductCreateEditVM productCreateEditVM)
-        {
-            ProductCreateEditVM productCreateEditVMError = new ProductCreateEditVM()
-            {
-                Product = productCreateEditVM.Product,
-                CategoryList = await _categoryService.GetAll(),
-                ShopList = await _shopService.GetAllDetails()
-            };
-
-            if (ModelState.IsValid)
-            {
-                productCreateEditVM.Product.SubCategoryId = Convert.ToInt32(Request.Form["SubCategoryId"].ToString());
-                var isExist = await _productService.IsExist(productCreateEditVM.Product);
-
-                if (isExist)
-                {
-                    ViewBag.isExist = true;
-                    return View(productCreateEditVMError);
-                }
-
-                
+        {  
                 var files = HttpContext.Request.Form.Files;
                 if (files.Count > 0)
                 {
@@ -239,9 +218,6 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 await _productService.Update(productCreateEditVM.Product);
                 return RedirectToAction(nameof(Index));
 
-            }
-
-            return View(productCreateEditVMError);
         }
 
     }

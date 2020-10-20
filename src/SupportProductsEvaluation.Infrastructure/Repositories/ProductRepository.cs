@@ -40,8 +40,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task<Product> Get(string ProductName, string CategoryName, string SubCategoryName)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
-                                                               .ThenInclude(u => u.User)
-                                .Include(r => r.Rates).SingleOrDefaultAsync(p => p.Name.ToLower() == ProductName.ToLower() &&
+                                 .ThenInclude(u => u.User).Include(r => r.Rates).FirstOrDefaultAsync(p => p.Name.ToLower() == ProductName.ToLower() &&
                                  p.Category.Name == CategoryName &&
                                  p.SubCategory.Name == SubCategoryName);
 
@@ -64,12 +63,8 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task Update(Product product)
         {
             var productEntity = await Get(product.Id);
-            productEntity.Name = product.Name;
             productEntity.Picture = product.Picture;
             productEntity.Description = product.Description;
-            productEntity.CategoryId = product.CategoryId;
-            productEntity.SubCategoryId = product.SubCategoryId;
-            productEntity.ShopId = product.ShopId;
             await _db.SaveChangesAsync();
         }
 
