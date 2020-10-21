@@ -7,16 +7,15 @@
 }
 
 <br />
-<h2 class="text-info">Edit product</h2>
+<h1 class="text-warning">Edit product</h1>
 <br />
-
 
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
     <input type="hidden" asp-for="Product.Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.Name" disabled class="col-form-label"></label>
+            <label asp-for="Product.Name" disabled class="col-form-label font-weight-bold text-info">Product name:</label>
         </div>
         <div class="col-5">
             <input asp-for="Product.Name" disabled class="form-control" />
@@ -25,7 +24,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.Description" class="col-form-label"></label>
+            <label asp-for="Product.Description" class="col-form-label font-weight-bold text-info">Product description:</label>
         </div>
         <div class="col-5 ">
             @Html.TextAreaFor(m => m.Product.Description, new { @class = "form-control", @rows = 3 })
@@ -35,17 +34,17 @@
 
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.Price" class="col-form-label"></label>
+            <label asp-for="Product.Price" class="col-form-label font-weight-bold text-info">Product price:</label>
         </div>
         <div class="col-5">
-            <input asp-for="Product.Price" class="form-control" />
+            <input asp-for="Product.Price" class="form-control " />
         </div>
         <span asp-validation-for="Product.Price" class="text-danger"></span>
     </div>
 
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.Picture" class="col-form-label"></label>
+            <label asp-for="Product.Picture" class="col-form-label font-weight-bold text-info">Product picture</label>
         </div>
         <div class="col-5">
             <input type="file" name="files" multiple class="form-control" />
@@ -54,7 +53,7 @@
 
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.CategoryId" class="col-form-label"></label>
+            <label asp-for="Product.CategoryId" class="col-form-label font-weight-bold text-info">Product category:</label>
         </div>
         <div class="col-5">
             <select asp-for="@Model.Product.CategoryId" disabled id="CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.Product.CategoryId)" class="form-control"></select>
@@ -62,7 +61,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.SubCategoryId" class="col-form-label"></label>
+            <label asp-for="Product.SubCategoryId" class="col-form-label font-weight-bold text-info">Product subcategory:</label>
         </div>
         <div class="col-5">
             <select asp-for="@Model.Product.SubCategoryId" disabled name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
@@ -70,14 +69,14 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.ShopId" class="col-form-label"></label>
+            <label asp-for="Product.ShopId" class="col-form-label font-weight-bold text-info">Product shop:</label>
         </div>
         <div class="col-5">
             <select asp-for="@Model.Product.ShopId" id="ShopId" disabled asp-items="Model.ShopList.ToSelectListItem(Model.Product.ShopId)" class="form-control"></select>
         </div>
     </div>
-    <div class="col-8">
-        <div class="col-8 offset-4">
+    <div class="form-group row">
+        <div class="col-5 offset-2">
             <partial name="_EditAndBackToListButton" model="Model.Product.Id" />
         </div>
     </div>

@@ -15,7 +15,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     {
 
         private readonly ICategoryService _categoryService;
+        
         private const int PageSize = 5;
+        
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
@@ -23,7 +25,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchName = null)
         {
-            CategoryListVM categoryListVM = new CategoryListVM()
+            var categoryListVM = new CategoryListVM()
             {
                 Categories = await _categoryService.GetAll()
             };
@@ -57,8 +59,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost,ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
             if (!ModelState.IsValid)
@@ -87,8 +88,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(categoryEntity);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost,ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
         {
             if (!ModelState.IsValid)

@@ -18,8 +18,8 @@ namespace SupportProductsEvaluation.Data.Repositories
         
         Task<Category> Get(Expression<Func<Category, bool>> filter);
         
-        Task<IList<Category>> GetAll(Expression<Func<Category,bool>>filter=null);
+        Task<IList<Category>> GetAll(Expression<Func<Category,bool>>filter);
         
-        Task<IList<Category>> GetPaginated(Expression<Func<Category,bool>>filter=null,int pageSize=0, int productPage=0);
+        Task<IList<Category>> GetPaginated(Expression<Func<Category,bool>>filter,int pageSize=0, int productPage=0);
     }
 }

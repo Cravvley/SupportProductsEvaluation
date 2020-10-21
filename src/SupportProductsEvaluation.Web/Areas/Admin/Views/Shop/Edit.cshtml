@@ -6,20 +6,20 @@
 }
 
 <br />
-<h1 class="text-info mb-5">Edit Shop</h1>
+<h1 class="text-warning mb-5">Edit Shop</h1>
 <br />
 
 <form method="post" asp-action="Edit">
-    @if (ViewBag.IsExist)
+    @if (ViewBag.Exist)
     {
     <p class="text-danger text-uppercase font-weight-bolder">Shop is already exists.</p>
     }
-<div>
+<div class="text-info font-weight-bold">
     <input type="hidden" asp-for="Id" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Name" class="col-form-label"></label>
+            <label asp-for="Name" class="col-form-label">Shop name:</label>
         </div>
         <div class="col-5">
             <input asp-for="Name" class="form-control" />
@@ -28,7 +28,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="City" class="col-form-label"></label>
+            <label asp-for="City" class="col-form-label">Shop city location:</label>
         </div>
         <div class="col-5">
             <input asp-for="City" class="form-control" />
@@ -37,7 +37,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Country" class="col-form-label"></label>
+            <label asp-for="Country" class="col-form-label">Shop country location:</label>
         </div>
         <div class="col-5">
             <input asp-for="Country" class="form-control" />
@@ -46,7 +46,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="StreetAddress" class="col-form-label"></label>
+            <label asp-for="StreetAddress" class="col-form-label">Shop street location:</label>
         </div>
         <div class="col-5">
             <input asp-for="StreetAddress" class="form-control" />
@@ -55,7 +55,7 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="PostalCode" class="col-form-label"></label>
+            <label asp-for="PostalCode" class="col-form-label">Shop postal code:</label>
         </div>
         <div class="col-5">
             <input asp-for="PostalCode" class="form-control" />

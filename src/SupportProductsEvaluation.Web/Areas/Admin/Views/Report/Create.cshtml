@@ -5,7 +5,7 @@
 }
 
 <br />
-<h2 class="text-info mb-5">Create Report</h2>
+<h1 class="text-success mb-5">Create Report</h1>
 <br />
 
 @if (ViewBag.IsCopy)
@@ -17,11 +17,11 @@
     <p class="text-danger text-uppercase font-weight-bolder">product doesn't exist.</p>
 }
 <form method="post" asp-action="Create">
-    <div>
+    <div class="font-weight-bold text-info">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="ProductName" class="col-form-label"></label>
+                <label asp-for="ProductName" class="col-form-label">Product name:</label>
             </div>
             <div class="col-5">
                 <input asp-for="ProductName" class="form-control" />
@@ -30,7 +30,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CategoryName" class="col-form-label"></label>
+                <label asp-for="CategoryName" class="col-form-label">Product category:</label>
             </div>
             <div class="col-5">
                 <input asp-for="CategoryName" class="form-control" />
@@ -39,7 +39,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="SubCategoryName" class="col-form-label"></label>
+                <label asp-for="SubCategoryName" class="col-form-label">Product subcategory:</label>
             </div>
             <div class="col-5">
                 <input asp-for="SubCategoryName" class="form-control" />

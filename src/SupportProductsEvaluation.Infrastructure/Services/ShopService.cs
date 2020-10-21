@@ -5,6 +5,7 @@ using SupportProductsEvaluation.Infrastructure.DTOs;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
@@ -14,65 +15,93 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         private readonly IShopRepository _shopRepository;
         private readonly IMapper _mapper;
 
-        public ShopService(IShopRepository shopRepository,IMapper mapper)
+        public ShopService(IShopRepository shopRepository, IMapper mapper)
         {
             _shopRepository = shopRepository;
             _mapper = mapper;
         }
+
         public async Task Create(Shop shop)
         {
-            if (shop == null)
+            if (shop is null)
             {
                 throw new ArgumentNullException("shop doesn't exist");
             }
+
             await _shopRepository.Create(shop);
         }
 
         public async Task Delete(int? id)
         {
             var shopEntity = await _shopRepository.Get(id);
-            if (shopEntity == null)
+            if (shopEntity is null)
             {
-                throw new ArgumentNullException("shop doesn't exist");
+                return;
             }
+
             await _shopRepository.Delete(id);
         }
 
         public async Task<Shop> Get(int? id)
         {
             var shopEntity = await _shopRepository.Get(id);
-            if (shopEntity == null)
+            if (shopEntity is null)
             {
                 throw new ArgumentNullException("shop doesn't exist");
             }
+
             return shopEntity;
         }
 
-        public async Task<IList<Shop>> GetAllDetails()
-            => await _shopRepository.GetAll();
+        public async Task<IList<Shop>> GetAllDetails(Expression<Func<Shop, bool>> filter = null)
+        {
+            if (filter is null)
+            {
+                return await _shopRepository.GetAll(s => true);
+            }
 
-        public async Task<IList<ShopDto>> GetAllHeaders()
-        {
-            var shops = await _shopRepository.GetAll();
-            return _mapper.Map<IList<Shop>, IList<ShopDto>>(shops);
+            return await _shopRepository.GetAll(filter);
         }
-        public async Task<bool> IsExist(Shop shop)
+
+
+        public async Task<IList<ShopDto>> GetAllHeaders(Expression<Func<Shop, bool>> filter = null)
         {
-            var shopEntity = await _shopRepository.Get(shop);
-            if (shopEntity == null)
+            if (filter is null)
+            {
+                return _mapper.Map<IList<Shop>, IList<ShopDto>>(await _shopRepository.GetAll(s => true));
+            }
+
+            return _mapper.Map<IList<Shop>, IList<ShopDto>>(await _shopRepository.GetAll(filter));
+        }
+
+        public async Task<IList<ShopDto>> GetPaginatedHeaders(Expression<Func<Shop, bool>> filter = null, int pageSize = 1, int productPage = 1)
+        {
+            if (filter is null)
+            {
+                return _mapper.Map<IList<Shop>, IList<ShopDto>>(await _shopRepository.GetPaginated(s => true, pageSize, productPage));
+            }
+
+            return _mapper.Map<IList<Shop>, IList<ShopDto>>(await _shopRepository.GetPaginated(filter, pageSize, productPage));
+        }
+        public async Task<bool> Exist(Expression<Func<Shop, bool>> filter)
+        {
+            var shopEntity = await _shopRepository.Get(filter);
+            if (shopEntity is null)
             {
                 return false;
             }
+
             return true;
         }
 
         public async Task Update(Shop shop)
         {
             var shopEntity = await _shopRepository.Get(shop.Id);
-            if (shopEntity == null)
+            if (shopEntity is null)
             {
                 throw new ArgumentNullException("shop doesn't exist");
             }
+
             await _shopRepository.Update(shop);
         }
     }

@@ -23,6 +23,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("category doesn't exist");
             }
+
             await _categoryRepository.Create(category);
         }
 
@@ -31,8 +32,9 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             var categoryEntity = await _categoryRepository.Get(id);
             if (categoryEntity is null)
             {
-                throw new ArgumentNullException("category doesn't exist");
+                return;
             }
+
             await _categoryRepository.Delete(id);
         }
 
@@ -43,6 +45,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("category doesn't exist");
             }
+
             return categoryEntity;
         }
 
@@ -52,6 +55,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 return await _categoryRepository.GetAll(p => true);
             }
+
             return await _categoryRepository.GetAll(filter);
         }
 
@@ -63,6 +67,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 return false;
             }
+
             return true;
         }
 
@@ -73,15 +78,17 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("category doesn't exist");
             }
+
             await _categoryRepository.Update(category);
         }
 
-        public async Task<IList<Category>> GetPaginated(Expression<Func<Category, bool>> filter=null, int pageSize=1, int productPage=1)
+        public async Task<IList<Category>> GetPaginated(Expression<Func<Category, bool>> filter = null, int pageSize = 1, int productPage = 1)
         {
-            if(filter is null)
+            if (filter is null)
             {
                 return await _categoryRepository.GetPaginated(p => true, pageSize, productPage);
             }
+
             return await _categoryRepository.GetPaginated(filter, pageSize, productPage);
         }
     }

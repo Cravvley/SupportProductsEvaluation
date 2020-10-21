@@ -18,10 +18,10 @@
         <div class="col-11">
             <div class="row" style="padding-top:10px">
                 <div class="col-6">
-                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Name..." } })
+                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product name..." } })
                 </div>
                 <div class="col-6">
-                    @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category..." } })
+                    @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product category..." } })
                 </div>
             </div>
         </div>
@@ -48,10 +48,10 @@
                     <div class="col-md-9 col-sm-12 ">
                         <div class="row pr-3">
                             <div class="col-8">
-                                <label class="text-primary" style="font-size:21px;color:maroon">@product.Name - @product.Shop.Name</label>
+                                <label class="text-primary" style="font-size:21px;color:maroon">@product.Name  w @product.Shop.Name</label>
                             </div>
-                            <div class="col-4 text-right" style="color:maroon">
-                                <h4>$@product.Price</h4>
+                            <div class="col-4 text-right text-success" >
+                                <h4>@product.Price  &euro;</h4>
                             </div>
                         </div>
                         <div class="row col-12 text-justify d-none d-md-block">
@@ -60,7 +60,7 @@
                         @if (User.IsInRole(SupportProductsEvaluation.Infrastructure.Utility.SD.Admin) || User.IsInRole(SupportProductsEvaluation.Infrastructure.Utility.SD.User))
                         {
                             <div class="col-md-3 col-sm-12 offset-md-9 text-center " style="position:absolute;bottom:0;right:1%;">
-                                <a asp-action="ProductDetails" class="btn btn-success form-control" asp-route-id="@product.Id">Details</a>
+                                <a asp-action="ProductDetails" class="btn btn-info form-control" asp-route-id="@product.Id">Details</a>
                             </div>
                         }
                     </div>

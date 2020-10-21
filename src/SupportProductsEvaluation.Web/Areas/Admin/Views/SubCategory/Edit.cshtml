@@ -7,41 +7,43 @@
 }
 
 <br />
-<h2 class="text-info">Edit Subcategory</h2>
+<h2 class="text-warning">Edit Subcategory</h2>
 <br />
 
-    <div class="col-12">
-        @if (ViewBag.IsExist)
-        {
-            <p class="text-danger text-uppercase font-weight-bolder">subcategory is already exists.</p>
-        }
+<div class="col-12">
+    @if (ViewBag.IsExist)
+    {
+        <p class="text-danger text-uppercase font-weight-bolder">subcategory is already exists.</p>
+    }
     <form asp-action="Edit">
-        <input type="hidden" asp-for="SubCategory.Id" />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="SubCategory.Category.Name" class="col-form-label"></label>
+        <div class="text-info font-weight-bold">
+            <input type="hidden" asp-for="SubCategory.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="SubCategory.Category.Name" class="col-form-label">Parent name:</label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="SubCategory.CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.SubCategory.CategoryId)" class="form-control"></select>
+                </div>
             </div>
-            <div class="col-5">
-                <select asp-for="SubCategory.CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.SubCategory.CategoryId)" class="form-control"></select>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="SubCategory.Name" class="col-form-label">Subcategory name:</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="SubCategory.Name" class="form-control" />
+                </div>
+                <span asp-validation-for="SubCategory.Name" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="SubCategory.Name" class="col-form-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="SubCategory.Name" class="form-control" />
-            </div>
-            <span asp-validation-for="SubCategory.Name" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-5 offset-3">
-                <partial name="_EditAndBackToListButton" model="Model.SubCategory.Id" />
+            <div class="form-group row">
+                <div class="col-5 offset-3">
+                    <partial name="_EditAndBackToListButton" model="Model.SubCategory.Id" />
+                </div>
             </div>
         </div>
     </form>
-    </div>
+</div>
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}

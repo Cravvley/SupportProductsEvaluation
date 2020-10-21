@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
-<h1 class="text-info mb-5">Delete category</h1>
+<h1 class="text-danger mb-5">Delete category</h1>
 <br />
 
 <form method="post" asp-action="Delete">
     <div class="col-12">
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Name" class="col-form-label"></label>
+                <label asp-for="Name" class="col-form-label text-info font-weight-bold">Category name:</label>
             </div>
             <div class="col-5">
                 <input asp-for="Name" disabled class="form-control" />
