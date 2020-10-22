@@ -18,6 +18,14 @@ namespace SupportProductsEvaluation.Data.Repositories
 
         Task<Product> Get(Expression<Func<Product, bool>> filter);
 
+        Task<double> GetMaxPrice(Expression<Func<Product, bool>> filter);
+
+        Task<double> GetMinPrice(Expression<Func<Product, bool>> filter);
+
+        Task<double> GetAvgGrade(Expression<Func<Product, bool>> filter);
+
+        Task<double> GetAvgPrice(Expression<Func<Product, bool>> filter);
+
         Task<IList<Product>> GetAll(Expression<Func<Product, bool>> filter);
 
         Task<IList<Product>> GetPaginated(Expression<Func<Product, bool>> filter, int pageSize = 1, int productPage = 1);

@@ -21,6 +21,5 @@ namespace SupportProductsEvaluation.Data.Repositories
         Task<IList<Report>> GetAll(Expression<Func<Report, bool>> filter);
 
         Task<IList<Report>> GetPaginated(Expression<Func<Report, bool>> filter, int pageSize = 1, int productPage = 1);
-
     }
 }

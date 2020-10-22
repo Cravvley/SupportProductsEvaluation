@@ -28,17 +28,19 @@ namespace SupportProductsEvaluation.Infrastructure.Services
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            var products = await _productRepository.GetAll(p => true);
-
             report.UpdateAt = DateTime.Now;
-            report.AvgRate = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-              && p.SubCategory.Name == report.SubCategoryName).Select(x => x.AverageGrade).Average();
-            report.AvgPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
-            report.MinPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
-            report.MaxPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Max();
+
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+              && p.SubCategory.Name == report.SubCategoryName);
+
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+               && p.SubCategory.Name == report.SubCategoryName);
+
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName);
+
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName);
 
             await _reportRepository.Create(report);
         }
@@ -104,17 +106,19 @@ namespace SupportProductsEvaluation.Infrastructure.Services
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            var products = await _productRepository.GetAll(p => true);
-
             report.UpdateAt = DateTime.Now;
-            report.AvgRate = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-              && p.SubCategory.Name == report.SubCategoryName).Select(x => x.AverageGrade).Average();
-            report.AvgPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
-            report.MinPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
-            report.MaxPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Max();
+
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+              && p.SubCategory.Name == report.SubCategoryName);
+
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+               && p.SubCategory.Name == report.SubCategoryName);
+
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName);
+
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName);
 
             await _reportRepository.Update(report);
         }

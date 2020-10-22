@@ -34,7 +34,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             var productEntity = await _productRepository.Get(id);
             if (productEntity is null)
             {
-                throw new ArgumentNullException("product doesn't exist");
+                return;
             }
             await _productRepository.Delete(id);
         }

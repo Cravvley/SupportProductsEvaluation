@@ -46,7 +46,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             productEntity.Description = product.Description;
 
             await _db.SaveChangesAsync();
-            
+
         }
 
         public async Task<Product> Get(Expression<Func<Product, bool>> filter)
@@ -60,8 +60,23 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
                                 .ToListAsync();
 
         public async Task<IList<Product>> GetPaginated(Expression<Func<Product, bool>> filter, int pageSize = 1, int productPage = 1)
-         => await _db.Product.AsNoTracking().Include(s=>s.Shop).Where(filter).AsQueryable().OrderBy(p => p.Name)
+         => await _db.Product.AsNoTracking().Include(s => s.Shop).Where(filter).AsQueryable().OrderBy(p => p.Name)
                                       .Skip((productPage - 1) * pageSize)
                                       .Take(pageSize).ToListAsync();
+
+        public async Task<double> GetMaxPrice(Expression<Func<Product, bool>> filter)
+            => await _db.Product.Where(filter).Select(p => p.Price).MaxAsync();
+
+        public async Task<double> GetMinPrice(Expression<Func<Product, bool>> filter)
+            => await _db.Product.Where(filter).Select(p => p.Price).MinAsync();
+
+        public async Task<double> GetAvgGrade(Expression<Func<Product, bool>> filter)
+        {
+            var productEntities = await GetAll(filter);
+            return productEntities.Select(p => p.AverageGrade).Average();
+        }
+               
+        public async Task<double> GetAvgPrice(Expression<Func<Product, bool>> filter)
+                => await _db.Product.Where(filter).Select(p => p.Price).AverageAsync();
     }
 }
