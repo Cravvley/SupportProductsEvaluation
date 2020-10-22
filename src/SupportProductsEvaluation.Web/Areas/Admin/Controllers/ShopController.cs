@@ -21,7 +21,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _shopService = shopService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCity = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByShop = null, string searchByCity = null)
         {
 
             var shopListVM = new ShopListVM()
@@ -31,23 +31,23 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             var count = shopListVM.Shops.Count;
             shopListVM.Shops = await _shopService.GetPaginatedHeaders(s=>true,PageSize,productPage);
-            if (searchName != null & searchCity != null)
+            if (searchByShop!= null & searchByCity != null)
             {
                 shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower()
-                                    .Contains(searchName.ToLower()) && s.City.ToLower()
-                                    .Contains(searchCity.ToLower()));
+                                    .Contains(searchByShop.ToLower()) && s.City.ToLower()
+                                    .Contains(searchByCity.ToLower()));
         
                 count = shopListVM.Shops.Count;
             }
-            else if (searchName != null)
+            else if (searchByShop!= null)
             {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower().Contains(searchName.ToLower()),PageSize, productPage);
+                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower().Contains(searchByShop.ToLower()),PageSize, productPage);
                 
                 count = shopListVM.Shops.Count;
             }
-            else if (searchCity != null)
+            else if (searchByCity != null)
             {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.City.ToLower().Contains(searchCity.ToLower()),PageSize, productPage);
+                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.City.ToLower().Contains(searchByCity.ToLower()),PageSize, productPage);
                 
                 count = shopListVM.Shops.Count;
             }
@@ -59,7 +59,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = Url
+                UrlParam = Url
             };
 
             return View(shopListVM);

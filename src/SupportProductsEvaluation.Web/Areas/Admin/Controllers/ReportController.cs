@@ -23,30 +23,30 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _reportService = reportService;
             _productService = productService;
         }
-        public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategory = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
             ReportListVM reportListVM = new ReportListVM()
             {
                 Reports = await _reportService.GetAll()
             };
 
-            if (searchName != null && searchCategory != null)
+            if (searchByProduct != null && searchByCategory != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchName.ToLower()) && s.CategoryName.ToLower().Contains(searchCategory.ToLower()))
+                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()))
                                         .OrderByDescending(o => o.ProductName)
                                         .ToList();
             }
-            else if (searchName != null)
+            else if (searchByProduct != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchName.ToLower())).OrderByDescending(o => o.ProductName)
+                                      .Contains(searchByProduct.ToLower())).OrderByDescending(o => o.ProductName)
                                      .ToList();
             }
-            else if (searchCategory != null)
+            else if (searchByCategory != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.CategoryName.ToLower()
-                                      .Contains(searchCategory.ToLower())).OrderByDescending(o => o.ProductName)
+                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.ProductName)
                                      .ToList();
             }
 
@@ -60,7 +60,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/Admin/Report/Index?productPage=:"
+                UrlParam = "/Admin/Report/Index?productPage=:"
             };
             return View(reportListVM);
         }
@@ -103,7 +103,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(report);
         }
 
-        public async Task<IActionResult> Edit(int ?id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -111,7 +111,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
 
             var reportEntity = await _reportService.Get(id);
-            if (reportEntity== null)
+            if (reportEntity == null)
             {
                 return NotFound();
             }
@@ -127,7 +127,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-              
+
                 var isProductExist = await _productService.IsExist(report.ProductName, report.CategoryName, report.SubCategoryName);
                 if (!isProductExist)
                 {
@@ -138,7 +138,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 await _reportService.Update(report);
                 return RedirectToAction(nameof(Index));
             }
-            
+
             ViewBag.IsProductExist = true;
             return View(report);
         }

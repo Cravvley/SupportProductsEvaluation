@@ -27,7 +27,7 @@ using SupportProductsEvaluation.Infrastructure.VMs;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"195e9b40f0d395094afcae188c8e36589bc48405", @"/Views/Shared/_TableButtonWithoutDetailsPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"557b846a2a2bb982b445ee2962ddb8873594d941", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4a43d153b73bb7ce92d1d8db865766af3b6c079f", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__TableButtonWithoutDetailsPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<int>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("btn btn-warning text-white mr-2"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);

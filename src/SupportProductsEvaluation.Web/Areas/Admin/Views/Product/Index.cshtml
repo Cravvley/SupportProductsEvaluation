@@ -12,27 +12,7 @@
     </div>
     <br />
     <br />
-    <div class="row container">
-        <div class="col-11">
-            <div class="row" style="padding-top:10px">
-                <div class="col-6">
-                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product name..." } })
-                </div>
-                <div class="col-6">
-                    @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Category name..." } })
-                </div>
-            </div>
-        </div>
-        <div class="col-1">
-            <div class="row" style="padding-top:10px;">
-                <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <br />
-    <br />
+        <partial name="_SearchByProductAndByCategory"/>
     <div class="p-1">
         @if (Model.Products.Count > 0)
         {
@@ -83,10 +63,7 @@
                     </tr>
                 }
             </table>
-            <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-                 page-class-normal="btn btn-info" page-class-selected="btn btn-info active"
-                 class="btn-group float-right "></div>
-            <br />
+            <partial name="_Pagination" model="@Model.PagingInfo" />
         }
         else
         {

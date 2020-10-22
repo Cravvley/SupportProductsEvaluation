@@ -64,7 +64,6 @@
         });
 
         const getProducts= () => {
-
             const source = '#ProductsId';
             const url = '@Url.Content("~/")' + $(source).val();
 
@@ -85,17 +84,8 @@
             })
         }
 
-        const getProductFromFirstShop = () => {
-
-            const source = '#FirstShopsId';
-            const url = '@Url.Content("~/")' + $(source).val();
-
-            const $list = $('#firstProduct');
-
-            $.getJSON(url, data => {
-                console.log(data);
-                $list.html('');
-                $list.append(`
+        const createProductForm = data => {
+            const productForm = `
                 <div class="form-group row">
                  <div class="col-2">
                   <label asp-for="${data.description}" class="col-form-label">Description:</label>
@@ -120,11 +110,24 @@
                     <input asp-for="${data.averageGrade}" value=${data.averageGrade} disabled class="form-control" />
                  </div>
                 </div>
-               `);
+               `;
+            return productForm;
+        }
+
+        const getProductFromFirstShop = () => {
+
+            const source = '#FirstShopsId';
+            const url = '@Url.Content("~/")' + $(source).val();
+
+            const $list = $('#firstProduct');
+
+            $.getJSON(url, data => {
+                console.log(data);
+                $list.html('');
+                $list.append(createProductForm(data));
             })
 
         }
-
 
         const getProductFromSecondShop = () => {
 
@@ -136,32 +139,7 @@
             $.getJSON(url, data => {
                 console.log(data.price);
                 $list.html('');
-                $list.append(`
-                <div class="form-group row">
-                 <div class="col-2">
-                  <label asp-for="${data.description}"class="col-form-label">Description:</label>
-                 </div>
-                 <div class="offset-1 col-md-8">
-                    <input asp-for="${data.description}" value=${data.description} disabled class="form-control" />
-                 </div>
-                </div>
-                <div class="form-group row">
-                 <div class="col-2">
-                  <label asp-for="${data.price}" class="col-form-label">Price:</label>
-                 </div>
-                 <div class="offset-1 col-md-8">
-                    <input asp-for="${data.price}" value=${data.price} disabled class="form-control" />
-                 </div>
-                </div>
-                <div class="form-group row">
-                 <div class="col-2">
-                  <label asp-for="${data.averageGrade}" class="col-form-label">Average Grade:</label>
-                 </div>
-                 <div class="offset-1 col-md-8">
-                    <input asp-for="${data.averageGrade}" value=${data.averageGrade} disabled class="form-control" />
-                 </div>
-                </div>
-               `);
+                $list.append(createProductForm(data));
             })
         }
     </script>

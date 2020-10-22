@@ -15,42 +15,26 @@
                 Reports
             </a>
         }
-        <div class="col-11">
-            <div class="row" style="padding-top:10px">
-                <div class="col-6">
-                    @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product name..." } })
-                </div>
-                <div class="col-6">
-                    @Html.Editor("searchCategoryName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Product category..." } })
-                </div>
-            </div>
-        </div>
-        <div class="col-1">
-            <div class="row" style="padding-top:10px;">
-                <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
+        <partial name="_SearchByProductAndByCategory" />
     </div>
-    <br />
+    <div class="mt-4">
         @foreach (var product in Model.Products)
         {
             <div class="border border-info rounded col-12" style="margin-bottom:10px; margin-top:10px; padding:10px;">
                 <div class="row">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-md-3 col-6">
                         @{
                             var base64 = Convert.ToBase64String(product.Picture);
                             var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
                         }
-                        <img src="@imgsrc" width="99%" style="border-radius:5px;border:1px solid #bbb9b9" />
+                        <img src="@imgsrc" width="60%" style="border-radius:5px;border:1px solid #bbb9b9" />
                     </div>
-                    <div class="col-md-9 col-sm-12 ">
+                    <div class="col-md-9  col-6 ">
                         <div class="row pr-3">
                             <div class="col-8">
                                 <label class="text-primary" style="font-size:21px;color:maroon">@product.Name  w @product.Shop.Name</label>
                             </div>
-                            <div class="col-4 text-right text-success" >
+                            <div class="col-4 text-right text-success">
                                 <h4>@product.Price  &euro;</h4>
                             </div>
                         </div>
@@ -66,13 +50,11 @@
                     </div>
                 </div>
             </div>
-        }
-    <br />
 
-    <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-         page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
-         class="btn-group float-right "></div>
+        }
+    </div>
     <br />
+    <partial name="_Pagination" model="@Model.PagingInfo" />
     <br />
 </form>
 

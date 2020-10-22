@@ -23,7 +23,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchName = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByCategory= null)
         {
             var categoryListVM = new CategoryListVM()
             {
@@ -34,9 +34,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             categoryListVM.Categories = await _categoryService.GetPaginated(null, PageSize, productPage);
 
-            if (searchName != null)
+            if (!(searchByCategory is null))
             {
-                categoryListVM.Categories = await _categoryService.GetPaginated(p => p.Name.ToLower().Contains(searchName.ToLower()), PageSize, productPage);
+                categoryListVM.Categories = await _categoryService.GetPaginated(p => p.Name.ToLower().Contains(searchByCategory.ToLower()), PageSize, productPage);
                 count = categoryListVM.Categories.Count;
             }
 
@@ -47,7 +47,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = Url
+                UrlParam = Url
             };
 
             return View(categoryListVM);

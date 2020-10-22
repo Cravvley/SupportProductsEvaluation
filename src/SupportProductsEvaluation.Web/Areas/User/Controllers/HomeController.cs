@@ -31,32 +31,32 @@ namespace SupportProductsEvaluation.Web.Controllers
             _commentService = commentService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategoryName = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
             ProductListVM productListVM = new ProductListVM()
             {
                 Products = await _productService.GetAllHeaders()
             };
 
-            if (searchName != null && searchCategoryName != null)
+            if (searchByProduct != null && searchByCategory != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchName.ToLower()) && s.Category.Name.ToLower()
-                                      .Contains(searchCategoryName.ToLower())).OrderByDescending(o => o.Name)
+                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
 
-            else if (searchName != null)
+            else if (searchByProduct != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchName.ToLower()))
+                                      .Contains(searchByProduct.ToLower()))
                                       .OrderByDescending(o => o.Name).ToList();
             }
 
-            else if (searchCategoryName != null)
+            else if (searchByCategory != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Category.Name.ToLower()
-                                      .Contains(searchCategoryName.ToLower()))
+                                      .Contains(searchByCategory.ToLower()))
                                       .OrderByDescending(o => o.Name).ToList();
             }
 
@@ -69,36 +69,36 @@ namespace SupportProductsEvaluation.Web.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/User/Home/Index?productPage=:"
+                UrlParam = "/User/Home/Index?productPage=:"
             };
             return View(productListVM);
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        public async Task<IActionResult> Reports(int productPage = 1, string searchName = null, string searchCategory = null)
+        public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
             ReportListVM reportListVM = new ReportListVM()
             {
                 Reports = await _reportService.GetAll()
             };
 
-            if (searchName != null && searchCategory != null)
+            if (searchByProduct != null && searchByCategory != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchName.ToLower()) && s.CategoryName.ToLower().Contains(searchCategory.ToLower()))
+                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()))
                                         .OrderByDescending(o => o.ProductName)
                                         .ToList();
             }
-            else if (searchName != null)
+            else if (searchByProduct != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchName.ToLower())).OrderByDescending(o => o.ProductName)
+                                      .Contains(searchByProduct.ToLower())).OrderByDescending(o => o.ProductName)
                                      .ToList();
             }
-            else if (searchCategory != null)
+            else if (searchByCategory != null)
             {
                 reportListVM.Reports = reportListVM.Reports.Where(s => s.CategoryName.ToLower()
-                                      .Contains(searchCategory.ToLower())).OrderByDescending(o => o.ProductName)
+                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.ProductName)
                                      .ToList();
             }
 
@@ -112,7 +112,7 @@ namespace SupportProductsEvaluation.Web.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/User/Home/Reports?productPage=:"
+                UrlParam = "/User/Home/Reports?productPage=:"
             };
             return View(reportListVM);
         }
@@ -162,15 +162,13 @@ namespace SupportProductsEvaluation.Web.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = $"/User/Home/ProductDetails/{id}?productPage=:"
+                UrlParam = $"/User/Home/ProductDetails/{id}?productPage=:"
             };
 
             return View(productDetailsVM);
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComentToProduct(Comment comment)
         {
 
@@ -180,9 +178,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRateToProduct(Rate rate)
         {
 
@@ -220,6 +216,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             return View(report);
         }
 
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> Comparison()
         {
             var productEntities = await _productService.GetAllHeaders();
@@ -228,14 +225,14 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
             {
-                Text = $"{p.ProductName}, {p.CategoryName}, {p.SubCategoryName}",
+                Text = $"Product: {p.ProductName}, Category: {p.CategoryName}, Subcategory: {p.SubCategoryName}",
                 Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryName={p.CategoryName}&subCategoryName={p.SubCategoryName}"
             }), "Url", "Text");
 
             return View();
         }
 
-
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> ProductsLocalization(string productName = null, string categoryName = null, string subCategoryName = null)
         {
             var products = await _productService.GetAllHeaders();
@@ -245,13 +242,14 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             var lolcalizationSelectList = new SelectList(localizationList.Select(s => new
             {
-                Text = $"{s.Name}, {s.Country}, {s.City}, {s.StreetAddress}, {s.PostalCode}",
+                Text = $"Shop: {s.Name}, Country: {s.Country},City: {s.City},Street: {s.StreetAddress},PostalCode: {s.PostalCode}",
                 Url = $"User/Home/ProductByShop?productName={productName}&categoryName={categoryName}&subCategoryName={subCategoryName}&shopName={s.Name}&country={s.Country}&city={s.City}&street={s.StreetAddress}&postalCode={s.PostalCode}"
             }), "Url", "Text"); ;
 
             return Json(lolcalizationSelectList);
         }
 
+        [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> ProductByShop(string productName = null, string categoryName = null, string subCategoryName = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
         {
             var productEntity = await _productService.Get(p => p.Name == productName && p.Category.Name == categoryName && p.SubCategory.Name == subCategoryName

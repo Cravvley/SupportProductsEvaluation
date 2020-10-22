@@ -13,5 +13,7 @@ namespace SupportProductsEvaluation.Data.Repositories
         Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> filter = null);
         
         Task Update(User user);
+
+        Task<IList<User>> GetPaginated(Expression<Func<User, bool>> filter, int pageSize = 0, int productPage = 0);
     }
 }

@@ -10,8 +10,8 @@ namespace SupportProductsEvaluation.Infrastructure.Pagination
         
         public int CurrentPage { get; set; }
         
-        public int totalPage => (int)Math.Ceiling((decimal)TotalItem / ItemsPerPage);
+        public int TotalPage => (int)Math.Ceiling((decimal)TotalItem / ItemsPerPage);
         
-        public string urlParam { get; set; }
+        public string UrlParam { get; set; }
     }
 }

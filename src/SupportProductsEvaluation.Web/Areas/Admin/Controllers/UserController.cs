@@ -11,47 +11,51 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = SD.Admin)]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Roles = SD.Admin)]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
 
         private const int PageSize = 10;
+
         public UserController(IUserService userService)
         {
             _userService = userService;
         }
-        public async Task<IActionResult> Index(int productPage = 1, string searchEmail = null)
+
+        public async Task<IActionResult> Index(int productPage = 1, string searchByEmail = null)
         {
 
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             var users = await _userService.GetAll(u => u.Id != claim.Value);
-            UserListVM userListVM = new UserListVM()
+
+            var userListVM = new UserListVM()
             {
                 Users = users.ToList()
             };
 
-            if (searchEmail != null)
+            var count = userListVM.Users.Count;
+
+            userListVM.Users = await _userService.GetPaginated(u => u.Id != claim.Value, PageSize, productPage);
+
+            if (!(searchByEmail is null))
             {
-                userListVM.Users = userListVM.Users.Where(s => s.Email.ToLower()
-                                     .Contains(searchEmail.ToLower())).OrderByDescending(o => o.Name)
-                                     .ToList();
+                userListVM.Users = await _userService.GetPaginated(u => u.Email.ToLower()
+                                      .Contains(searchByEmail.ToLower()) && u.Id != claim.Value, PageSize, productPage);
+
+                count = userListVM.Users.Count;
             }
 
-            var count = userListVM.Users.Count;
-            userListVM.Users = userListVM.Users.OrderByDescending(p => p.Id)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            const string Url = "/Admin/User/Index?productPage=:";
 
             userListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/User/Home/Index?productPage=:"
+                UrlParam = Url
             };
 
             return View(userListVM);
@@ -59,23 +63,16 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Lock(string id)
         {
-            var user = await _userService.Get(id);
-
-            user.LockoutEnd = DateTime.Now.AddYears(1000);
-            await _userService.Update(user);
+            await _userService.Lock(id, true);
 
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> UnLock(string id)
         {
-            var user = await _userService.Get(id);
-
-            user.LockoutEnd = DateTime.Now;
-            await _userService.Update(user);
+            await _userService.Lock(id, false);
 
             return RedirectToAction(nameof(Index));
-
         }
     }
 

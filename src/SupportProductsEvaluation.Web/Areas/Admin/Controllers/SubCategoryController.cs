@@ -25,32 +25,32 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchCategoryName = null, string searchSubCategoryName = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByCategory = null, string searchBySubcategory= null)
         {
             SubCategoryListVM subCategoryListVM = new SubCategoryListVM()
             {
                 SubCategories = await _subCategoryService.GetAll()
             };
 
-            if(searchCategoryName != null&& searchSubCategoryName != null)
+            if(searchByCategory != null&& searchBySubcategory != null)
             {
                 subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Category.Name.ToLower()
-                                     .Contains(searchCategoryName.ToLower())&& s.Name.ToLower()
-                                     .Contains(searchSubCategoryName.ToLower())).OrderByDescending(o => o.Name)
+                                     .Contains(searchByCategory.ToLower())&& s.Name.ToLower()
+                                     .Contains(searchBySubcategory.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
 
-            else if (searchCategoryName != null)
+            else if (searchByCategory != null)
             {
                 subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Category.Name.ToLower()
-                                     .Contains(searchCategoryName.ToLower())).OrderByDescending(o => o.Name)
+                                     .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
 
-            else if (searchSubCategoryName != null)
+            else if (searchBySubcategory != null)
             {
                 subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Name.ToLower()
-                                     .Contains(searchSubCategoryName.ToLower())).OrderByDescending(o => o.Name)
+                                     .Contains(searchBySubcategory.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
 
@@ -63,7 +63,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/Admin/SubCategory/Index?productPage=:"
+                UrlParam = "/Admin/SubCategory/Index?productPage=:"
             };
             return View(subCategoryListVM);
         }

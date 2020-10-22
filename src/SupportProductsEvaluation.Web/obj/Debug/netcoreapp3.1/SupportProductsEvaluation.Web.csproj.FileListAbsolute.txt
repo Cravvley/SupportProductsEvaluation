@@ -1026,3 +1026,9 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.pdb
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\SupportProductsEvaluation.Web.genruntimeconfig.cache
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Report\Details.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Pagination.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchByEmail.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchByCategory.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchByCategoryAndBySubcategory.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchByShopAndByCity.cshtml.g.cs
+C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_SearchByProductAndByCategory.cshtml.g.cs

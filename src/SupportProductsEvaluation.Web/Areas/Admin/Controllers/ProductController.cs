@@ -32,32 +32,32 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchName = null, string searchCategoryName = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
             ProductListVM productListVM = new ProductListVM()
             {
                 Products = await _productService.GetAllHeaders(),
             };
 
-            if (searchName != null && searchCategoryName != null)
+            if (searchByProduct != null && searchByCategory != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchName.ToLower()) && s.Category.Name.ToLower()
-                                      .Contains(searchCategoryName.ToLower())).OrderByDescending(o => o.Name)
+                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.Name)
                                      .ToList();
             }
 
-            else if (searchName != null)
+            else if (searchByProduct != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchName.ToLower()))
+                                      .Contains(searchByProduct.ToLower()))
                                       .OrderByDescending(o => o.Name).ToList();
             }
 
-            else if (searchCategoryName != null)
+            else if (searchByCategory != null)
             {
                 productListVM.Products = productListVM.Products.Where(s => s.Category.Name.ToLower()
-                                      .Contains(searchCategoryName.ToLower()))
+                                      .Contains(searchByCategory.ToLower()))
                                       .OrderByDescending(o => o.Name).ToList();
             }
 
@@ -70,7 +70,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                urlParam = "/Admin/Product/Index?productPage=:"
+                UrlParam = "/Admin/Product/Index?productPage=:"
             };
             return View(productListVM);
         }
@@ -168,9 +168,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             }
 
             var product = await _productService.GetDto(id);
-            
 
-            if (product== null)
+
+            if (product == null)
             {
                 return NotFound();
             }
@@ -186,7 +186,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            ProductCreateEditVM productCreateEditVM= new ProductCreateEditVM()
+            ProductCreateEditVM productCreateEditVM = new ProductCreateEditVM()
             {
                 Product = await _productService.GetDto(id),
                 CategoryList = await _categoryService.GetAll(),
@@ -199,24 +199,24 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPOST(ProductCreateEditVM productCreateEditVM)
-        {  
-                var files = HttpContext.Request.Form.Files;
-                if (files.Count > 0)
+        {
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count > 0)
+            {
+                byte[] p1 = null;
+                using (var fs1 = files[0].OpenReadStream())
                 {
-                    byte[] p1 = null;
-                    using (var fs1 = files[0].OpenReadStream())
+                    using (var ms1 = new MemoryStream())
                     {
-                        using (var ms1 = new MemoryStream())
-                        {
-                            fs1.CopyTo(ms1);
-                            p1 = ms1.ToArray();
-                        }
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
                     }
-                    productCreateEditVM.Product.Picture = p1;
                 }
+                productCreateEditVM.Product.Picture = p1;
+            }
 
-                await _productService.Update(productCreateEditVM.Product);
-                return RedirectToAction(nameof(Index));
+            await _productService.Update(productCreateEditVM.Product);
+            return RedirectToAction(nameof(Index));
 
         }
 

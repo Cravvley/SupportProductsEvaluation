@@ -7,87 +7,67 @@
 
 <br />
 <br />
-    <div class="row">
-        <div class="col-12 text-center">
-            <h1 class="text-secondary">Users List</h1>
-        </div>
+<div class="row">
+    <div class="col-12 text-center">
+        <h1 class="text-secondary">Users List</h1>
     </div>
-    <br />
-    <div class="row container">
-        <div class="col-11">
-            <div class="row" style="padding-top:10px">
-                <div class="col-11">
-                    @Html.Editor("searchEmail", new { htmlAttributes = new { @class = "form-control", @placeholder = "Search by email..." } })
-                </div>
-            </div>
-        </div>
-        <div class="col-1">
-            <div class="row" style="padding-top:10px;">
-                <button type="submit" name="submit" value="Search" class="btn btn-info form-control">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div>
-        <br />
-        <br />
-        @if (Model.Users.Count() > 0)
-        {
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>
-                            User name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Phone number
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                @foreach (var item in Model.Users)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(m => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.PhoneNumber)
-                        </td>
-                        <td>
+</div>
+<br />
+<partial name="_SearchByEmail" />
+<div>
+    @if (Model.Users.Count() > 0)
+    {
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        User name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Phone number
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.PhoneNumber)
+                    </td>
+                    <td>
 
-                            @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
-                            {
-                                <a class="btn btn-success text-white" asp-action="Lock" asp-route-id="@item.Id">
-                                    <i class="fas fa-lock-open"></i>
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="btn btn-danger text-white" asp-action="UnLock" asp-route-id="@item.Id">
-                                    <i class="fas fa-lock"></i>
-                                </a>
-                            }
-                        </td>
-                        <td></td>
-                    </tr>
-                }
-            </table>
-            <div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-                 page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
-                 class="btn-group float-right "></div>
-            <br />
-        }
-        else
-        {
-            <p>No user exists...</p>
-        }
-    </div>
+                        @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                        {
+                            <a class="btn btn-success text-white" asp-action="Lock" asp-route-id="@item.Id">
+                                <i class="fas fa-lock-open"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger text-white" asp-action="UnLock" asp-route-id="@item.Id">
+                                <i class="fas fa-lock"></i>
+                            </a>
+                        }
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        </table>
+        <partial name="_Pagination" model="@Model.PagingInfo" />
+    }
+    else
+    {
+        <p>No user exists...</p>
+    }
+</div>
