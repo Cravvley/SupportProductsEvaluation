@@ -8,12 +8,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SupportProductsEvaluation.Data;
 using SupportProductsEvaluation.Data.Repositories;
+using SupportProductsEvaluation.Infrastructure.Common.Options;
 using SupportProductsEvaluation.Infrastructure.Mappers;
 using SupportProductsEvaluation.Infrastructure.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Globalization;
+using System.Net;
+using System.Net.Mail;
 
 namespace SupportProductsEvaluation.Web
 {
@@ -35,7 +38,6 @@ namespace SupportProductsEvaluation.Web
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddSingleton<IEmailSender, EmailSenderService>();
             services.AddControllersWithViews();
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -45,7 +47,24 @@ namespace SupportProductsEvaluation.Web
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
             });
-        
+
+            services.Configure<EmailSettings>(Configuration.GetSection("Email:Smtp"));
+            services.AddScoped((serviceProvider) =>
+            {
+                var config = serviceProvider.GetRequiredService<IConfiguration>();
+                return new SmtpClient()
+                {
+                    Host = config.GetValue<string>("Email:Smtp:Host"),
+                    Port = config.GetValue<int>("Email:Smtp:Port"),
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(
+                        config.GetValue<string>("Email:Smtp:Username"),
+                        config.GetValue<string>("Email:Smtp:Password")
+                    ),
+                };
+            });
+
+            services.AddScoped<IEmailSender, EmailSenderService>();
             services.AddScoped<IShopRepository, ShopRepository>();
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -62,6 +81,8 @@ namespace SupportProductsEvaluation.Web
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
+
 
         }
 

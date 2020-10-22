@@ -1,9 +1,12 @@
-﻿using SupportProductsEvaluation.Data.Entities;
+﻿using AutoMapper.Configuration;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
@@ -11,10 +14,12 @@ namespace SupportProductsEvaluation.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEmailSender _emailSenderService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IEmailSender emailSenderService)
         {
             _userRepository = userRepository;
+            _emailSenderService = emailSenderService;
         }
 
         public async Task<User> Get(string id)
@@ -37,19 +42,23 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             if (user is null)
             {
                 throw new ArgumentNullException("user doesn't exist");
+
             }
 
             if (lockUser)
             {
-
                 user.LockoutEnd = DateTime.Now.AddYears(1000);
                 await _userRepository.Update(user);
+
+                await _emailSenderService.SendEmailAsync(user.Email, "Lock account", "You have been banned");
 
                 return true;
             }
 
             user.LockoutEnd = DateTime.Now;
             await _userRepository.Update(user);
+
+            await _emailSenderService.SendEmailAsync(user.Email, "Unlock Account", "You have been unbanned");
 
             return false;
         }
