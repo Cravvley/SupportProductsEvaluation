@@ -8,46 +8,46 @@
 </div>
 <br />
 <form method="get">
-    <partial name="_SearchByProductAndByCategory"/>
+    <partial name="_SearchByProductAndByCategory" />
     <div class="p-1">
         @if (Model.Reports.Count() > 0)
         {
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>
-                        Product name
-                    </th>
-                    <th>
-                        Category name
-                    </th>
-                    <th>
-                        Subcategory name
-                    </th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            @foreach (var item in Model.Reports)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CategoryName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.SubCategoryName)
-                    </td>
-                    <td>
-                        <a class="btn btn-info text-white mr-2" asp-action="ReportDetails" asp-route-Id="@item.Id">
-                            <i class="fas fa-list-alt"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </table>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Product name
+                        </th>
+                        <th>
+                            Category name
+                        </th>
+                        <th>
+                            Subcategory name
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.Reports)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CategoryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.SubCategoryName)
+                        </td>
+                        <td>
+                            <a class="btn btn-info text-white mr-2 reportDetail" data-id="@item.Id" data-toggle="modal">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
             <partial name="_Pagination" model="@Model.PagingInfo" />
         }
         else
@@ -61,5 +61,128 @@
         </div>
     </div>
 </form>
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light ">
+                <div class="col-10 offset-1">
+                    <center><h5 class="modal-title">Report Details</h5></center>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="float-right btn-outline close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="reportModalContent">
+            </div>
 
+        </div>
+    </div>
+</div>
 
+@section scripts
+    {
+
+    <script>
+        const createReportForm = data => {
+            const modalContent = `
+            <div class=" col-12">
+                <div class="form-group row ">
+                    <div class="col-2">
+                        <label asp-for="ProductName" class="col-form-label font-weight-bold text-info">Product name :</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="ProductName" disabled class="form-control" value=${data.productName} />
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="CategoryName" class="col-form-label font-weight-bold text-info">Category name :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="CategoryName" disabled class="form-control" value=${data.categoryName} />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="SubCategoryName" class="col-form-label font-weight-bold text-info">Subcategory name :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="SubCategoryName" disabled class="form-control" value=${data.subCategoryName} />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="AvgPrice" class="col-form-label font-weight-bold text-info">Avg price :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="AvgPrice" disabled class="form-control" value=${data.avgPrice}>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="AvgRate" class="col-form-label font-weight-bold text-info">Avg rate :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="AvgRate" disabled class="form-control" value=${data.avgRate} >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="MinPrice" class="col-form-label font-weight-bold text-info">Min price :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="MinPrice" disabled class="form-control" value=${data.minPrice}>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="MaxPrice" class="col-form-label font-weight-bold text-info">Max price :</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="MaxPrice" disabled class="form-control" value=${data.maxPrice}>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="UpdateAt" class="col-form-label font-weight-bold text-info">Update at:</label>
+                        </div>
+                        <div class="col-10">
+                            <input asp-for="UpdateAt.Date" disabled class="form-control" value=${data.updateAt}>
+                        </div>
+                    </div>
+                 </div>`;
+            return modalContent;
+        }
+
+        $(() => {
+            $(".reportDetail").click(function () {
+                const $modalContent = $(`#reportModalContent`);
+                const $buttonClicked = $(this);
+                const id = $buttonClicked.attr('data-id');
+                const URL = `/User/Home/ReportDetails/${id}`;
+                console.log(id);
+                console.log(URL);
+                console.log("test");
+                $.ajax({
+                    type: "GET",
+                    url: URL,
+                    contentType: "application/json; charset=utf-8",
+                    data: { "Id": id },
+                    cache: false,
+                    datatyype: "json",
+                    success: data => {
+                        $modalContent.html('');
+                        $modalContent.html(createReportForm(data));
+                        $("#reportModal").modal('show');
+                        console.log(data);
+                    },
+                    error: () => {
+                        alert("Dynamic content load failed");
+                    }
+                });
+            });
+        });
+    </script>
+}

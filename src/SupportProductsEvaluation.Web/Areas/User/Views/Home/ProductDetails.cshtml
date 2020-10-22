@@ -38,7 +38,14 @@
                 <div class="col-md-8">
                     <input asp-for="Product.Price" readonly class="form-control" />
                 </div>
-
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label asp-for="Product.AverageGrade" class="text-info font-weight-bold"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Product.AverageGrade" readonly class="form-control" />
+                </div>
             </div>
             <div class="form-group row">
                 <div class="col-md-4">
@@ -56,10 +63,19 @@
                     <input asp-for="Product.SubCategory.Name" readonly class="form-control" />
                 </div>
             </div>
-
-            <div class="form-group row">
-                <div class="col-md-4 offset-4">
+            <div class="row col-8 offset-4">
+                <div class="col-4">
                     <a asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-info text-light feedbackModal form-control" data-toggle="modal">
+                        Feedback
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a class="btn btn-info text-light rateModal form-control" data-toggle="modal">
+                        Rate
+                    </a>
                 </div>
             </div>
         </div>
@@ -71,56 +87,13 @@
             <img src="@imgsrc" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
         </div>
     </div>
-
 </form>
-
 <br />
-<div class="col-md-12 row">
-    <div class="col-md-7">
-        @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
-        {
-            @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
-            @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
-            @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
-            <div class="form-group row">
-                <div class="col-md-4 ">
-                    <label asp-for="Comment.Description" class="text-info font-weight-bold">Your comment:</label>
-                    <input type="submit" class="btn btn-info form-control mb-2" value="Comment" />
-                </div>
-                <div class="col-md-8 ">
-                    @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
-                </div>
-            </div>
-
-        }
-    </div>
-    <div class="col-md-4 offset-1">
-        @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
-        {
-            @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
-            @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
-            @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
-            <div class="form-group row col-md-9 ">
-                <div class="col-md-4">
-                    <label asp-for="Rate.Grade" class="text-info font-weight-bold">Your rate:</label>
-                    <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" vaxlue="+" />
-                </div>
-                <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Rate.Grade,
-                new SelectList(Enumerable.Range(0, 6)),
-                "Select Grade")
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
 <br />
 <div class="col-md-12 ">
     <ul>
         @foreach (var comment in Model.Product.Comments)
         {
-
             <li class="card text-center mb-3">
                 <div class="card-header row">
                     <p class="text-left col-6">@comment.User.Name</p>
@@ -134,16 +107,93 @@
     </ul>
 </div>
 <br />
-
-<div page-model="@Model.PagingInfo" page-classes-enabled="true" page-class="btn border"
-     page-class-normal="btn btn-light" page-class-selected="btn btn-info active"
-     class="btn-group float-right "></div>
-
+<partial name="_Pagination" model="@Model.PagingInfo" />
 <br />
-<br />
+<div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light ">
+                <div class="col-10 offset-1 text-center">
+                    <h4 class="modal-title">Please give us your feedback</h4>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="float-right btn-outline close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="myModalContent">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("AddComentToProduct", "Home", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
+                        @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
+                        @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
+                    <div class="form-group row">
+                        <div class="col-md-12 ">
+                            @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
+                        </div>
+                        <div class="col-12 mt-3 ">
+                            <input type="submit" class="btn btn-info form-control mb-2" value="Add new comment" />
+                        </div>
+                    </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalRate" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light ">
+                <div class="col-10 offset-1 text-center">
+                    <h4 class="modal-title">Your product rate</h4>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="float-right btn-outline close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="myModalContent">
+                <div class="col-md-12 ">
+                    @using (Html.BeginForm("AddRateToProduct", "Home", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
+                        @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
+                        @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
+                    <div class="form-group row col-md-9 ">
+                        <div class="col-md-6 offset-5">
+                            @Html.DropDownListFor(m => m.Rate.Grade,
+                        new SelectList(Enumerable.Range(0, 6)),
+                        "Select Grade")
+                        </div>
+                        <div class="col-8 offset-4 mt-3">
+                            <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" value="Add rate" />
+                        </div>
+                    </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
 
-
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(() => {
+            $(".feedbackModal").click(() => {
+                $('#modalFeedback').modal('show');
+            });
+            $(".rateModal").click(() => {
+                $('#modalRate').modal('show');
+            });
+        });
+    </script>
 }

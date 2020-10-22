@@ -30,7 +30,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             };
 
             var count = shopListVM.Shops.Count;
+
             shopListVM.Shops = await _shopService.GetPaginatedHeaders(s=>true,PageSize,productPage);
+
             if (searchByShop!= null & searchByCity != null)
             {
                 shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower()

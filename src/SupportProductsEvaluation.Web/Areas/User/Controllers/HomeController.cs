@@ -123,7 +123,7 @@ namespace SupportProductsEvaluation.Web.Controllers
         {
             var product = await _productService.Get(id);
 
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             ProductDetailsVM productDetailsVM = new ProductDetailsVM()
@@ -199,22 +199,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> ReportDetails(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var report = await _reportService.Get(id);
-
-
-            if (report == null)
-            {
-                return NotFound();
-            }
-
-            return View(report);
-        }
+                    => Json(await _reportService.Get(id));
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> Comparison()
