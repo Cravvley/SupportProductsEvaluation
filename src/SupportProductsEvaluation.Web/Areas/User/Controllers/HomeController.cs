@@ -33,86 +33,95 @@ namespace SupportProductsEvaluation.Web.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
-            ProductListVM productListVM = new ProductListVM()
+            var productListVM = new ProductListVM()
             {
                 Products = await _productService.GetAllHeaders()
             };
 
-            if (searchByProduct != null && searchByCategory != null)
+            var count = productListVM.Products.Count;
+
+            productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
+
+            if (!(searchByProduct is null && searchByCategory is null))
             {
-                productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.Name)
-                                     .ToList();
+                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                                        .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
+                                        .Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = productListVM.Products.Count;
             }
 
-            else if (searchByProduct != null)
+            else if (!(searchByProduct is null))
             {
-                productListVM.Products = productListVM.Products.Where(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()))
-                                      .OrderByDescending(o => o.Name).ToList();
+                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                                       .Contains(searchByProduct.ToLower()));
+
+                count = productListVM.Products.Count;
             }
 
-            else if (searchByCategory != null)
+            else if (!(searchByCategory is null))
             {
-                productListVM.Products = productListVM.Products.Where(s => s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()))
-                                      .OrderByDescending(o => o.Name).ToList();
+                productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower()));
+
+                count = productListVM.Products.Count;
             }
 
-            int count = productListVM.Products.Count;
-            productListVM.Products = productListVM.Products.OrderByDescending(p => p.Id)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            const string Url = "/User/Home/Index?productPage=:";
             productListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                UrlParam = "/User/Home/Index?productPage=:"
+                UrlParam = Url
             };
+
             return View(productListVM);
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
-            ReportListVM reportListVM = new ReportListVM()
+            var reportListVM = new ReportListVM()
             {
                 Reports = await _reportService.GetAll()
             };
 
-            if (searchByProduct != null && searchByCategory != null)
+            var count = reportListVM.Reports.Count;
+
+            reportListVM.Reports = await _reportService.GetPaginated(r=>true, PageSize, productPage);
+
+            if (!(searchByProduct is null && searchByCategory is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()))
-                                        .OrderByDescending(o => o.ProductName)
-                                        .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(r => r.ProductName.ToLower()
+                                      .Contains(searchByProduct.ToLower()) && r.CategoryName.ToLower().
+                                      Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
-            else if (searchByProduct != null)
+            else if (!(searchByProduct is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower())).OrderByDescending(o => o.ProductName)
-                                     .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(r => r.ProductName.ToLower()
+                                      .Contains(searchByProduct.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
-            else if (searchByCategory != null)
+            else if (!(searchByCategory is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.CategoryName.ToLower()
-                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.ProductName)
-                                     .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(r => r.CategoryName.ToLower()
+                                      .Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
 
-            int count = reportListVM.Reports.Count;
-            reportListVM.Reports = reportListVM.Reports.OrderByDescending(p => p.Id)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            const string Url = "/User/Home/Reports?productPage=:";
 
             reportListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                UrlParam = "/User/Home/Reports?productPage=:"
+                UrlParam = Url
             };
             return View(reportListVM);
         }
@@ -126,7 +135,7 @@ namespace SupportProductsEvaluation.Web.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            ProductDetailsVM productDetailsVM = new ProductDetailsVM()
+            var productDetailsVM = new ProductDetailsVM()
             {
                 Product = product,
                 Comment = new Comment()
@@ -137,9 +146,9 @@ namespace SupportProductsEvaluation.Web.Controllers
                 },
             };
 
-            var rate = await _rateService.Get(claim.Value, id);
+            var rate = await _rateService.Get(x => x.UserId == claim.Value && x.ProductId == id);
 
-            if (rate != null)
+            if (!(rate is null))
             {
                 productDetailsVM.Rate = rate;
             }
@@ -152,17 +161,18 @@ namespace SupportProductsEvaluation.Web.Controllers
                 };
             }
 
-            int count = productDetailsVM.Product.Comments.Count;
-            productDetailsVM.Product.Comments = productDetailsVM.Product.Comments.OrderByDescending(p => p.UpdateAt)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            var count = productDetailsVM.Product.Comments.Count;
+
+            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.UserId == claim.Value && x.ProductId == id, PageSize, productPage);
+
+            string url = $"/User/Home/ProductDetails/{id}?productPage=:";
 
             productDetailsVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                UrlParam = $"/User/Home/ProductDetails/{id}?productPage=:"
+                UrlParam = url
             };
 
             return View(productDetailsVM);
@@ -171,8 +181,6 @@ namespace SupportProductsEvaluation.Web.Controllers
         [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComentToProduct(Comment comment)
         {
-
-            comment.UpdateAt = DateTime.Now;
             await _commentService.Add(comment);
 
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
@@ -184,7 +192,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             var rateEntity = await _rateService.Get(rate.Id);
 
-            if (rateEntity == null)
+            if (rateEntity is null)
             {
                 await _rateService.Create(rate);
             }
@@ -242,6 +250,7 @@ namespace SupportProductsEvaluation.Web.Controllers
                                                             p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
 
             var productDto = new { productEntity.Price, productEntity.AverageGrade, productEntity.Description };
+
             return Json(productDto);
         }
 

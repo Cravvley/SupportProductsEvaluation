@@ -24,6 +24,5 @@ namespace SupportProductsEvaluation.Infrastructure.Services.Interfaces
         Task<IList<ShopDto>> GetAllHeaders(Expression<Func<Shop, bool>> filter=null);
         
         Task<IList<ShopDto>> GetPaginatedHeaders(Expression<Func<Shop, bool>> filter = null, int pageSize = 0, int productPage = 0);
-
     }
 }

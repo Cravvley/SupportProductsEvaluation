@@ -4,6 +4,7 @@ using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
@@ -12,28 +13,30 @@ namespace SupportProductsEvaluation.Infrastructure.Services
     {
         private readonly IReportRepository _reportRepository;
         private readonly IProductRepository _productRepository;
+
         public ReportService(IReportRepository reportRepository, IProductRepository productRepository)
         {
-            _reportRepository= reportRepository;
+            _reportRepository = reportRepository;
             _productRepository = productRepository;
         }
+
         public async Task Create(Report report)
         {
 
-            if (report == null)
+            if (report is null)
             {
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            var products = await _productRepository.GetAll();
+            var products = await _productRepository.GetAll(p => true);
 
             report.UpdateAt = DateTime.Now;
             report.AvgRate = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.AverageGrade).Average();
-            report.AvgPrice= products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-              && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
-            report.MinPrice= products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
+            report.AvgPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+               && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Average();
+            report.MinPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
+                && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Min();
             report.MaxPrice = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
                 && p.SubCategory.Name == report.SubCategoryName).Select(x => x.Price).Max();
 
@@ -44,9 +47,9 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         {
             var report = await _reportRepository.Get(id);
 
-            if (report == null)
+            if (report is null)
             {
-                throw new ArgumentNullException("report doesn't exist");
+                return;
             }
 
             await _reportRepository.Delete(id);
@@ -56,7 +59,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         {
             var report = await _reportRepository.Get(id);
 
-            if (report == null)
+            if (report is null)
             {
                 throw new ArgumentNullException("report doesn't exist");
             }
@@ -64,13 +67,30 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             return report;
         }
 
-        public async Task<IList<Report>> GetAll()
-               => await _reportRepository.GetAll();
-
-        public async Task<bool> IsExist(Report report)
+        public async Task<IList<Report>> GetAll(Expression<Func<Report, bool>> filter = null)
         {
-            var reportEntity = await _reportRepository.Get(report);
-            if (reportEntity == null)
+            if (filter is null)
+            {
+                return await _reportRepository.GetAll(r => true);
+            }
+
+            return await _reportRepository.GetAll(filter);
+        }
+
+        public async Task<IList<Report>> GetPaginated(Expression<Func<Report, bool>> filter = null, int pageSize = 1, int productPage = 1)
+        {
+            if (filter is null)
+            {
+                return await _reportRepository.GetPaginated(p => true, pageSize, productPage);
+            }
+
+            return await _reportRepository.GetPaginated(filter, pageSize, productPage);
+        }
+
+        public async Task<bool> Exist(Expression<Func<Report, bool>> filter)
+        {
+            var reportEntity = await _reportRepository.Get(filter);
+            if (reportEntity is null)
             {
                 return false;
             }
@@ -79,12 +99,12 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task Update(Report report)
         {
-            if (report == null)
+            if (report is null)
             {
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            var products = await _productRepository.GetAll();
+            var products = await _productRepository.GetAll(p => true);
 
             report.UpdateAt = DateTime.Now;
             report.AvgRate = products.Where(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName

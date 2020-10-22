@@ -14,12 +14,12 @@ namespace SupportProductsEvaluation.Data.Repositories
         
         Task Update(SubCategory category);
         
-        Task<IList<SubCategory>> GetAll();
-        
-        Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter=null);
-        
         Task<SubCategory> Get(int? id);
         
-        Task<SubCategory> Get(SubCategory category);
+        Task<SubCategory> Get(Expression<Func<SubCategory, bool>> filter);
+
+        Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter);
+        
+        Task<IList<SubCategory>> GetPaginated(Expression<Func<SubCategory, bool>> filter, int pageSize = 1, int productPage = 1);
     }
 }

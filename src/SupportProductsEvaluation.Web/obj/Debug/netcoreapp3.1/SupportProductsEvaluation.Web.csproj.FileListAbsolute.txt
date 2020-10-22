@@ -998,7 +998,6 @@ C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Comparison.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Index.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\ProductDetails.cshtml.g.cs
-C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\ReportDetails.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Reports.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\TODO.cshtml.g.cs
 C:\Users\HP\Desktop\SupportProductsEvaluation\src\SupportProductsEvaluation.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\_ViewImports.cshtml.g.cs

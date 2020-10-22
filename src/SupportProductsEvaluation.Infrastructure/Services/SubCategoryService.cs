@@ -18,20 +18,22 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         }
         public async Task Create(SubCategory subCategory)
         {
-            if (subCategory == null)
+            if (subCategory is null)
             {
                 throw new ArgumentNullException("subcategory doesn't exist");
             }
+
             await _subCategoryRepository.Create(subCategory);
         }
 
         public async Task Delete(int? id)
         {
             var subCategoryEntity = await _subCategoryRepository.Get(id);
-            if (subCategoryEntity == null)
+            if (subCategoryEntity is null)
             {
-                throw new ArgumentNullException("subcategory doesn't exist");
+                return;
             }
+
             await _subCategoryRepository.Delete(id);
         }
 
@@ -42,31 +44,41 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("subcategory doesn't exist");
             }
+
             return subCategoryEntity;
         }
 
-        public async Task<IList<SubCategory>> GetAll()
-            => await _subCategoryRepository.GetAll();
-
         public async Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter = null)
         {
-            if (filter == null)
+            if (filter is null)
             {
-                throw new ArgumentNullException("filter expression is null");
+                return await _subCategoryRepository.GetAll(sc=>true);
             }
+            
             return await _subCategoryRepository.GetAll(filter);
         }
 
-        public async Task<bool> IsExist(SubCategory subCategory)
+        public async Task<IList<SubCategory>> GetPaginated(Expression<Func<SubCategory, bool>> filter = null, int pageSize = 0, int productPage = 0)
         {
-            var subCategoryEntity = await _subCategoryRepository.Get(subCategory);
+            if (filter is null)
+            {
+                return await _subCategoryRepository.GetPaginated(p => true, pageSize, productPage);
+            }
+
+            return await _subCategoryRepository.GetPaginated(filter, pageSize, productPage);
+        }
+
+        public async Task<bool> Exist(Expression<Func<SubCategory, bool>> filter)
+        {
+            var subCategoryEntity = await _subCategoryRepository.Get(filter);
             if (subCategoryEntity == null)
             {
                 return false;
             }
+
             return true;
         }
-        
+
         public async Task Update(SubCategory subCategory)
         {
             var subCategoryEntity = await _subCategoryRepository.Get(subCategory.Id);
@@ -74,6 +86,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
             {
                 throw new ArgumentNullException("subcategory doesn't exist");
             }
+
             await _subCategoryRepository.Update(subCategory);
         }
     }

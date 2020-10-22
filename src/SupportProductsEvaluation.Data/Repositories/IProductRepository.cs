@@ -9,19 +9,17 @@ namespace SupportProductsEvaluation.Data.Repositories
     public interface IProductRepository
     {
         Task Create(Product product);
-        
+
         Task Delete(int? id);
-        
+
         Task Update(Product product);
-        
-        Task<IList<Product>> GetAll();
-        
-        Task<Product> Get(string ProductName, string CategoryName, string SubCategoryName);
-        
+
         Task<Product> Get(int? id);
-        
-        Task<Product> Get(Expression<Func<Product,bool>>filter);
-        
-        Task<Product> Get(Product category);
+
+        Task<Product> Get(Expression<Func<Product, bool>> filter);
+
+        Task<IList<Product>> GetAll(Expression<Func<Product, bool>> filter);
+
+        Task<IList<Product>> GetPaginated(Expression<Func<Product, bool>> filter, int pageSize = 1, int productPage = 1);
     }
 }

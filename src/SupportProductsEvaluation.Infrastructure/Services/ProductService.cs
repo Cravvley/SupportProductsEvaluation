@@ -22,7 +22,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         }
         public async Task Create(ProductDto product)
         {
-            if (product == null)
+            if (product is null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
@@ -32,7 +32,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         public async Task Delete(int? id)
         {
             var productEntity = await _productRepository.Get(id);
-            if (productEntity == null)
+            if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
@@ -42,7 +42,7 @@ namespace SupportProductsEvaluation.Infrastructure.Services
         public async Task<Product> Get(int? id)
         {
             var productEntity = await _productRepository.Get(id);
-            if (productEntity == null)
+            if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
@@ -51,55 +51,77 @@ namespace SupportProductsEvaluation.Infrastructure.Services
 
         public async Task<Product> Get(Expression<Func<Product, bool>> filter)
                     => await _productRepository.Get(filter);
-
-        public async Task<IList<Product>> GetAllDetails()
-                => await _productRepository.GetAll();
-
-        public async Task<IList<ProductDto>> GetAllHeaders()
-        {
-            var products = await _productRepository.GetAll();
-            return _mapper.Map<IList<Product>, IList<ProductDto>>(products);
-        }
-
         public async Task<ProductDto> GetDto(int? id)
         {
             var productEntity = await _productRepository.Get(id);
-            if (productEntity == null)
+            if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
-            return _mapper.Map<Product,ProductDto>(productEntity);
+
+            return _mapper.Map<Product, ProductDto>(productEntity);
         }
 
-
-        public async Task<bool> IsExist(ProductDto product)
+        public async Task<IList<ProductDto>> GetAllHeaders(Expression<Func<Product, bool>> filter = null)
         {
-            var productyEntity = await _productRepository.Get(_mapper.Map<ProductDto, Product>(product));
-            if (productyEntity == null)
+            if (filter is null)
             {
-                return false;
+                return _mapper.Map<IList<Product>, IList<ProductDto>>(await _productRepository.GetAll(p => true));
             }
-            return true;
+
+            return _mapper.Map<IList<Product>, IList<ProductDto>>(await _productRepository.GetAll(filter));
         }
 
-        public async Task<bool> IsExist(string ProductName, string CategoryName, string SubcategoryName)
+        public async Task<IList<ProductDto>> GetPaginated(Expression<Func<Product, bool>> filter = null, int pageSize = 1, int productPage = 1)
         {
-            var productyEntity = await _productRepository.Get(ProductName,CategoryName,SubcategoryName);
-            if (productyEntity == null)
+            if (filter is null)
             {
-                return false;
+                return _mapper.Map<IList<Product>, IList<ProductDto>>(await _productRepository.GetPaginated(p => true, pageSize, productPage));
             }
-            return true;
+
+            return _mapper.Map<IList<Product>, IList<ProductDto>>(await _productRepository.GetPaginated(filter, pageSize, productPage));
+        }
+
+        public async Task<IList<Product>> GetAllDetails(Expression<Func<Product, bool>> filter = null)
+        {
+            if (filter is null)
+            {
+                return await _productRepository.GetAll(p => true);
+            }
+
+            return await _productRepository.GetAll(filter);
         }
 
         public async Task Update(ProductDto product)
         {
             var productEntity = await _productRepository.Get(product.Id);
-            if (productEntity == null)
+            if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");
             }
             await _productRepository.Update(_mapper.Map<ProductDto, Product>(product));
+        }
+
+        public async Task<bool> Exist(Expression<Func<Product, bool>> filter)
+        {
+            var productEntity = await _productRepository.Get(filter);
+            if (productEntity is null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> Exist(Expression<Func<ProductDto, bool>> filter)
+        {
+            var productEntity = await _productRepository.Get(_mapper.Map<Expression<Func<ProductDto, bool>>, Expression<Func<Product, bool>>>(filter));
+            if (productEntity is null)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

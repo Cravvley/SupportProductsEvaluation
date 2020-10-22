@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = SD.Admin)]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Roles = SD.Admin)]
     public class SubCategoryController : Controller
     {
         private readonly ISubCategoryService _subCategoryService;
         private readonly ICategoryService _categoryService;
-        private int PageSize = 5;
+
+        private const int PageSize = 5;
 
         public SubCategoryController(ISubCategoryService subCategoryService, ICategoryService categoryService)
         {
@@ -25,57 +25,64 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             _categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchByCategory = null, string searchBySubcategory= null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByCategory = null, string searchBySubcategory = null)
         {
-            SubCategoryListVM subCategoryListVM = new SubCategoryListVM()
+            var subCategoryListVM = new SubCategoryListVM()
             {
                 SubCategories = await _subCategoryService.GetAll()
             };
 
-            if(searchByCategory != null&& searchBySubcategory != null)
+            var count = subCategoryListVM.SubCategories.Count;
+
+            subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(null,PageSize,productPage);
+
+            if (!(searchByCategory is null && searchBySubcategory is null))
             {
-                subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Category.Name.ToLower()
-                                     .Contains(searchByCategory.ToLower())&& s.Name.ToLower()
-                                     .Contains(searchBySubcategory.ToLower())).OrderByDescending(o => o.Name)
-                                     .ToList();
+                subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(s => s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower()) && s.Name.ToLower()
+                                      .Contains(searchBySubcategory.ToLower()), PageSize, productPage);
+
+                count = subCategoryListVM.SubCategories.Count;
             }
 
-            else if (searchByCategory != null)
+            else if (!(searchByCategory is null))
             {
-                subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Category.Name.ToLower()
-                                     .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.Name)
-                                     .ToList();
+                subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(s => s.Category.Name.ToLower()
+                                     .Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = subCategoryListVM.SubCategories.Count;
             }
 
-            else if (searchBySubcategory != null)
+            else if (!(searchBySubcategory is null))
             {
-                subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.Where(s => s.Name.ToLower()
-                                     .Contains(searchBySubcategory.ToLower())).OrderByDescending(o => o.Name)
-                                     .ToList();
+                subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(s => s.Name.ToLower()
+                                      .Contains(searchBySubcategory.ToLower()));
+
+                count = subCategoryListVM.SubCategories.Count;
             }
 
-            int count = subCategoryListVM.SubCategories.Count;
-            subCategoryListVM.SubCategories = subCategoryListVM.SubCategories.OrderByDescending(p => p.Id)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            const string Url = "/Admin/SubCategory/Index?productPage=:";
+
             subCategoryListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                UrlParam = "/Admin/SubCategory/Index?productPage=:"
+                UrlParam = Url
             };
             return View(subCategoryListVM);
         }
 
         public async Task<IActionResult> Create()
         {
-            SubCategoryAndCategoryVM subCategoryAndCategoryVM = new SubCategoryAndCategoryVM()
+            var subCategoryAndCategoryVM = new SubCategoryAndCategoryVM()
             {
                 CategoryList = await _categoryService.GetAll(),
                 SubCategory = new SubCategory(),
             };
-            ViewBag.IsExist = false;
+
+            ViewBag.Exist = false;
+
             return View(subCategoryAndCategoryVM);
         }
 
@@ -83,103 +90,82 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SubCategoryAndCategoryVM subCategoryAndCategoryVM)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var IsExist=await _subCategoryService.IsExist(subCategoryAndCategoryVM.SubCategory);
-                if (IsExist)
+                subCategoryAndCategoryVM = new SubCategoryAndCategoryVM
                 {
-                    ViewBag.IsExist = true;
-                    subCategoryAndCategoryVM = new SubCategoryAndCategoryVM
-                    {
-                        CategoryList = await _categoryService.GetAll(),
-                        SubCategory = new SubCategory()
-                    };
-                    return View(subCategoryAndCategoryVM);
-                }
-                
-                await _subCategoryService.Create(subCategoryAndCategoryVM.SubCategory);
-                return RedirectToAction(nameof(Index));
+                    CategoryList = await _categoryService.GetAll(),
+                    SubCategory = subCategoryAndCategoryVM.SubCategory
+                };
 
+                return View(subCategoryAndCategoryVM);
             }
 
-            subCategoryAndCategoryVM = new SubCategoryAndCategoryVM
+            var exist = await _subCategoryService.Exist(sc => sc.Name.ToLower() == subCategoryAndCategoryVM.SubCategory.Name.ToLower()
+            && sc.CategoryId == subCategoryAndCategoryVM.SubCategory.CategoryId);
+
+            if (exist)
             {
-                CategoryList = await _categoryService.GetAll(),
-                SubCategory = subCategoryAndCategoryVM.SubCategory
-            };
-            
-            return View(subCategoryAndCategoryVM);
+                ViewBag.Exist = true;
+                subCategoryAndCategoryVM = new SubCategoryAndCategoryVM
+                {
+                    CategoryList = await _categoryService.GetAll(),
+                    SubCategory = new SubCategory()
+                };
+                return View(subCategoryAndCategoryVM);
+            }
+
+            await _subCategoryService.Create(subCategoryAndCategoryVM.SubCategory);
+
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var subCategory = await _subCategoryService.Get(id);
-
-            if (subCategory == null)
-            {
-                return NotFound();
-            }
-
-            SubCategoryAndCategoryVM subCategoryAndCategoryVM= new SubCategoryAndCategoryVM()
+            var subCategoryAndCategoryVM = new SubCategoryAndCategoryVM()
             {
                 CategoryList = await _categoryService.GetAll(),
-                SubCategory = subCategory,
-            };
+                SubCategory = await _subCategoryService.Get(id),
+        };
 
-            ViewBag.IsExist = false;
+            ViewBag.Exist = false;
+
             return View(subCategoryAndCategoryVM);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(SubCategoryAndCategoryVM subCategoryAndCategoryVM)
         {
-
-            SubCategoryAndCategoryVM subCategoryAndCategoryErrorVM = new SubCategoryAndCategoryVM
+            var subCategoryAndCategoryErrorVM = new SubCategoryAndCategoryVM
             {
                 CategoryList = await _categoryService.GetAll(),
                 SubCategory = subCategoryAndCategoryVM.SubCategory
             };
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var IsExist = await _subCategoryService.IsExist(subCategoryAndCategoryVM.SubCategory);
-                if (IsExist)
-                {
-                    ViewBag.IsExist = true;
-                    return View(subCategoryAndCategoryErrorVM);
-                }
-             
-                await _subCategoryService.Update(subCategoryAndCategoryVM.SubCategory);
-                return RedirectToAction(nameof(Index));
-
+                return View(subCategoryAndCategoryErrorVM);
             }
 
-            return View(subCategoryAndCategoryErrorVM);
+            var exist = await _subCategoryService.Exist(sc => sc.Name.ToLower() == subCategoryAndCategoryVM.SubCategory.Name.ToLower()
+            && sc.CategoryId == subCategoryAndCategoryVM.SubCategory.CategoryId);
+
+            if (exist)
+            {
+                ViewBag.Exist = true;
+                return View(subCategoryAndCategoryErrorVM);
+            }
+
+            await _subCategoryService.Update(subCategoryAndCategoryVM.SubCategory);
+
+            return RedirectToAction(nameof(Index));
         }
-        
+
         public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var subCategory = await _subCategoryService.Get(id);
-            if (subCategory == null)
-            {
-                return NotFound();
-            }
+            => View(await _subCategoryService.Get(id));
 
-            return View(subCategory);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _subCategoryService.Delete(id);

@@ -10,64 +10,68 @@ using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = SD.Admin)]
-    [Area("Admin")]
+    [Area("Admin"), Authorize(Roles = SD.Admin)]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
         private readonly IProductService _productService;
 
-        private int PageSize = 5;
+        private const int PageSize = 5;
         public ReportController(IReportService reportService, IProductService productService)
         {
             _reportService = reportService;
             _productService = productService;
         }
+
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
-            ReportListVM reportListVM = new ReportListVM()
+            var reportListVM = new ReportListVM()
             {
                 Reports = await _reportService.GetAll()
             };
 
-            if (searchByProduct != null && searchByCategory != null)
+            var count = reportListVM.Reports.Count;
+
+            reportListVM.Reports = await _reportService.GetPaginated(null, PageSize, productPage);
+
+            if (!(searchByProduct is null && searchByCategory is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()))
-                                        .OrderByDescending(o => o.ProductName)
-                                        .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
+                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
-            else if (searchByProduct != null)
+            else if (!(searchByProduct is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower())).OrderByDescending(o => o.ProductName)
-                                     .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
+                                      .Contains(searchByProduct.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
-            else if (searchByCategory != null)
+            else if (!(searchByCategory is null))
             {
-                reportListVM.Reports = reportListVM.Reports.Where(s => s.CategoryName.ToLower()
-                                      .Contains(searchByCategory.ToLower())).OrderByDescending(o => o.ProductName)
-                                     .ToList();
+                reportListVM.Reports = await _reportService.GetPaginated(s => s.CategoryName.ToLower()
+                                      .Contains(searchByCategory.ToLower()), PageSize, productPage);
+
+                count = reportListVM.Reports.Count;
             }
 
-            int count = reportListVM.Reports.Count;
-            reportListVM.Reports = reportListVM.Reports.OrderByDescending(p => p.Id)
-                                     .Skip((productPage - 1) * PageSize)
-                                     .Take(PageSize).ToList();
+            const string Url = "/Admin/Report/Index?productPage=:";
 
             reportListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
                 TotalItem = count,
-                UrlParam = "/Admin/Report/Index?productPage=:"
+                UrlParam = Url
             };
+
             return View(reportListVM);
         }
 
         public IActionResult Create()
         {
-            ViewBag.IsProductExist = true;
+            ViewBag.ProductExist = true;
             ViewBag.IsCopy = false;
 
 
@@ -80,116 +84,79 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCopy = await _reportService.IsExist(report);
+                var isCopy = await _reportService.Exist(r => r.ProductName == report.ProductName &&
+                                                         r.SubCategoryName == report.SubCategoryName &&
+                                                         r.CategoryName==report.CategoryName);
+
                 if (isCopy)
                 {
                     ViewBag.IsCopy = true;
-                    ViewBag.IsProductExist = true;
+                    ViewBag.productExist = true;
                     return View(report);
                 }
-                var isProductExist = await _productService.IsExist(report.ProductName, report.CategoryName, report.SubCategoryName);
-                if (!isProductExist)
+
+                var productExist = await _productService.Exist(p => p.Name.ToLower() == report.ProductName.ToLower() &&
+                                         p.Category.Name == report.CategoryName &&
+                                         p.SubCategory.Name == report.SubCategoryName);
+                if (!productExist)
                 {
                     ViewBag.IsCopy = false;
-                    ViewBag.IsProductExist = false;
+                    ViewBag.ProductExist = false;
                     return View(report);
                 }
 
                 await _reportService.Create(report);
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.IsCopy = false;
-            ViewBag.IsProductExist = true;
+            ViewBag.ProductExist = true;
+
             return View(report);
         }
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            ViewBag.ProductExist = true;
 
-            var reportEntity = await _reportService.Get(id);
-            if (reportEntity == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.IsProductExist = true;
-
-            return View(reportEntity);
+            return View(await _reportService.Get(id));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost,ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Report report)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                var isProductExist = await _productService.IsExist(report.ProductName, report.CategoryName, report.SubCategoryName);
-                if (!isProductExist)
-                {
-                    ViewBag.IsProductExist = false;
-                    return View(report);
-                }
-
-                await _reportService.Update(report);
-                return RedirectToAction(nameof(Index));
+                ViewBag.ProductExist = true;
+                return View(report);
             }
 
-            ViewBag.IsProductExist = true;
-            return View(report);
-        }
+            var productExist = await _productService.Exist(p => p.Name.ToLower() == report.ProductName.ToLower() &&
+                                     p.Category.Name == report.CategoryName &&
+                                     p.SubCategory.Name == report.SubCategoryName);
+            if (!productExist)
+            {
+                ViewBag.ProductExist = false;
+                return View(report);
+            }
 
+            await _reportService.Update(report);
+
+            return RedirectToAction(nameof(Index));
+        }
 
         public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            => View(await _reportService.Get(id));
 
-            var reportEntity = await _reportService.Get(id);
-            if (reportEntity == null)
-            {
-                return NotFound();
-            }
-
-            return View(reportEntity);
-
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var reportEntity = await _reportService.Get(id);
-            if (reportEntity == null)
-            {
-                return View();
-            }
             await _reportService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            => View(await _reportService.Get(id));
 
-            var report = await _reportService.Get(id);
-
-
-            if (report == null)
-            {
-                return NotFound();
-            }
-
-            return View(report);
-        }
     }
 }

@@ -4,6 +4,7 @@ using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -35,41 +36,32 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(sc => sc.SubCategory).Include(co => co.Comments)
                                                                .ThenInclude(u => u.User)
-                                .Include(r => r.Rates).SingleOrDefaultAsync(p => p.Id == id);
-
-        public async Task<Product> Get(string ProductName, string CategoryName, string SubCategoryName)
-                => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
-                                .Include(sc => sc.SubCategory).Include(co => co.Comments)
-                                 .ThenInclude(u => u.User).Include(r => r.Rates).FirstOrDefaultAsync(p => p.Name.ToLower() == ProductName.ToLower() &&
-                                 p.Category.Name == CategoryName &&
-                                 p.SubCategory.Name == SubCategoryName);
-
-        public async Task<Product> Get(Product product)
-                => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
-                                .Include(sc => sc.SubCategory).Include(co => co.Comments)
-                                .Include(r => r.Rates)
-                                .SingleOrDefaultAsync(p => p.Name.ToLower() == product.Name.ToLower() &&
-                                 p.CategoryId == product.CategoryId &&
-                                 p.SubCategoryId == product.SubCategoryId &&
-                                 p.ShopId == product.ShopId);
-
-        public async Task<IList<Product>> GetAll()
-                => await _db.Product.AsQueryable().Include(s => s.Shop)
-                                .Include(c => c.Category).Include(sc => sc.SubCategory)
-                                .Include(co => co.Comments).Include(r => r.Rates)
-                                .ToListAsync();
-
+                                .Include(r => r.Rates).FirstOrDefaultAsync(p => p.Id == id);
 
         public async Task Update(Product product)
         {
             var productEntity = await Get(product.Id);
+
             productEntity.Picture = product.Picture;
             productEntity.Description = product.Description;
+
             await _db.SaveChangesAsync();
+            
         }
 
         public async Task<Product> Get(Expression<Func<Product, bool>> filter)
                     => await _db.Product.Include(s => s.Shop).Include(s => s.Category).
-                    Include(s => s.SubCategory).Include(s => s.Rates).SingleOrDefaultAsync(filter);
+                    Include(s => s.SubCategory).Include(s => s.Rates).FirstOrDefaultAsync(filter);
+
+        public async Task<IList<Product>> GetAll(Expression<Func<Product, bool>> filter)
+                => await _db.Product.AsNoTracking().Include(s => s.Shop)
+                                .Include(c => c.Category).Include(sc => sc.SubCategory)
+                                .Include(co => co.Comments).Include(r => r.Rates).Where(filter).AsQueryable()
+                                .ToListAsync();
+
+        public async Task<IList<Product>> GetPaginated(Expression<Func<Product, bool>> filter, int pageSize = 1, int productPage = 1)
+         => await _db.Product.AsNoTracking().Include(s=>s.Shop).Where(filter).AsQueryable().OrderBy(p => p.Name)
+                                      .Skip((productPage - 1) * pageSize)
+                                      .Take(pageSize).ToListAsync();
     }
 }

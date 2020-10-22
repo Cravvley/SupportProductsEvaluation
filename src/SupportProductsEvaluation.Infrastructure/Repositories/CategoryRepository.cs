@@ -45,9 +45,9 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             => await _db.Category.AsNoTracking().Where(filter).OrderBy(p => p.Name).AsQueryable().ToListAsync();
 
         public async Task<IList<Category>> GetPaginated(Expression<Func<Category, bool>> filter, int pageSize = 1, int productPage = 1)
-        => await _db.Category.AsNoTracking().Where(filter).OrderBy(p => p.Name)
-                                     .Skip((productPage - 1) * pageSize)
-                                     .Take(pageSize).ToListAsync();
+             => await _db.Category.AsNoTracking().Where(filter).AsQueryable().OrderBy(p => p.Name)
+                                        .Skip((productPage - 1) * pageSize)
+                                        .Take(pageSize).ToListAsync();
 
         public async Task Update(Category category)
         {

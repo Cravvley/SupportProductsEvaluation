@@ -26,7 +26,7 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             => await _db.User.AsNoTracking().Where(filter).AsQueryable().ToListAsync();
 
         public async Task<IList<User>> GetPaginated(Expression<Func<User, bool>> filter, int pageSize = 0, int productPage = 0)
-         => await _db.User.AsNoTracking().Where(filter).OrderBy(p => p.Name)
+         => await _db.User.AsNoTracking().Where(filter).AsQueryable().OrderBy(p => p.Name)
                                      .Skip((productPage - 1) * pageSize)
                                      .Take(pageSize).ToListAsync();
 

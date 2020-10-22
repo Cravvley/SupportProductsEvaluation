@@ -2,6 +2,8 @@
 using SupportProductsEvaluation.Data;
 using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Data.Repositories;
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Repositories
@@ -22,9 +24,8 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
 
         public async Task<Rate> Get(int id)
                 => await _db.Rate.SingleOrDefaultAsync(r => r.Id== id);
-        public async Task<Rate> Get(string userId,int productId)
-                => await _db.Rate.SingleOrDefaultAsync(x => x.UserId == userId&& x.ProductId == productId);
-
+        public async Task<Rate> Get(Expression<Func<Rate,bool>>filter)
+                => await _db.Rate.FirstOrDefaultAsync(filter);
         public async Task Update(Rate rate)
         {
             var rateEntity = await Get(rate.Id); ;
