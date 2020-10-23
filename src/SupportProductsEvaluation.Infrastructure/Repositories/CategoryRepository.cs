@@ -29,7 +29,8 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
         public async Task Delete(int? id)
         {
             var category = await Get(id);
-            
+
+            _db.SubCategory.RemoveRange(_db.SubCategory.Where(x=>x.CategoryId==id));
             _db.Category.Remove(category);
 
             await _db.SaveChangesAsync();
