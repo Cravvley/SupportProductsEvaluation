@@ -34,9 +34,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             var count = subCategoryListVM.SubCategories.Count;
 
-            subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(null,PageSize,productPage);
+            subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(null, PageSize, productPage);
 
-            if (!(searchByCategory is null && searchBySubcategory is null))
+            if (!(searchByCategory is null || searchBySubcategory is null))
             {
                 subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(s => s.Category.Name.ToLower()
                                       .Contains(searchByCategory.ToLower()) && s.Name.ToLower()
@@ -56,7 +56,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             else if (!(searchBySubcategory is null))
             {
                 subCategoryListVM.SubCategories = await _subCategoryService.GetPaginated(s => s.Name.ToLower()
-                                      .Contains(searchBySubcategory.ToLower()));
+                                      .Contains(searchBySubcategory.ToLower()), PageSize, productPage);
 
                 count = subCategoryListVM.SubCategories.Count;
             }

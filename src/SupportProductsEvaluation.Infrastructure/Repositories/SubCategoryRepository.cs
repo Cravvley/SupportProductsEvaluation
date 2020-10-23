@@ -52,10 +52,10 @@ namespace SupportProductsEvaluation.Infrastructure.Repositories
             => await _db.SubCategory.Include(c => c.Category).FirstOrDefaultAsync(filter);
 
         public async Task<IList<SubCategory>> GetAll(Expression<Func<SubCategory, bool>> filter = null)
-            => await _db.SubCategory.Include(c => c.Category).Where(filter).AsQueryable().ToListAsync();
+            => await _db.SubCategory.AsNoTracking().Include(c => c.Category).Where(filter).AsQueryable().ToListAsync();
 
         public async Task<IList<SubCategory>> GetPaginated(Expression<Func<SubCategory, bool>> filter, int pageSize = 1, int productPage = 1)
-                => await _db.SubCategory.AsNoTracking().Where(filter).AsQueryable().OrderBy(p => p.Name)
+                => await _db.SubCategory.AsNoTracking().Include(c => c.Category).Where(filter).AsQueryable().OrderBy(p => p.Name)
                                         .Skip((productPage - 1) * pageSize)
                                         .Take(pageSize).ToListAsync();
     }

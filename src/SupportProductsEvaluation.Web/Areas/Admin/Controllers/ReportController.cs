@@ -34,7 +34,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             reportListVM.Reports = await _reportService.GetPaginated(null, PageSize, productPage);
 
-            if (!(searchByProduct is null && searchByCategory is null))
+            if (!(searchByProduct is null || searchByCategory is null))
             {
                 reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
                                       .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()), PageSize, productPage);

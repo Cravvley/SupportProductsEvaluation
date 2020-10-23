@@ -13,7 +13,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly IShopService _shopService;
-       
+
         private const int PageSize = 5;
 
         public ShopController(IShopService shopService)
@@ -31,26 +31,26 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             var count = shopListVM.Shops.Count;
 
-            shopListVM.Shops = await _shopService.GetPaginatedHeaders(s=>true,PageSize,productPage);
+            shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => true, PageSize, productPage);
 
-            if (searchByShop!= null & searchByCity != null)
+            if (!(searchByShop is null || searchByCity is null))
             {
                 shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower()
                                     .Contains(searchByShop.ToLower()) && s.City.ToLower()
-                                    .Contains(searchByCity.ToLower()));
-        
+                                    .Contains(searchByCity.ToLower()), PageSize, productPage);
+
                 count = shopListVM.Shops.Count;
             }
-            else if (searchByShop!= null)
+            else if (!(searchByShop is null))
             {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower().Contains(searchByShop.ToLower()),PageSize, productPage);
-                
+                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower().Contains(searchByShop.ToLower()), PageSize, productPage);
+
                 count = shopListVM.Shops.Count;
             }
-            else if (searchByCity != null)
+            else if (!(searchByCity is null))
             {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.City.ToLower().Contains(searchByCity.ToLower()),PageSize, productPage);
-                
+                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.City.ToLower().Contains(searchByCity.ToLower()), PageSize, productPage);
+
                 count = shopListVM.Shops.Count;
             }
 
@@ -73,7 +73,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Shop shop)
         {
             if (!ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             if (exist)
             {
                 ViewBag.Exist = true;
-                
+
                 return View(shop);
             }
 
@@ -104,7 +104,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(await _shopService.Get(id));
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Shop shop)
         {
             if (!ModelState.IsValid)
@@ -118,7 +118,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             if (exist)
             {
                 ViewBag.Exist = true;
-                
+
                 return View(shop);
             }
 
@@ -133,7 +133,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int? id)
                 => View(await _shopService.Get(id));
 
-        [HttpPost, ActionName("Delete"),ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _shopService.Delete(id);

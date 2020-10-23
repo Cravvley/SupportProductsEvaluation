@@ -42,7 +42,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
 
-            if (!(searchByProduct is null && searchByCategory is null))
+            if (!(searchByProduct is null || searchByCategory is null))
             {
                 productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                         .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
@@ -163,7 +163,7 @@ namespace SupportProductsEvaluation.Web.Controllers
 
             var count = productDetailsVM.Product.Comments.Count;
 
-            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.UserId == claim.Value && x.ProductId == id, PageSize, productPage);
+            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x=>x.ProductId == id, PageSize, productPage);
 
             string url = $"/User/Home/ProductDetails/{id}?productPage=:";
 

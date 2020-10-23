@@ -40,7 +40,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 
             productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
 
-            if (!(searchByProduct is null && searchByCategory is null))
+            if (!(searchByProduct is null || searchByCategory is null))
             {
                 productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                       .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()

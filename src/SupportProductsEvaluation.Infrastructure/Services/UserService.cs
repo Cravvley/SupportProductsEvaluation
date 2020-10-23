@@ -1,12 +1,10 @@
-﻿using AutoMapper.Configuration;
-using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using SupportProductsEvaluation.Data.Entities;
 using SupportProductsEvaluation.Data.Repositories;
 using SupportProductsEvaluation.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace SupportProductsEvaluation.Infrastructure.Services
