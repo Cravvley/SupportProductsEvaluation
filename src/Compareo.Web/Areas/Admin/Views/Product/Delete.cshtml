@@ -1,0 +1,51 @@
+﻿@model Compareo.Infrastructure.DTOs.ProductDto
+
+@{
+    ViewData["Title"] = "Delete product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h1 class="text-danger mb-5">Delete Product</h1>
+<br />
+
+<form method="post" asp-action="Delete">
+    <div class=" font-weight-bold text-info">
+        <div class="form-group row ">
+            <div class="col-2">
+                <label asp-for="Name" class="col-form-label">Product name</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Name" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="ShopId" class="col-form-label">Product shop location</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Shop.Name" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CategoryId" class="col-form-label"> Product category</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Category.Name" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="SubCategoryId" class="col-form-label">Product subategory</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="SubCategory.Name" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-5 mt-5 offset-2">
+                <partial name="_DeleteAndBackToListButton" model="Model.Id" />
+            </div>
+        </div>
+    </div>
+</form>
