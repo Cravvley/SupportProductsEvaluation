@@ -1,1 +1,1 @@
-Application written in .net core for support products evaluation and products comparison.
+Application written in .net core for support products evaluation and comparison.
