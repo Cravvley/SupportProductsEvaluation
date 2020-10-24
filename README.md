@@ -1,1 +1,1 @@
-Application written in .net core for bachalors degree for support products evaluation.
+Application written in .net core for support products evaluation and products comparison.
