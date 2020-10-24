@@ -23,7 +23,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, int? searchByCategory = null)
         {
             var reportListVM = new ReportListVM()
             {
@@ -37,7 +37,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             if (!(searchByProduct is null || searchByCategory is null))
             {
                 reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.CategoryName.ToLower().Contains(searchByCategory.ToLower()), PageSize, productPage);
+                                      .Contains(searchByProduct.ToLower()) && s.CategoryId==searchByCategory, PageSize, productPage);
 
                 count = reportListVM.Reports.Count;
             }
@@ -50,8 +50,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             }
             else if (!(searchByCategory is null))
             {
-                reportListVM.Reports = await _reportService.GetPaginated(s => s.CategoryName.ToLower()
-                                      .Contains(searchByCategory.ToLower()), PageSize, productPage);
+                reportListVM.Reports = await _reportService.GetPaginated(s => s.CategoryId==searchByCategory, PageSize, productPage);
 
                 count = reportListVM.Reports.Count;
             }
@@ -84,9 +83,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCopy = await _reportService.Exist(r => r.ProductName == report.ProductName &&
-                                                         r.SubCategoryName == report.SubCategoryName &&
-                                                         r.CategoryName==report.CategoryName);
+                var isCopy = await _reportService.Exist(r => r.ProductName == report.ProductName && r.CategoryId==report.CategoryId);
 
                 if (isCopy)
                 {
@@ -96,8 +93,8 @@ namespace Compareo.Web.Areas.Admin.Controllers
                 }
 
                 var productExist = await _productService.Exist(p => p.Name.ToLower() == report.ProductName.ToLower() &&
-                                         p.Category.Name == report.CategoryName &&
-                                         p.SubCategory.Name == report.SubCategoryName);
+                                         p.Category.Id == report.CategoryId);
+                                         
                 if (!productExist)
                 {
                     ViewBag.IsCopy = false;
@@ -132,8 +129,8 @@ namespace Compareo.Web.Areas.Admin.Controllers
             }
 
             var productExist = await _productService.Exist(p => p.Name.ToLower() == report.ProductName.ToLower() &&
-                                     p.Category.Name == report.CategoryName &&
-                                     p.SubCategory.Name == report.SubCategoryName);
+                                     p.Category.Id == report.CategoryId);
+                                     
             if (!productExist)
             {
                 ViewBag.ProductExist = false;

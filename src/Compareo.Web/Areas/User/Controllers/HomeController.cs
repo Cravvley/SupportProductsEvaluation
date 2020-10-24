@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Compareo.Data.Entities;
+﻿using Compareo.Data.Entities;
 using Compareo.Infrastructure.Pagination;
 using Compareo.Infrastructure.Services.Interfaces;
 using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
-using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -80,7 +79,7 @@ namespace Compareo.Web.Controllers
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
+        public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, int? searchByCategory = null)
         {
             var reportListVM = new ReportListVM()
             {
@@ -89,13 +88,12 @@ namespace Compareo.Web.Controllers
 
             var count = reportListVM.Reports.Count;
 
-            reportListVM.Reports = await _reportService.GetPaginated(r=>true, PageSize, productPage);
+            reportListVM.Reports = await _reportService.GetPaginated(r => true, PageSize, productPage);
 
             if (!(searchByProduct is null && searchByCategory is null))
             {
                 reportListVM.Reports = await _reportService.GetPaginated(r => r.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && r.CategoryName.ToLower().
-                                      Contains(searchByCategory.ToLower()), PageSize, productPage);
+                                      .Contains(searchByProduct.ToLower()) && r.CategoryId == searchByCategory, PageSize, productPage);
 
                 count = reportListVM.Reports.Count;
             }
@@ -108,8 +106,7 @@ namespace Compareo.Web.Controllers
             }
             else if (!(searchByCategory is null))
             {
-                reportListVM.Reports = await _reportService.GetPaginated(r => r.CategoryName.ToLower()
-                                      .Contains(searchByCategory.ToLower()), PageSize, productPage);
+                reportListVM.Reports = await _reportService.GetPaginated(r => r.CategoryId == searchByCategory, PageSize, productPage);
 
                 count = reportListVM.Reports.Count;
             }
@@ -163,7 +160,7 @@ namespace Compareo.Web.Controllers
 
             var count = productDetailsVM.Product.Comments.Count;
 
-            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x=>x.ProductId == id, PageSize, productPage);
+            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.ProductId == id, PageSize, productPage);
 
             string url = $"/User/Home/ProductDetails/{id}?productPage=:";
 
@@ -213,41 +210,42 @@ namespace Compareo.Web.Controllers
         public async Task<IActionResult> Comparison()
         {
             var productEntities = await _productService.GetAllHeaders();
-            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryName = x.Category.Name, SubCategoryName = x.SubCategory.Name })
+            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryId = x.Category.Id })
                                                 .Distinct();
 
             ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
             {
-                Text = $"Product: {p.ProductName}, Category: {p.CategoryName}, Subcategory: {p.SubCategoryName}",
-                Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryName={p.CategoryName}&subCategoryName={p.SubCategoryName}"
+                Text = $"Product: {p.ProductName}, Category: {p.CategoryId}",
+                Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryId={p.CategoryId}"
             }), "Url", "Text");
 
             return View();
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        public async Task<IActionResult> ProductsLocalization(string productName = null, string categoryName = null, string subCategoryName = null)
+        public async Task<IActionResult> ProductsLocalization(string productName = null, int? categoryId = null)
         {
             var products = await _productService.GetAllHeaders();
 
-            var localizationList = products.Where(x => x.Name == productName && x.Category.Name == categoryName && x.SubCategory.Name == subCategoryName)
+            var localizationList = products.Where(x => x.Name == productName && x.Category.Id == categoryId)
                                             .Select(p => new { p.Shop.Name, p.Shop.Country, p.Shop.PostalCode, p.Shop.StreetAddress, p.Shop.City }).ToList();
 
             var lolcalizationSelectList = new SelectList(localizationList.Select(s => new
             {
                 Text = $"Shop: {s.Name}, Country: {s.Country},City: {s.City},Street: {s.StreetAddress},PostalCode: {s.PostalCode}",
-                Url = $"User/Home/ProductByShop?productName={productName}&categoryName={categoryName}&subCategoryName={subCategoryName}&shopName={s.Name}&country={s.Country}&city={s.City}&street={s.StreetAddress}&postalCode={s.PostalCode}"
+                Url = $"User/Home/ProductByShop?productName={productName}&categoryId={categoryId}&shopName={s.Name}&country={s.Country}&city={s.City}&street={s.StreetAddress}&postalCode={s.PostalCode}"
             }), "Url", "Text"); ;
 
             return Json(lolcalizationSelectList);
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        public async Task<IActionResult> ProductByShop(string productName = null, string categoryName = null, string subCategoryName = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
+        public async Task<IActionResult> ProductByShop(string productName = null, int? categoryId = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
         {
-            var productEntity = await _productService.Get(p => p.Name == productName && p.Category.Name == categoryName && p.SubCategory.Name == subCategoryName
-                                                            && p.Shop.Name == shopName && p.Shop.Country == country && p.Shop.City == city &&
-                                                            p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
+            var productEntity = await _productService.Get(p => p.Name == productName && p.Category.Id == categoryId
+                                                            && p.Shop.Name == shopName && p.Shop.Country == country && p.Shop.City == city
+                                                            && p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
+
 
             var productDto = new { productEntity.Price, productEntity.AverageGrade, productEntity.Description };
 

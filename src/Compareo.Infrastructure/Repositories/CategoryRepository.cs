@@ -30,14 +30,14 @@ namespace Compareo.Infrastructure.Repositories
         {
             var category = await Get(id);
 
-            _db.SubCategory.RemoveRange(_db.SubCategory.Where(x=>x.CategoryId==id));
             _db.Category.Remove(category);
 
             await _db.SaveChangesAsync();
         }
 
         public async Task<Category> Get(int? id)
-            => await _db.Category.SingleOrDefaultAsync(s => s.Id == id);
+            => await _db.Category.Include(s=>s.ChildrenCategories).Include(c=>c.ParentCategory)
+                      .SingleOrDefaultAsync(s => s.Id == id);
 
         public async Task<Category> Get(Expression<Func<Category, bool>> filter)
             => await _db.Category.FirstOrDefaultAsync(filter);

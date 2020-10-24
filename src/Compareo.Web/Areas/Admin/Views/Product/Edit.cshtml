@@ -61,14 +61,6 @@
     </div>
     <div class="form-group row">
         <div class="col-2">
-            <label asp-for="Product.SubCategoryId" class="col-form-label font-weight-bold text-info">Product subcategory:</label>
-        </div>
-        <div class="col-5">
-            <select asp-for="@Model.Product.SubCategoryId" disabled name="SubCategoryId" id="SubCategoryId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-2">
             <label asp-for="Product.ShopId" class="col-form-label font-weight-bold text-info">Product shop:</label>
         </div>
         <div class="col-5">
@@ -83,27 +75,6 @@
 </form>
 
 @section Scripts{
-
-    <script type="text/javascript">
-        $(document).ready(()=> {
-            getSubCategory();
-            $('#CategoryId').change(()=> {
-                getSubCategory();
-            });
-        });
-         const getSubCategory=()=> {
-            const url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategoryByCategory";
-            const soruce = '#CategoryId';
-            $.getJSON(url, { id: $(soruce).val() }, data=> {
-                let items = '';
-                $('#SubCategoryId').empty();
-                $.each(data, (i, subcategory)=> {
-                    items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
-                });
-                $('#SubCategoryId').html(items);
-            })
-        }
-    </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

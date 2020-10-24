@@ -1,3 +1,10 @@
+using Compareo.Data;
+using Compareo.Data.Repositories;
+using Compareo.Infrastructure.Common.Options;
+using Compareo.Infrastructure.Mappers;
+using Compareo.Infrastructure.Repositories;
+using Compareo.Infrastructure.Services;
+using Compareo.Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -6,13 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Compareo.Data;
-using Compareo.Data.Repositories;
-using Compareo.Infrastructure.Common.Options;
-using Compareo.Infrastructure.Mappers;
-using Compareo.Infrastructure.Repositories;
-using Compareo.Infrastructure.Services;
-using Compareo.Infrastructure.Services.Interfaces;
 using System;
 using System.Globalization;
 using System.Net;
@@ -35,7 +35,7 @@ namespace Compareo.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>(options=>options.SignIn.RequireConfirmedAccount=true)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
@@ -69,8 +69,6 @@ namespace Compareo.Web
             services.AddScoped<IShopService, ShopService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
-            services.AddScoped<ISubCategoryService, SubCategoryService>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IReportRepository, ReportRepository>();
@@ -81,9 +79,6 @@ namespace Compareo.Web
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Compareo.Data.Entities
 {
@@ -10,13 +11,13 @@ namespace Compareo.Data.Entities
 
         [Required,Display(Name = "Product name")]
         public string ProductName { get; set; }
-       
-        [Required,Display(Name = "Category name")]
-        public string CategoryName { get; set; }
-        
-        [Required,Display(Name = "Subcategory name")]
-        public string SubCategoryName { get; set; }
-        
+
+        [Display(Name = "Category")]
+        public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public virtual Category Category { get; set; }
+
         [Required]
         public double AvgPrice { get; set; }
         

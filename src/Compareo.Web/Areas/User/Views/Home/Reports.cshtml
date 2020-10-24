@@ -35,10 +35,7 @@
                             @Html.DisplayFor(m => item.ProductName)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.CategoryName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.SubCategoryName)
+                            @Html.DisplayFor(m => item.Category.Name)
                         </td>
                         <td>
                             <a class="btn btn-info text-white mr-2 reportDetail" data-id="@item.Id" data-toggle="modal">

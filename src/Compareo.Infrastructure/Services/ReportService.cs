@@ -3,7 +3,6 @@ using Compareo.Data.Repositories;
 using Compareo.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -30,17 +29,13 @@ namespace Compareo.Infrastructure.Services
 
             report.UpdateAt = DateTime.Now;
 
-            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-              && p.SubCategory.Name == report.SubCategoryName);
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-               && p.SubCategory.Name == report.SubCategoryName);
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName);
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName);
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
             await _reportRepository.Create(report);
         }
@@ -108,17 +103,13 @@ namespace Compareo.Infrastructure.Services
 
             report.UpdateAt = DateTime.Now;
 
-            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-              && p.SubCategory.Name == report.SubCategoryName);
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-               && p.SubCategory.Name == report.SubCategoryName);
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName);
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
-            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Name == report.CategoryName
-                && p.SubCategory.Name == report.SubCategoryName);
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
 
             await _reportRepository.Update(report);
         }

@@ -444,10 +444,6 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Area
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\Details.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\Edit.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\Index.cshtml.g.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\SubCategory\Create.cshtml.g.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\SubCategory\Delete.cshtml.g.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\SubCategory\Edit.cshtml.g.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\SubCategory\Index.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\User\Index.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\_ViewImports.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\_ViewStart.cshtml.g.cs
@@ -525,3 +521,4 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\staticweba
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.Web.dll
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.Web.pdb
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.Web.genruntimeconfig.cache
+C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Details.cshtml.g.cs

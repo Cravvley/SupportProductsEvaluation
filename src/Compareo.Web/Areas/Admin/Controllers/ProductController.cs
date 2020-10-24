@@ -17,15 +17,13 @@ namespace Compareo.Web.Areas.Admin.Controllers
         private readonly IProductService _productService;
         private readonly IShopService _shopService;
         private readonly ICategoryService _categoryService;
-        private readonly ISubCategoryService _subCategoryService;
 
         private const int PageSize = 5;
-        public ProductController(IProductService productService, IShopService shopService, ICategoryService categoryService, ISubCategoryService subCategoryService)
+        public ProductController(IProductService productService, IShopService shopService, ICategoryService categoryService)
         {
             _productService = productService;
             _shopService = shopService;
             _categoryService = categoryService;
-            _subCategoryService = subCategoryService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
@@ -110,12 +108,9 @@ namespace Compareo.Web.Areas.Admin.Controllers
                 return View(productCreateEditVMError);
             }
 
-            productCreateEditVM.Product.SubCategoryId = Convert.ToInt32(Request.Form["SubCategoryId"].ToString());
-
             var exist = await _productService.Exist(p => p.Name.ToLower() == productCreateEditVM.Product.Name.ToLower() &&
-                                 p.CategoryId == productCreateEditVM.Product.CategoryId &&
-                                 p.SubCategoryId == productCreateEditVM.Product.SubCategoryId &&
-                                 p.ShopId == productCreateEditVM.Product.ShopId);
+                                 p.CategoryId == productCreateEditVM.Product.CategoryId
+                                 && p.ShopId == productCreateEditVM.Product.ShopId);
 
             if (exist)
             {

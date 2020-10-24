@@ -26,9 +26,6 @@
                         <th>
                             Category Name
                         </th>
-                        <th>
-                            Subcategory Name
-                        </th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -40,10 +37,7 @@
                             @Html.DisplayFor(m => item.ProductName)
                         </td>
                         <td>
-                            @Html.DisplayFor(m => item.CategoryName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(m => item.SubCategoryName)
+                            @Html.DisplayFor(m => item.Category.Name)
                         </td>
                         <td>
                             <partial name="_TableButtonPartial" model="item.Id" />

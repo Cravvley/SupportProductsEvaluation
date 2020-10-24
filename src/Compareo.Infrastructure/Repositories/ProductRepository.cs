@@ -34,9 +34,9 @@ namespace Compareo.Infrastructure.Repositories
 
         public async Task<Product> Get(int? id)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
-                                .Include(sc => sc.SubCategory).Include(co => co.Comments)
-                                                               .ThenInclude(u => u.User)
+                                .Include(co => co.Comments).ThenInclude(u => u.User)
                                 .Include(r => r.Rates).FirstOrDefaultAsync(p => p.Id == id);
+
 
         public async Task Update(Product product)
         {
@@ -50,12 +50,12 @@ namespace Compareo.Infrastructure.Repositories
         }
 
         public async Task<Product> Get(Expression<Func<Product, bool>> filter)
-                    => await _db.Product.Include(s => s.Shop).Include(s => s.Category).
-                    Include(s => s.SubCategory).Include(s => s.Rates).FirstOrDefaultAsync(filter);
+                    => await _db.Product.Include(s => s.Shop).Include(s => s.Category)
+                    .Include(s => s.Rates).FirstOrDefaultAsync(filter);
 
         public async Task<IList<Product>> GetAll(Expression<Func<Product, bool>> filter)
                 => await _db.Product.AsNoTracking().Include(s => s.Shop)
-                                .Include(c => c.Category).Include(sc => sc.SubCategory)
+                                .Include(c => c.Category)
                                 .Include(co => co.Comments).Include(r => r.Rates).Where(filter).AsQueryable()
                                 .ToListAsync();
 
