@@ -490,7 +490,6 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Area
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Index.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\ProductDetails.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\Reports.cshtml.g.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\Home\TODO.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\_ViewImports.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\User\Views\_ViewStart.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs

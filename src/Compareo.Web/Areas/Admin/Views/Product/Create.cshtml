@@ -16,6 +16,7 @@
 }
 <form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="font-weight-bold text-info">
+        <input type="hidden" asp-for="Product.CategoryId" id="categoryId" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <div class="col-2">
@@ -57,10 +58,10 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.CategoryId" class="col-form-label ">Product category:</label>
+                <label for="Category" class="col-form-label ">Product category:</label>
             </div>
             <div class="col-5">
-                <select asp-for="@Model.Product.CategoryId" id="CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.Product.CategoryId)" class="form-control"></select>
+                <input type="search" id="Category" placeholder="Select"/>
             </div>
         </div>
         <div class="form-group row">
@@ -82,4 +83,27 @@
 @section Scripts{
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/comboTreePlugin.js"></script>
+    <script>
+
+        const url = "/Admin/Category/GetCategories";
+
+        $(document).ready(() => {
+            $.getJSON(url, data => {
+
+                const instance = $('#Category').comboTree({
+                    source: data,
+                    selected: ['0'],
+                    isMultiple:false
+                });
+
+                $('#Category').change(() => {
+                    let ids = instance.getSelectedIds();
+                    $("#categoryId").val(ids[0]);
+                });
+            })
+        })
+
+    </script>
 }

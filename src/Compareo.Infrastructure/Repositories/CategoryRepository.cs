@@ -29,7 +29,7 @@ namespace Compareo.Infrastructure.Repositories
         public async Task Delete(int? id)
         {
             var category = await Get(id);
-
+            _db.Category.RemoveRange(_db.Category.Where(x => x.ParentCategoryId== id));
             _db.Category.Remove(category);
 
             await _db.SaveChangesAsync();

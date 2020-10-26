@@ -17,37 +17,31 @@
             </p>
         </div>
     </div>
-    <div>
-        <div class="col-5">
-        </div>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Name" class="col-form-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="Name" disabled class="form-control" />
-            </div>
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-        <div class="form-group row mt-4 ">
-            <div class="col-4">
-                <input type="submit" class="btn btn-info form-control" asp-route-id="@Model.Id" value="Update" />
-            </div>
-            @if (@Model.ParentCategoryId is null)
-            {
-                <div class="col-4">
-                    <a asp-action="Index" class="btn btn-success form-control">Back</a>
-                </div>
-            }
-            else
-            {
-                <div class="col-4">
-                    <a asp-action="Details" asp-route-id="@Model.ParentCategoryId" class="btn btn-success form-control">Back</a>
-                </div>
-            }
-        </div>
+    <div class="col-5">
     </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group row">
+        <div class="col-2">
+            <label asp-for="Name" class="col-form-label"></label>
+        </div>
+        <div class="col-5">
+            <input asp-for="Name" disabled class="form-control" />
+        </div>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <br />
+    @if (@Model.ParentCategoryId is null)
+    {
+        <div class="col-4">
+            <a asp-action="Index" class="btn btn-success form-control">Back</a>
+        </div>
+    }
+    else
+    {
+        <div class="col-4">
+            <a asp-action="Details" asp-route-id="@Model.ParentCategoryId" class="btn btn-success form-control">Back</a>
+        </div>
+    }
 </form>
 <br />
 <br />

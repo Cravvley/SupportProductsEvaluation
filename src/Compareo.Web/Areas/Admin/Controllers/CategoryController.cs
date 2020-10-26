@@ -1,4 +1,5 @@
 ﻿using Compareo.Data.Entities;
+using Compareo.Infrastructure.Extensions;
 using Compareo.Infrastructure.Pagination;
 using Compareo.Infrastructure.Services.Interfaces;
 using Compareo.Infrastructure.Utility;
@@ -48,7 +49,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 TotalItem = count,
                 UrlParam = Url
             };
-            
+
             return View(categoryListVM);
         }
 
@@ -57,11 +58,11 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             ViewBag.Exist = false;
 
             var category = new Category();
-            
+
             ViewBag.Title = "Category";
 
             if (!(id is null))
-            {   
+            {
                 category.ParentCategoryId = id;
                 ViewBag.Title = "Subcategory";
             }
@@ -69,25 +70,25 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             return View(category);
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
+
+            ViewBag.Title = "category";
+
+            if (!(category.ParentCategoryId is null))
+            {
+                ViewBag.Title = "subcategory";
+
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(category);
             }
 
-            ViewBag.Title = "category";
             var exist = await _categoryService.Exist(c => c.Name.ToLower() == category.Name.ToLower()
-                                &&c.ParentCategoryId==category.ParentCategoryId);
-
-            if (!(category.ParentCategoryId is null))
-            {
-                exist = await _categoryService.Exist(c => c.Name.ToLower() == category.Name.ToLower()
-                                           && c.ParentCategoryId == category.ParentCategoryId);
-
-                ViewBag.Title = "subcategory";
-            }
+                                && c.ParentCategoryId == category.ParentCategoryId);
 
             if (exist)
             {
@@ -98,9 +99,9 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             category.Id = 0;
             await _categoryService.Create(category);
 
-            if(!(category.ParentCategoryId is null))
+            if (!(category.ParentCategoryId is null))
             {
-                return RedirectToAction($"Details",new { id=category.ParentCategoryId});
+                return RedirectToAction($"Details", new { id = category.ParentCategoryId });
             }
 
             return RedirectToAction(nameof(Index));
@@ -114,11 +115,11 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             var categoryEntity = await _categoryService.Get(id);
 
             ViewBag.Exist = false;
-            
+
             return View(categoryEntity);
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
         {
             if (!ModelState.IsValid)
@@ -147,6 +148,13 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             await _categoryService.Delete(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> GetCategories()
+        {
+            var categories = await _categoryService.GetAll();
+            var trees = categories.BuildTrees();
+            return Json(trees);
         }
     }
 }

@@ -155,13 +155,12 @@
 
         $(() => {
             $(".reportDetail").click(function () {
+
                 const $modalContent = $(`#reportModalContent`);
                 const $buttonClicked = $(this);
                 const id = $buttonClicked.attr('data-id');
                 const URL = `/User/Home/ReportDetails/${id}`;
-                console.log(id);
-                console.log(URL);
-                console.log("test");
+
                 $.ajax({
                     type: "GET",
                     url: URL,

@@ -24,6 +24,8 @@ namespace Compareo.Data.Entities
         [Required]
         public string Country { get; set; }
 
+        public string AdditionalInformation { get; set; }
+
         [Display(Name = "User Name")]
         public string UserId { get; set; }
 

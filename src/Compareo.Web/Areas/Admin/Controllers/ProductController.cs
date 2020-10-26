@@ -84,7 +84,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
             var productCreateEditVMError = new ProductCreateEditVM()
             {
                 Product = new ProductDto(),
-                CategoryList = await _categoryService.GetAll(),
                 ShopList = await _shopService.GetAllDetails()
             };
 
@@ -98,7 +97,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
             var productCreateEditVMError = new ProductCreateEditVM()
             {
                 Product = productCreateEditVM.Product,
-                CategoryList = await _categoryService.GetAll(),
                 ShopList = await _shopService.GetAllDetails()
             };
 
@@ -132,7 +130,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
                 }
                 productCreateEditVM.Product.Picture = p1;
             }
-
+            
             await _productService.Create(productCreateEditVM.Product);
             return RedirectToAction(nameof(Index));
         }
@@ -156,7 +154,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
             var productCreateEditVM = new ProductCreateEditVM()
             {
                 Product = await _productService.GetDto(id),
-                CategoryList = await _categoryService.GetAll(),
                 ShopList = await _shopService.GetAllDetails()
             };
 
