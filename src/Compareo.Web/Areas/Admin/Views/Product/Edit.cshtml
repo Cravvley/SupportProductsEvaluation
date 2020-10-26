@@ -12,6 +12,7 @@
 
 <form method="post" asp-action="Edit" enctype="multipart/form-data">
     <input type="hidden" asp-for="Product.Id" />
+    <input type="hidden" asp-for="Product.CategoryId" id="categoryId" />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group row">
         <div class="col-2">
@@ -56,7 +57,7 @@
             <label asp-for="Product.CategoryId" class="col-form-label font-weight-bold text-info">Product category:</label>
         </div>
         <div class="col-5">
-            <input asp-for="@Model.Product.Name"  disabled id="CategoryId"  class="form-control" > 
+            <input asp-for="@Model.Product.Name" disabled id="CategoryId" class="form-control">
         </div>
     </div>
     <div class="form-group row">
@@ -77,4 +78,27 @@
 @section Scripts{
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/comboTreePlugin.js"></script>
+    <script>
+
+        const url = "/Admin/Category/GetCategories";
+
+        $(document).ready(() => {
+            $.getJSON(url, data => {
+                $("#categoryId").val(@Model.Product.CategoryId);
+                const instance = $('#Category').comboTree({
+                    source: data,
+                    selected: ['0'],
+                    isMultiple: false
+                });
+
+                $('#Category').change(() => {
+                    let ids = instance.getSelectedIds();
+                    $("#categoryId").val(ids[0]);
+                });
+            })
+        })
+
+    </script>
 }

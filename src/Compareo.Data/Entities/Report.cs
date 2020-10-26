@@ -12,7 +12,7 @@ namespace Compareo.Data.Entities
         [Required,Display(Name = "Product name")]
         public string ProductName { get; set; }
 
-        [Display(Name = "Category")]
+        [Required,Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]

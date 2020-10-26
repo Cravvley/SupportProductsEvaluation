@@ -61,7 +61,7 @@
                 <label for="Category" class="col-form-label ">Product category:</label>
             </div>
             <div class="col-5">
-                <input type="search" id="Category" placeholder="Select"/>
+                <input type="text" autocomplete="off" id="Category" placeholder="Select" />
             </div>
         </div>
         <div class="form-group row">
@@ -91,6 +91,7 @@
 
         $(document).ready(() => {
             $.getJSON(url, data => {
+                $("#categoryId").val(data[0].id);
 
                 const instance = $('#Category').comboTree({
                     source: data,
@@ -102,6 +103,7 @@
                     let ids = instance.getSelectedIds();
                     $("#categoryId").val(ids[0]);
                 });
+                
             })
         })
 

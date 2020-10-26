@@ -73,7 +73,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
             ViewBag.ProductExist = true;
             ViewBag.IsCopy = false;
 
-
             return View();
         }
 

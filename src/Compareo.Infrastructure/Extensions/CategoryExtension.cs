@@ -1,9 +1,7 @@
 ﻿using Compareo.Data.Entities;
 using Compareo.Infrastructure.DTOs;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Compareo.Infrastructure.Extensions
 {

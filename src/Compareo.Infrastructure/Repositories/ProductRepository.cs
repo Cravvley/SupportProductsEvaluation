@@ -65,10 +65,10 @@ namespace Compareo.Infrastructure.Repositories
                                       .Take(pageSize).ToListAsync();
 
         public async Task<double> GetMaxPrice(Expression<Func<Product, bool>> filter)
-            => await _db.Product.Where(filter).Select(p => p.Price).MaxAsync();
+            => await _db.Product.Include(x=>x.Category).Where(filter).Select(p => p.Price).MaxAsync();
 
         public async Task<double> GetMinPrice(Expression<Func<Product, bool>> filter)
-            => await _db.Product.Where(filter).Select(p => p.Price).MinAsync();
+            => await _db.Product.Include(x => x.Category).Where(filter).Select(p => p.Price).MinAsync();
 
         public async Task<double> GetAvgGrade(Expression<Func<Product, bool>> filter)
         {
@@ -77,6 +77,6 @@ namespace Compareo.Infrastructure.Repositories
         }
                
         public async Task<double> GetAvgPrice(Expression<Func<Product, bool>> filter)
-                => await _db.Product.Where(filter).Select(p => p.Price).AverageAsync();
+                => await _db.Product.Include(x => x.Category).Where(filter).Select(p => p.Price).AverageAsync();
     }
 }

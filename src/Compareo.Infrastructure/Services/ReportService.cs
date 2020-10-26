@@ -29,13 +29,13 @@ namespace Compareo.Infrastructure.Services
 
             report.UpdateAt = DateTime.Now;
 
-            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
             await _reportRepository.Create(report);
         }
@@ -103,13 +103,13 @@ namespace Compareo.Infrastructure.Services
 
             report.UpdateAt = DateTime.Now;
 
-            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.AvgPrice = await _productRepository.GetAvgPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.MinPrice = await _productRepository.GetMinPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
-            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name == report.ProductName && p.Category.Id == report.Category.Id);
+            report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
             await _reportRepository.Update(report);
         }
