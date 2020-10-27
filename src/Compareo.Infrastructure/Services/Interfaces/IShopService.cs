@@ -18,7 +18,9 @@ namespace Compareo.Infrastructure.Services.Interfaces
         Task<Shop> Get(int? id);
 
         Task<bool> Exist(Expression<Func<Shop, bool>> filter);
-        
+
+        Task AcceptProposition(ShopProposition shopProposition);
+
         Task<IList<Shop>> GetAllDetails(Expression<Func<Shop,bool>>filter=null);
         
         Task<IList<ShopDto>> GetAllHeaders(Expression<Func<Shop, bool>> filter=null);

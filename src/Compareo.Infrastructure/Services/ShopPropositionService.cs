@@ -50,14 +50,10 @@ namespace Compareo.Infrastructure.Services
             return shopPropositionEntity;
         }
 
-        public async Task<IList<ShopProposition>> GetPaginated(Expression<Func<ShopProposition, bool>> filter = null, int pageSize = 1, int productPage = 1)
-        {
-            if (filter is null)
-            {
-                return await _shopPropositionRepository.GetPaginated(filter => true, pageSize, productPage);
-            }
+        public async Task<IList<ShopProposition>> GetPaginated(int pageSize = 1, int productPage = 1)
+            => await _shopPropositionRepository.GetPaginated(pageSize, productPage);
 
-            return await _shopPropositionRepository.GetPaginated(filter, pageSize, productPage);
-        }
+        public async Task<IList<ShopProposition>> GetAll()
+            => await _shopPropositionRepository.GetAll();
     }
 }

@@ -104,5 +104,23 @@ namespace Compareo.Infrastructure.Services
 
             await _shopRepository.Update(shop);
         }
+
+        public async Task AcceptProposition(ShopProposition shopProposition)
+        {
+            var shop =  _mapper.Map<ShopProposition, Shop>(shopProposition);
+
+            var exist = await Exist(s => s.City.ToLower() == shop.City.ToLower() && s.Country.ToLower()
+                                  == shop.Country.ToLower() && s.Name.ToLower() == shop.Name.ToLower() && s.PostalCode.ToLower()
+                                  == shop.PostalCode.ToLower() && s.StreetAddress.ToLower() == shop.StreetAddress.ToLower());
+
+            if (exist)
+            {
+                return;
+            }
+            else
+            {
+                await _shopRepository.Create(shop);
+            }
+        }
     }
 }

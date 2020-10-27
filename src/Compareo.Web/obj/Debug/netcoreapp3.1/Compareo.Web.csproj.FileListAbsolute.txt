@@ -521,3 +521,5 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.W
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.Web.pdb
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.Web.genruntimeconfig.cache
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Details.cshtml.g.cs
+C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\ShopPropositionList.cshtml.g.cs
+C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\ShopPropositionDetails.cshtml.g.cs

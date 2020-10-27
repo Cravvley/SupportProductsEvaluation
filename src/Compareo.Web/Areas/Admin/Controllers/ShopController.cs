@@ -13,12 +13,14 @@ namespace Compareo.Web.Areas.Admin.Controllers
     public class ShopController : Controller
     {
         private readonly IShopService _shopService;
+        private readonly IShopPropositionService _shopPropositionService;
 
         private const int PageSize = 5;
 
-        public ShopController(IShopService shopService)
+        public ShopController(IShopService shopService, IShopPropositionService shopPropositionService)
         {
             _shopService = shopService;
+            _shopPropositionService = shopPropositionService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByShop = null, string searchByCity = null)
@@ -140,5 +142,52 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> ShopPropositionList(int productPage = 1)
+        {
+
+            var shopPropositionListVM = new ShopPropositionListVM()
+            {
+                ShopPropositions = await _shopPropositionService.GetAll()
+            };
+
+            var count = shopPropositionListVM.ShopPropositions.Count;
+
+            shopPropositionListVM.ShopPropositions = await _shopPropositionService.GetPaginated(PageSize, productPage);
+
+
+            const string Url = "/Admin/Shop/ShopPropositionList?productPage=:";
+
+            shopPropositionListVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItem = count,
+                UrlParam = Url
+            };
+
+            return View(shopPropositionListVM);
+        }
+
+        public async Task<IActionResult> ShopPropositionDetails(int id)
+            => View(await _shopPropositionService.Get(id));
+
+
+        public async Task<IActionResult> ShopPropositionAccept(int id)
+        {
+            var shopPropositionItem = await _shopPropositionService.Get(id);
+
+            await _shopService.AcceptProposition(shopPropositionItem);
+
+            await _shopPropositionService.Delete(id);
+
+            return RedirectToAction("ShopPropositionList");
+        }
+        public async Task<IActionResult> ShopPropositionDiscard(int id)
+        {
+            await _shopPropositionService.Delete(id);
+            return RedirectToAction("ShopPropositionList");
+        }
+
     }
 }

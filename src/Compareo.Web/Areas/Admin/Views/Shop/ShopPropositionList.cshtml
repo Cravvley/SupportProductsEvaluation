@@ -1,4 +1,4 @@
-﻿@model ShopListVM
+﻿@model ShopPropositionListVM
 
 @{
     ViewData["Title"] = "Shop's list";
@@ -7,19 +7,13 @@
 
 <br />
 <div class="col-12 text-center">
-    <h1 class="text-secondary"> Shop's List</h1>
-</div>
-<div class="col-12">
-    <a asp-action="ShopPropositionList" class="btn btn-info form-control col-3 offset-8  mt-2" >
-        Propositions
-    </a>
+    <h1 class="text-secondary"> Shop's  proposition list</h1>
 </div>
 <form method="get">
     <br />
     <br />
-    <partial name="_SearchByShopAndByCity" />
     <div class="p-1">
-        @if (Model.Shops.Count() > 0)
+        @if (Model.ShopPropositions.Count() > 0)
         {
             <table class="table">
                 <thead class="thead-dark">
@@ -37,7 +31,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                @foreach (var item in Model.Shops)
+                @foreach (var item in Model.ShopPropositions)
                 {
                     <tr>
                         <td>
@@ -50,7 +44,7 @@
                             @Html.DisplayFor(m => item.PostalCode)
                         </td>
                         <td>
-                            <partial name="_TableButtonPartial" model="item.Id" />
+                            <a asp-action="ShopPropositionDetails" asp-route-id="@item.Id" class="btn btn-info form-control">Details</a>
                         </td>
                     </tr>
                 }
@@ -59,12 +53,13 @@
         }
         else
         {
-            <p>No shops exist...</p>
+            <p>No propositions exist...</p>
         }
     </div>
-    <br />
-    <div class="col-6 offset-6 text-right">
-        <partial name="_CreateButtonPartial" />
+    <div class="col-12">
+        <a asp-action="Index" class="btn btn-info form-control col-3 mt-2">
+            Back
+        </a>
     </div>
 </form>
 

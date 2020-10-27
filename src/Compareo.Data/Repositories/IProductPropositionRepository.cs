@@ -1,7 +1,5 @@
 ﻿using Compareo.Data.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Compareo.Data.Repositories
@@ -14,6 +12,8 @@ namespace Compareo.Data.Repositories
 
         Task<ProductProposition> Get(int? id);
 
-        Task<IList<ProductProposition>> GetPaginated(Expression<Func<ProductProposition, bool>> filter, int pageSize = 1, int productPage = 1);
+        Task<IList<ProductProposition>> GetPaginated(int pageSize = 1, int productPage = 1);
+
+        Task<IList<ProductProposition>> GetAll();
     }
 }

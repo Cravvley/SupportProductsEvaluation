@@ -14,6 +14,8 @@ namespace Compareo.Infrastructure.Services.Interfaces
 
         Task<ShopProposition> Get(int? id);
 
-        Task<IList<ShopProposition>> GetPaginated(Expression<Func<ShopProposition, bool>> filter=null, int pageSize = 1, int productPage = 1);
+        Task<IList<ShopProposition>> GetPaginated(int pageSize = 1, int productPage = 1);
+
+        Task<IList<ShopProposition>> GetAll();
     }
 }

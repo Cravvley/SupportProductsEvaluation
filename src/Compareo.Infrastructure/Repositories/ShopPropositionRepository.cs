@@ -33,12 +33,15 @@ namespace Compareo.Infrastructure.Repositories
         }
 
         public async Task<ShopProposition> Get(int? id)
-            => await _db.ShopProposition.SingleOrDefaultAsync(sp => sp.Id == id);
+            => await _db.ShopProposition.Include(u => u.User).SingleOrDefaultAsync(sp => sp.Id == id);
 
+        public async Task<IList<ShopProposition>> GetAll()
+            => await _db.ShopProposition.AsNoTracking().Include(u => u.User)
+                                        .AsQueryable().ToListAsync();
 
-        public async Task<IList<ShopProposition>> GetPaginated(Expression<Func<ShopProposition, bool>> filter, int pageSize = 1, int productPage = 1)
+        public async Task<IList<ShopProposition>> GetPaginated(int pageSize = 1, int productPage = 1)
               => await _db.ShopProposition.AsNoTracking().Include(u => u.User)
-                                        .Where(filter).AsQueryable().OrderByDescending(s => s.Name)
+                                        .AsQueryable().OrderByDescending(s => s.Name)
                                         .Skip((productPage - 1) * pageSize)
                                         .Take(pageSize).ToListAsync();
     }
