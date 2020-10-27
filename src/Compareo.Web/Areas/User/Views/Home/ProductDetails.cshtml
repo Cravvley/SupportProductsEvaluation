@@ -121,14 +121,14 @@
                         @Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
                         @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
                         @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })
-                    <div class="form-group row">
-                        <div class="col-md-12 ">
-                            @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
+                        <div class="form-group row">
+                            <div class="col-md-12 ">
+                                @Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })
+                            </div>
+                            <div class="col-12 mt-3 ">
+                                <input type="submit" class="btn btn-info form-control mb-2" value="Add new comment" />
+                            </div>
                         </div>
-                        <div class="col-12 mt-3 ">
-                            <input type="submit" class="btn btn-info form-control mb-2" value="Add new comment" />
-                        </div>
-                    </div>
 
                     }
                 </div>
@@ -156,16 +156,16 @@
                         @Html.HiddenFor(c => c.Rate.ProductId, new { name = "ProductId", id = "ProductId" })
                         @Html.HiddenFor(c => c.Rate.UserId, new { name = "UserId", id = "UserId" })
                         @Html.HiddenFor(c => c.Rate.Id, new { name = "Id", id = "Id" })
-                    <div class="form-group row col-md-9 ">
-                        <div class="col-md-6 offset-5">
-                            @Html.DropDownListFor(m => m.Rate.Grade,
-                        new SelectList(Enumerable.Range(0, 6)),
-                        "Select Grade")
+                        <div class="form-group row col-md-9 ">
+                            <div class="col-md-6 offset-5">
+                                @Html.DropDownListFor(m => m.Rate.Grade,
+                            new SelectList(Enumerable.Range(0, 6)),
+                            "Select Grade")
+                            </div>
+                            <div class="col-8 offset-4 mt-3">
+                                <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" value="Add rate" />
+                            </div>
                         </div>
-                        <div class="col-8 offset-4 mt-3">
-                            <input type="submit" class="btn btn-info form-control mb-2 col-2  col-sm-4 col-md-12" value="Add rate" />
-                        </div>
-                    </div>
                     }
                 </div>
 

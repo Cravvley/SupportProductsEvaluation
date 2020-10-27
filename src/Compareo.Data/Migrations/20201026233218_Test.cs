@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SupportProductsEvaluation.Data.Migrations
+namespace Compareo.Data.Migrations
 {
-    public partial class Addedreporttable : Migration
+    public partial class Test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

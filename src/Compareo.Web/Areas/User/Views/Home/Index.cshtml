@@ -1,22 +1,28 @@
-﻿@model ProductListVM
+﻿@model HomeVM
 
 <br />
 <br />
 
 <form asp-action="Index" method="get">
-
     <div class="row container">
         @if (User.IsInRole(Compareo.Infrastructure.Utility.SD.Admin) || User.IsInRole(Compareo.Infrastructure.Utility.SD.User))
         {
-            <a asp-action="Comparison" class="btn btn-outline-info form-control offset-7 col-2" style="margin-bottom:20px">
+            <a asp-action="" class="btn btn-outline-info form-control  productPropositionModal col-2" data-toggle="modal">
+                Product Proposition
+            </a>
+            <a asp-action="" class="btn btn-outline-info form-control shopPropositionModal offset-1 col-2" data-toggle="modal">
+                Shop Proposition
+            </a>
+            <a asp-action="Comparison" class="btn btn-outline-info form-control  offset-1 col-2" style="margin-bottom:20px">
                 Compare
             </a>
             <a asp-action="Reports" class="btn btn-outline-info offset-1 col-2" style="margin-bottom:20px">
                 Reports
             </a>
         }
-        <partial name="_SearchByProductAndByCategory" />
     </div>
+    <br />
+    <partial name="_SearchByProductAndByCategory" />
     <div class="mt-4">
         @foreach (var product in Model.Products)
         {
@@ -58,4 +64,137 @@
     <br />
 </form>
 
+<div class="modal fade" id="modalProductProposition" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light ">
+                <div class="col-10 offset-1 text-center">
+                    <h4 class="modal-title">Please give us your shop proposition</h4>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="float-right btn-outline close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="myProductPropositionModalContent">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("ProductProposition", "Home", FormMethod.Post))
+                    {
+                        @*@Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
+                            @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
+                            @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })*@
+                        <div class="form-group row">
+                            <div class="col-md-12 ">
+                                @*@Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })*@
+                            </div>
+                            <div class="col-12 mt-3 ">
+                                <input type="submit" class="btn btn-info form-control mb-2" value="Add new comment" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modalShopProposition" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-light ">
+                <div class="col-10 offset-1 text-center">
+                    <h4 class="modal-title">Please give us your shop proposition</h4>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="float-right btn-outline close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="myShopPropositionModalContent">
+                <div class="col-md-12">
+                    @using (Html.BeginForm("ShopProposition", "Home", FormMethod.Post))
+                    {
+
+                        <div class="text-info font-weight-bold">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.Name" class="col-form-label">Shop name:</label>
+                                </div>
+                                <div class="col-5">
+                                    <input asp-for="@Model.ShopProposition.Name" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.City" class="col-form-label">Shop city location:</label>
+                                </div>
+                                <div class="col-5">
+                                    <input asp-for="@Model.ShopProposition.City" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.City" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.Country" class="col-form-label">Shop country location:</label>
+                                </div>
+                                <div class="col-5">
+                                    <input asp-for="@Model.ShopProposition.Country" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.Country" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.StreetAddress" class="col-form-label">Shop street location:</label>
+                                </div>
+                                <div class="col-5">
+                                    <input asp-for="@Model.ShopProposition.StreetAddress" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.StreetAddress" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.PostalCode" class="col-form-label">Shop postal code:</label>
+                                </div>
+                                <div class="col-5">
+                                    <input asp-for="@Model.ShopProposition.PostalCode" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.PostalCode" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ShopProposition.AdditionalInformation" class="col-form-label">Additional information:</label>
+                                </div>
+                                <div class="offset-1 col-5">
+                                    @Html.TextAreaFor(m => m.ShopProposition.AdditionalInformation, new { @class = "form-control", @rows = 3 })
+                                </div>
+                                <span asp-validation-for="@Model.ShopProposition.AdditionalInformation" class="text-danger"></span>
+                            </div>
+                            <div class="col-12 mt-3 ">
+                                <input type="submit" class="btn btn-info form-control mb-2" value="Send" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(() => {
+            $(".shopPropositionModal").click(() => {
+                $('#modalShopProposition').modal('show');
+            });
+            $(".productPropositionModal").click(() => {
+                $('#modalProductProposition').modal('show');
+            });
+        });
+    </script>
+}

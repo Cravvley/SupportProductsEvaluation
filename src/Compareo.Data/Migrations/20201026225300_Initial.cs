@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SupportProductsEvaluation.Data.Migrations
+namespace Compareo.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,11 +57,18 @@ namespace SupportProductsEvaluation.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
+                    ParentCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Category_Category_ParentCategoryId",
+                        column: x => x.ParentCategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,8 +134,8 @@ namespace SupportProductsEvaluation.Data.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -172,8 +179,8 @@ namespace SupportProductsEvaluation.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -188,23 +195,53 @@ namespace SupportProductsEvaluation.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubCategory",
+                name: "ShopProposition",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    City = table.Column<string>(nullable: false),
+                    PostalCode = table.Column<string>(nullable: false),
+                    StreetAddress = table.Column<string>(nullable: false),
+                    Country = table.Column<string>(nullable: false),
+                    AdditionalInformation = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubCategory", x => x.Id);
+                    table.PrimaryKey("PK_ShopProposition", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubCategory_Category_CategoryId",
+                        name: "FK_ShopProposition_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Report",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductName = table.Column<string>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    AvgPrice = table.Column<double>(nullable: false),
+                    AvgRate = table.Column<double>(nullable: false),
+                    MinPrice = table.Column<double>(nullable: false),
+                    MaxPrice = table.Column<double>(nullable: false),
+                    UpdateAt = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Report", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Report_Category_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,10 +251,10 @@ namespace SupportProductsEvaluation.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     ShopId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
-                    SubCategoryId = table.Column<int>(nullable: false),
                     Picture = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
@@ -235,33 +272,44 @@ namespace SupportProductsEvaluation.Data.Migrations
                         principalTable: "Shop",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_SubCategory_SubCategoryId",
-                        column: x => x.SubCategoryId,
-                        principalTable: "SubCategory",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Article",
+                name: "ProductProposition",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false)
+                    Price = table.Column<double>(nullable: false),
+                    ShopId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    Picture = table.Column<byte[]>(nullable: false),
+                    AdditionalInformation = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Article", x => x.Id);
+                    table.PrimaryKey("PK_ProductProposition", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Article_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
+                        name: "FK_ProductProposition_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductProposition_Shop_ShopId",
+                        column: x => x.ShopId,
+                        principalTable: "Shop",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductProposition_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -320,12 +368,6 @@ namespace SupportProductsEvaluation.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Article_ProductId",
-                table: "Article",
-                column: "ProductId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -365,6 +407,11 @@ namespace SupportProductsEvaluation.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Category_ParentCategoryId",
+                table: "Category",
+                column: "ParentCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comment_ProductId",
                 table: "Comment",
                 column: "ProductId");
@@ -385,9 +432,19 @@ namespace SupportProductsEvaluation.Data.Migrations
                 column: "ShopId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_SubCategoryId",
-                table: "Product",
-                column: "SubCategoryId");
+                name: "IX_ProductProposition_CategoryId",
+                table: "ProductProposition",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductProposition_ShopId",
+                table: "ProductProposition",
+                column: "ShopId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductProposition_UserId",
+                table: "ProductProposition",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rate_ProductId",
@@ -400,16 +457,18 @@ namespace SupportProductsEvaluation.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubCategory_CategoryId",
-                table: "SubCategory",
+                name: "IX_Report_CategoryId",
+                table: "Report",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShopProposition_UserId",
+                table: "ShopProposition",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Article");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -429,7 +488,16 @@ namespace SupportProductsEvaluation.Data.Migrations
                 name: "Comment");
 
             migrationBuilder.DropTable(
+                name: "ProductProposition");
+
+            migrationBuilder.DropTable(
                 name: "Rate");
+
+            migrationBuilder.DropTable(
+                name: "Report");
+
+            migrationBuilder.DropTable(
+                name: "ShopProposition");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -441,13 +509,10 @@ namespace SupportProductsEvaluation.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Shop");
-
-            migrationBuilder.DropTable(
-                name: "SubCategory");
-
-            migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Shop");
         }
     }
 }

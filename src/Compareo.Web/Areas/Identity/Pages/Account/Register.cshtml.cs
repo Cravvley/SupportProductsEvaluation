@@ -97,7 +97,7 @@ namespace Compareo.Web.Areas.Identity.Pages.Account
                         await _roleManager.CreateAsync(new IdentityRole(SD.Admin));
                     }
 
-                    await _userManager.AddToRoleAsync(user, SD.User);
+                    await _userManager.AddToRoleAsync(user, SD.Admin);
 
                     _logger.LogInformation("User created a new account with password.");
 

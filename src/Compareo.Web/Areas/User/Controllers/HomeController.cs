@@ -20,54 +20,59 @@ namespace Compareo.Web.Controllers
         private readonly IReportService _reportService;
         private readonly IRateService _rateService;
         private readonly ICommentService _commentService;
+        private readonly IShopPropositionService _shopPropositionService;
 
         private const int PageSize = 9;
-        public HomeController(IProductService productService, IReportService reportService, IRateService rateService, ICommentService commentService)
+        public HomeController(IProductService productService, IReportService reportService, IRateService rateService,
+            ICommentService commentService, IShopPropositionService shopPropositionService)
         {
             _productService = productService;
             _reportService = reportService;
             _rateService = rateService;
             _commentService = commentService;
+            _shopPropositionService = shopPropositionService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
-            var productListVM = new ProductListVM()
+            var homeVM = new HomeVM()
             {
-                Products = await _productService.GetAllHeaders()
+                Products = await _productService.GetAllHeaders(),
+                ProductProposition = new ProductProposition(),
+                ShopProposition = new ShopProposition()
             };
 
-            var count = productListVM.Products.Count;
+            var count = homeVM.Products.Count;
 
-            productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
+            homeVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
 
             if (!(searchByProduct is null || searchByCategory is null))
             {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                homeVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                         .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
                                         .Contains(searchByCategory.ToLower()), PageSize, productPage);
 
-                count = productListVM.Products.Count;
+                count = homeVM.Products.Count;
             }
 
             else if (!(searchByProduct is null))
             {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                homeVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                        .Contains(searchByProduct.ToLower()));
 
-                count = productListVM.Products.Count;
+                count = homeVM.Products.Count;
             }
 
             else if (!(searchByCategory is null))
             {
-                productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
+                homeVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
                                       .Contains(searchByCategory.ToLower()));
 
-                count = productListVM.Products.Count;
+                count = homeVM.Products.Count;
             }
 
             const string Url = "/User/Home/Index?productPage=:";
-            productListVM.PagingInfo = new PagingInfo
+            homeVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
@@ -75,7 +80,7 @@ namespace Compareo.Web.Controllers
                 UrlParam = Url
             };
 
-            return View(productListVM);
+            return View(homeVM);
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
@@ -246,10 +251,31 @@ namespace Compareo.Web.Controllers
                                                             && p.Shop.Name == shopName && p.Shop.Country == country && p.Shop.City == city
                                                             && p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
 
-
             var productDto = new { productEntity.Price, productEntity.AverageGrade, productEntity.Description };
 
             return Json(productDto);
+        }
+
+        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        public async Task ProductProposition(ProductProposition productProposition)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            productProposition.UserId = claim.Value;
+        }
+
+        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> ShopProposition(ShopProposition shopProposition)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            shopProposition.UserId = claim.Value;
+
+            await _shopPropositionService.Create(shopProposition);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -258,9 +284,5 @@ namespace Compareo.Web.Controllers
             return View(new ErrorVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult TODO()
-        {
-            return View();
-        }
     }
 }
