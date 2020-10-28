@@ -20,13 +20,16 @@ namespace Compareo.Web.Areas.Admin.Controllers
         private readonly IProductService _productService;
         private readonly IShopService _shopService;
         private readonly ICategoryService _categoryService;
+        private readonly IProductPropositionService _productPropositionService;
 
         private const int PageSize = 5;
-        public ProductController(IProductService productService, IShopService shopService, ICategoryService categoryService)
+        public ProductController(IProductService productService, IShopService shopService, 
+            ICategoryService categoryService, IProductPropositionService productPropositionService)
         {
             _productService = productService;
             _shopService = shopService;
             _categoryService = categoryService;
+            _productPropositionService = productPropositionService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
@@ -191,6 +194,51 @@ namespace Compareo.Web.Areas.Admin.Controllers
             await _productService.Update(productDto);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ProductPropositionList(int productPage = 1)
+        {
+
+            var productPropositionListVM = new ProductPropositionListVM()
+            {
+                ProductPropositions = await _productPropositionService.GetAll()
+            };
+
+            var count = productPropositionListVM.ProductPropositions.Count;
+
+            productPropositionListVM.ProductPropositions = await _productPropositionService.GetPaginated(PageSize, productPage);
+
+
+            const string Url = "/Admin/Product/ProductPropositionList?productPage=:";
+
+            productPropositionListVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItem = count,
+                UrlParam = Url
+            };
+
+            return View(productPropositionListVM);
+        }
+
+        public async Task<IActionResult> ProductPropositionDetails(int id)
+            => View(await _productPropositionService.Get(id));
+
+        public async Task<IActionResult> ProductPropositionAccept(int id)
+        {
+            var productPropositionItem = await _productPropositionService.Get(id);
+
+            await _productService.AcceptProposition(productPropositionItem);
+
+            await _productPropositionService.Delete(id);
+
+            return RedirectToAction("ProductPropositionList");
+        }
+        public async Task<IActionResult> ProductPropositionDiscard(int id)
+        {
+            await _productPropositionService.Delete(id);
+            return RedirectToAction("ProductPropositionList");
         }
 
     }

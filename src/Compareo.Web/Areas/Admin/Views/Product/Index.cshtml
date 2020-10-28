@@ -10,9 +10,14 @@
     <div class=" text-center">
         <h1 class="text-secondary"> Product's list</h1>
     </div>
+    <div class="col-12">
+        <a asp-action="ProductPropositionList" class="btn btn-info form-control col-3 offset-8  mt-2">
+            Propositions
+        </a>
+    </div>
     <br />
     <br />
-        <partial name="_SearchByProductAndByCategory"/>
+    <partial name="_SearchByProductAndByCategory" />
     <div class="p-1">
         @if (Model.Products.Count > 0)
         {
@@ -26,7 +31,7 @@
                             Product Name
                         </th>
                         <th>
-                            Product Shop Location
+                             Shop 
                         </th>
                         <th>
                             Product Category

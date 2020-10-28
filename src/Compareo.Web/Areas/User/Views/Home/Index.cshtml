@@ -79,10 +79,9 @@
             </div>
             <div class="modal-body justify-content-center" id="myProductPropositionModalContent">
                 <div class="col-md-12">
-
-                    @using (Html.BeginForm("ProductProposition", "Home", FormMethod.Post))
-                    {
+                    <form method="post" asp-action="ProductProposition" enctype="multipart/form-data">
                         <div class="font-weight-bold text-info">
+                            <input type="hidden" asp-for="@Model.ProductProposition.CategoryId" id="categoryId" />
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
                                 <div class="col-2">
@@ -148,14 +147,12 @@
                                 <input type="submit" class="btn btn-info form-control mb-2" value="Send" />
                             </div>
                         </div>
-                    }
-
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="modal fade" id="modalShopProposition" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog-centered modal-dialog" role="document">
@@ -172,9 +169,7 @@
             </div>
             <div class="modal-body justify-content-center" id="myShopPropositionModalContent">
                 <div class="col-md-12">
-                    @using (Html.BeginForm("ShopProposition", "Home", FormMethod.Post))
-                    {
-
+                    <form method="post" asp-action="ShopProposition">
                         <div class="text-info font-weight-bold">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
@@ -235,7 +230,7 @@
                                 <input type="submit" class="btn btn-info form-control mb-2" value="Send" />
                             </div>
                         </div>
-                    }
+                    </form>
                 </div>
             </div>
         </div>

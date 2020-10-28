@@ -16,10 +16,13 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     {
 
         private readonly ICategoryService _categoryService;
+        
+
         private const int PageSize = 5;
         public CategoryController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
+            
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByCategory = null)
@@ -156,6 +159,7 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             var trees = categories.BuildTrees();
             return Json(trees);
         }
+
     }
 }
 

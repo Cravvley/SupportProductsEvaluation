@@ -23,6 +23,8 @@ namespace Compareo.Infrastructure.Services.Interfaces
 
         Task<bool> Exist(Expression<Func<Product, bool>> filter);
 
+        Task AcceptProposition(ProductProposition productProposition);
+
         Task<IList<Product>> GetAllDetails(Expression<Func<Product, bool>> filter = null);
 
         Task<IList<ProductDto>> GetAllHeaders(Expression<Func<Product, bool>> filter = null);

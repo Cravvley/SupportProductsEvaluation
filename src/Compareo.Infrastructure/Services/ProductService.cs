@@ -121,7 +121,6 @@ namespace Compareo.Infrastructure.Services
                                  p.CategoryId == product.CategoryId
                                  && p.ShopId == product.ShopId);
 
-
             if (exist)
             {
                 await _productRepository.Update(product);

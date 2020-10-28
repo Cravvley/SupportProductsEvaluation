@@ -523,3 +523,5 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Compareo.W
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Category\Details.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\ShopPropositionList.cshtml.g.cs
 C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Shop\ShopPropositionDetails.cshtml.g.cs
+C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Product\ProductPropositionList.cshtml.g.cs
+C:\Users\HP\Desktop\Compareo\src\Compareo.Web\obj\Debug\netcoreapp3.1\Razor\Areas\Admin\Views\Product\ProductPropositionDetails.cshtml.g.cs

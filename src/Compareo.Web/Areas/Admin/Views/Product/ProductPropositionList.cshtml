@@ -1,0 +1,75 @@
+﻿@model ProductPropositionListVM
+
+@{
+    ViewData["Title"] = "Product's proposition list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="col-12 text-center">
+    <h1 class="text-secondary"> Product's proposition list</h1>
+</div>
+<form method="get">
+    <br />
+    <br />
+    <div class="p-1">
+        @if (Model.ProductPropositions.Count() > 0)
+        {
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        <th>
+                            Product name
+                        </th>
+                        <th>
+                            Shop
+                        </th>
+                        <th>
+                            Category
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.ProductPropositions)
+                {
+            <tr>
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.Picture);
+                        var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+                    }
+                    <div class="col-3">
+                        <img src="@imgsrc" height="100%" width="100%" />
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Shop.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Category.Name)
+                </td>
+                <td>
+                    <a asp-action="ProductPropositionDetails" asp-route-id="@item.Id" class="btn btn-info form-control">Details</a>
+                </td>
+            </tr>
+                }
+            </table>
+            <partial name="_Pagination" model="@Model.PagingInfo" />
+        }
+        else
+        {
+            <p>No propositions exist...</p>
+        }
+    </div>
+    <div class="col-12">
+        <a asp-action="Index" class="btn btn-info form-control col-3 mt-2">
+            Back
+        </a>
+    </div>
+</form>
+
