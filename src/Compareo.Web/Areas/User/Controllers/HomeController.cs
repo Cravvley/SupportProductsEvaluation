@@ -233,12 +233,12 @@ namespace Compareo.Web.Controllers
         {
             var productEntities = await _productService.GetAllHeaders();
 
-            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryId = x.Category.Id })
+            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name,CategoryName=x.Category.Name, CategoryId = x.CategoryId })
                                                 .Distinct();
 
             ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
             {
-                Text = $"Product: {p.ProductName}, Category: {p.CategoryId}",
+                Text = $"Product: {p.ProductName}, Category: {p.CategoryName}",
                 Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryId={p.CategoryId}"
             }), "Url", "Text");
 
@@ -250,7 +250,7 @@ namespace Compareo.Web.Controllers
         {
             var products = await _productService.GetAllHeaders();
 
-            var localizationList = products.Where(x => x.Name == productName && x.Category.Id == categoryId)
+            var localizationList = products.Where(x => x.Name.ToLower() == productName.ToLower() && x.Category.Id == categoryId)
                                             .Select(p => new { p.Shop.Name, p.Shop.Country, p.Shop.PostalCode, p.Shop.StreetAddress, p.Shop.City }).ToList();
 
             var lolcalizationSelectList = new SelectList(localizationList.Select(s => new
@@ -265,9 +265,9 @@ namespace Compareo.Web.Controllers
         [Authorize(Roles = SD.Admin + ", " + SD.User)]
         public async Task<IActionResult> ProductByShop(string productName = null, int? categoryId = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
         {
-            var productEntity = await _productService.Get(p => p.Name == productName && p.Category.Id == categoryId
-                                                            && p.Shop.Name == shopName && p.Shop.Country == country && p.Shop.City == city
-                                                            && p.Shop.StreetAddress == street && p.Shop.PostalCode == postalCode);
+            var productEntity = await _productService.Get(p => p.Name.ToLower() == productName.ToLower() && p.Category.Id == categoryId
+                                                            && p.Shop.Name.ToLower() == shopName.ToLower() && p.Shop.Country.ToLower() == country.ToLower() && p.Shop.City.ToLower() == city.ToLower()
+                                                            && p.Shop.StreetAddress.ToLower() == street.ToLower() && p.Shop.PostalCode.ToLower() == postalCode.ToLower());
 
             var productDto = new { productEntity.Price, productEntity.AverageGrade, productEntity.Description };
 
@@ -300,7 +300,7 @@ namespace Compareo.Web.Controllers
             else
             {
                 byte[] p1 = { 0 };
-                productProposition.Picture=p1;
+                productProposition.Picture = p1;
             }
 
             await _productPropositionService.Create(productProposition);

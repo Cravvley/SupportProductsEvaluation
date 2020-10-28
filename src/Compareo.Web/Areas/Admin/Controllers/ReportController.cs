@@ -82,7 +82,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isCopy = await _reportService.Exist(r => r.ProductName == report.ProductName && r.CategoryId==report.CategoryId);
+                var isCopy = await _reportService.Exist(r => r.ProductName.ToLower() == report.ProductName.ToLower() && r.CategoryId==report.CategoryId);
 
                 if (isCopy)
                 {
