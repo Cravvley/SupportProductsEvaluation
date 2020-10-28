@@ -81,6 +81,8 @@ namespace Compareo.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IShopPropositionRepository, ShopPropositionRepository>();
             services.AddScoped<IShopPropositionService, ShopPropositionService>();
+            services.AddScoped<IProductPropositionRepository, ProductPropositionRepository>();
+            services.AddScoped<IProductPropositionService, ProductPropositionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -172,7 +172,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
         public async Task<IActionResult> ShopPropositionDetails(int id)
             => View(await _shopPropositionService.Get(id));
 
-
         public async Task<IActionResult> ShopPropositionAccept(int id)
         {
             var shopPropositionItem = await _shopPropositionService.Get(id);

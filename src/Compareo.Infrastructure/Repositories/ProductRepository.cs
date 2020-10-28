@@ -42,6 +42,7 @@ namespace Compareo.Infrastructure.Repositories
         {
             var productEntity = await Get(product.Id);
 
+            productEntity.Price = product.Price;
             productEntity.Picture = product.Picture;
             productEntity.Description = product.Description;
 

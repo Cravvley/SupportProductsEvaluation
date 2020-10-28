@@ -113,15 +113,23 @@ namespace Compareo.Infrastructure.Services
             return true;
         }
 
-        public async Task<bool> Exist(Expression<Func<ProductDto, bool>> filter)
+        public async Task AcceptProposition(ProductProposition productProposition)
         {
-            var productEntity = await _productRepository.Get(_mapper.Map<Expression<Func<ProductDto, bool>>, Expression<Func<Product, bool>>>(filter));
-            if (productEntity is null)
-            {
-                return false;
-            }
+            var product = _mapper.Map<ProductProposition, Product>(productProposition);
 
-            return true;
+            var exist = await Exist(p => p.Name.ToLower() == product.Name.ToLower() &&
+                                 p.CategoryId == product.CategoryId
+                                 && p.ShopId == product.ShopId);
+
+
+            if (exist)
+            {
+                await _productRepository.Update(product);
+            }
+            else
+            {
+                await _productRepository.Create(product);
+            }
         }
     }
 }

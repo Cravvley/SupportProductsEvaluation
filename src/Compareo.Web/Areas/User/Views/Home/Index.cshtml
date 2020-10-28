@@ -8,10 +8,10 @@
         @if (User.IsInRole(Compareo.Infrastructure.Utility.SD.Admin) || User.IsInRole(Compareo.Infrastructure.Utility.SD.User))
         {
             <a asp-action="" class="btn btn-outline-info  form-control  productPropositionModal col-5 col-md-2 " data-toggle="modal">
-                Your Product 
+                Your Product
             </a>
             <a asp-action="" class="btn btn-outline-info form-control shopPropositionModal offset-1 col-5 col-md-2" data-toggle="modal">
-                Your Shop 
+                Your Shop
             </a>
             <a asp-action="Comparison" class="btn btn-outline-info form-control  mt-2 mt-md-0 offset-md-1 col-5 col-md-2" style="margin-bottom:20px">
                 Compare
@@ -79,25 +79,83 @@
             </div>
             <div class="modal-body justify-content-center" id="myProductPropositionModalContent">
                 <div class="col-md-12">
+
                     @using (Html.BeginForm("ProductProposition", "Home", FormMethod.Post))
                     {
-                        @*@Html.HiddenFor(c => c.Comment.ProductId, new { name = "ProductId", id = "ProductId" })
-                            @Html.HiddenFor(c => c.Comment.UserId, new { name = "UserId", id = "UserId" })
-                            @Html.HiddenFor(c => c.Comment.Id, new { name = "Id", id = "Id" })*@
-                        <div class="form-group row">
-                            <div class="col-md-12 ">
-                                @*@Html.TextAreaFor(m => m.Comment.Description, new { @class = "form-control", @rows = 3 })*@
+                        <div class="font-weight-bold text-info">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ProductProposition.Name" class="col-form-label">Product name:</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    <input asp-for="@Model.ProductProposition.Name" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ProductProposition.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ProductProposition.Description" class="col-form-label ">Product Description:</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    @Html.TextAreaFor(m => m.ProductProposition.Description, new { @class = "form-control", @rows = 3 })
+                                </div>
+                                <span asp-validation-for="@Model.ProductProposition.Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ProductProposition.Price" class="col-form-label ">Product price:</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    <input asp-for="@Model.ProductProposition.Price" class="form-control" />
+                                </div>
+                                <span asp-validation-for="@Model.ProductProposition.Price" class="text-danger"></span>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2 ">
+                                    <label asp-for="@Model.ProductProposition.Picture" class="col-form-label ">Product picture</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    <input type="file" name="files" multiple class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label for="Category" class="col-form-label ">Product category:</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    <input type="text" autocomplete="off" id="Category" placeholder="Select" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ProductProposition.ShopId" class="col-form-label ">Shop: </label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    <select asp-for="@Model.ProductProposition.ShopId" id="ShopId" asp-items="@ViewBag.ShopsSelectList" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-2">
+                                    <label asp-for="@Model.ProductProposition.AdditionalInformation" class="col-form-label ">Additional Information:</label>
+                                </div>
+                                <div class="col-5 offset-1">
+                                    @Html.TextAreaFor(m => m.ProductProposition.AdditionalInformation, new { @class = "form-control", @rows = 3 })
+                                </div>
+                                <span asp-validation-for="@Model.ProductProposition.AdditionalInformation" class="text-danger"></span>
                             </div>
                             <div class="col-12 mt-3 ">
-                                <input type="submit" class="btn btn-info form-control mb-2" value="Add new comment" />
+                                <input type="submit" class="btn btn-info form-control mb-2" value="Send" />
                             </div>
                         </div>
                     }
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="modalShopProposition" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog-centered modal-dialog" role="document">
@@ -123,7 +181,7 @@
                                 <div class="col-2">
                                     <label asp-for="@Model.ShopProposition.Name" class="col-form-label">Shop name:</label>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-5 ">
                                     <input asp-for="@Model.ShopProposition.Name" class="form-control" />
                                 </div>
                                 <span asp-validation-for="@Model.ShopProposition.Name" class="text-danger"></span>
@@ -187,7 +245,10 @@
 @section Scripts{
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/comboTreePlugin.js"></script>
     <script>
+        const url = "/Admin/Category/GetCategories";
+
         $(() => {
             $(".shopPropositionModal").click(() => {
                 $('#modalShopProposition').modal('show');
@@ -196,5 +257,25 @@
                 $('#modalProductProposition').modal('show');
             });
         });
+
+        $(document).ready(() => {
+            $.getJSON(url, data => {
+                $("#categoryId").val(data[0].id);
+
+                const instance = $('#Category').comboTree({
+                    source: data,
+                    selected: ['0'],
+                    isMultiple: false
+                });
+
+                $('#Category').change(() => {
+                    let ids = instance.getSelectedIds();
+                    $("#categoryId").val(ids[0]);
+                });
+
+            })
+        })
+
     </script>
 }
+

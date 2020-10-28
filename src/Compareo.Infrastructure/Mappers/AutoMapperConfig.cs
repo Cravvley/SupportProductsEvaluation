@@ -14,8 +14,10 @@ namespace Compareo.Infrastructure.Mappers
                  cfg.CreateMap<Shop,ShopDto>();
 
                  cfg.CreateMap<ShopProposition,Shop>().
-
                  ForMember(dest=>dest.Id,act=>act.Ignore());
+
+                 cfg.CreateMap<ProductProposition,  Product>().
+                 ForMember(dest => dest.Id, act => act.Ignore());
 
                  cfg.CreateMap<Product, ProductDto>().ReverseMap();
 

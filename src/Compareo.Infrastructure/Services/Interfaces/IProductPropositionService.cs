@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Compareo.Data.Repositories
+namespace Compareo.Infrastructure.Services.Interfaces
 {
-    public interface IProductPropositionRepository
+    public interface IProductPropositionService
     {
         Task Create(ProductProposition productProposition);
 

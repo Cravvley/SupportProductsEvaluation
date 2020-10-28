@@ -1,5 +1,6 @@
 ﻿using Compareo.Data.Entities;
 using Compareo.Infrastructure.Pagination;
+using Compareo.Infrastructure.Services;
 using Compareo.Infrastructure.Services.Interfaces;
 using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -21,16 +23,21 @@ namespace Compareo.Web.Controllers
         private readonly IRateService _rateService;
         private readonly ICommentService _commentService;
         private readonly IShopPropositionService _shopPropositionService;
+        private readonly IProductPropositionService _productPropositionService;
+        private readonly IShopService _shopService;
 
         private const int PageSize = 9;
         public HomeController(IProductService productService, IReportService reportService, IRateService rateService,
-            ICommentService commentService, IShopPropositionService shopPropositionService)
+            ICommentService commentService, IShopPropositionService shopPropositionService, IProductPropositionService productPropositionService,
+            IShopService shopService)
         {
             _productService = productService;
             _reportService = reportService;
             _rateService = rateService;
             _commentService = commentService;
             _shopPropositionService = shopPropositionService;
+            _productPropositionService = productPropositionService;
+            _shopService = shopService;
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
@@ -72,6 +79,7 @@ namespace Compareo.Web.Controllers
             }
 
             const string Url = "/User/Home/Index?productPage=:";
+
             homeVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
@@ -79,6 +87,14 @@ namespace Compareo.Web.Controllers
                 TotalItem = count,
                 UrlParam = Url
             };
+
+            var shops = await _shopService.GetAllHeaders();
+
+            ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
+            {
+                Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
+                Id = p.Id
+            }), "Id", "Text");
 
             return View(homeVM);
         }
@@ -215,6 +231,7 @@ namespace Compareo.Web.Controllers
         public async Task<IActionResult> Comparison()
         {
             var productEntities = await _productService.GetAllHeaders();
+
             var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryId = x.Category.Id })
                                                 .Distinct();
 
@@ -257,12 +274,32 @@ namespace Compareo.Web.Controllers
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
-        public async Task ProductProposition(ProductProposition productProposition)
+        public async Task<IActionResult> ProductProposition(ProductProposition productProposition)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             productProposition.UserId = claim.Value;
+
+
+            var files = HttpContext.Request.Form.Files;
+            if (files.Count > 0)
+            {
+                byte[] p1 = null;
+                using (var fs1 = files[0].OpenReadStream())
+                {
+                    using (var ms1 = new MemoryStream())
+                    {
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
+                    }
+                }
+                productProposition.Picture = p1;
+            }
+
+            await _productPropositionService.Create(productProposition);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]

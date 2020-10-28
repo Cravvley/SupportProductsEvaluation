@@ -5,13 +5,16 @@ using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Compareo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"),Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = SD.Admin)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -81,39 +84,42 @@ namespace Compareo.Web.Areas.Admin.Controllers
         {
             ViewBag.Exist = false;
 
-            var productCreateEditVMError = new ProductCreateEditVM()
-            {
-                Product = new ProductDto(),
-                ShopList = await _shopService.GetAllDetails()
-            };
+            var shops = await _shopService.GetAllHeaders();
 
-            return View(productCreateEditVMError);
+            ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
+            {
+                Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
+                Id = p.Id
+            }), "Id", "Text");
+
+            return View(new ProductDto());
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ProductCreateEditVM productCreateEditVM)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProductDto productDto)
         {
+            var shops = await _shopService.GetAllHeaders();
 
-            var productCreateEditVMError = new ProductCreateEditVM()
+            ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
             {
-                Product = productCreateEditVM.Product,
-                ShopList = await _shopService.GetAllDetails()
-            };
+                Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
+                Id = p.Id
+            }), "Id", "Text");
 
             if (!ModelState.IsValid)
             {
                 ViewBag.Exist = false;
-                return View(productCreateEditVMError);
+                return View(productDto);
             }
 
-            var exist = await _productService.Exist(p => p.Name.ToLower() == productCreateEditVM.Product.Name.ToLower() &&
-                                 p.CategoryId == productCreateEditVM.Product.CategoryId
-                                 && p.ShopId == productCreateEditVM.Product.ShopId);
+            var exist = await _productService.Exist(p => p.Name.ToLower() == productDto.Name.ToLower() &&
+                                 p.CategoryId == productDto.CategoryId
+                                 && p.ShopId == productDto.ShopId);
 
             if (exist)
             {
                 ViewBag.Exist = true;
-                return View(productCreateEditVMError);
+                return View(productDto);
             }
 
             var files = HttpContext.Request.Form.Files;
@@ -128,10 +134,10 @@ namespace Compareo.Web.Areas.Admin.Controllers
                         p1 = ms1.ToArray();
                     }
                 }
-                productCreateEditVM.Product.Picture = p1;
+                productDto.Picture = p1;
             }
-            
-            await _productService.Create(productCreateEditVM.Product);
+
+            await _productService.Create(productDto);
             return RedirectToAction(nameof(Index));
         }
 
@@ -151,17 +157,21 @@ namespace Compareo.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            var productCreateEditVM = new ProductCreateEditVM()
-            {
-                Product = await _productService.GetDto(id),
-                ShopList = await _shopService.GetAllDetails()
-            };
 
-            return View(productCreateEditVM);
+            var shops = await _shopService.GetAllHeaders();
+
+            ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
+            {
+                Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
+                Id = p.Id
+            }), "Id", "Text");
+
+            return View(await _productService.GetDto(id));
         }
+            
 
         [HttpPost, ActionName("Edit"), ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPOST(ProductCreateEditVM productCreateEditVM)
+        public async Task<IActionResult> EditPOST(ProductDto productDto)
         {
             var files = HttpContext.Request.Form.Files;
             if (files.Count > 0)
@@ -175,12 +185,12 @@ namespace Compareo.Web.Areas.Admin.Controllers
                         p1 = ms1.ToArray();
                     }
                 }
-                productCreateEditVM.Product.Picture = p1;
+                productDto.Picture = p1;
             }
 
-            await _productService.Update(productCreateEditVM.Product);
-            return RedirectToAction(nameof(Index));
+            await _productService.Update(productDto);
 
+            return RedirectToAction(nameof(Index));
         }
 
     }

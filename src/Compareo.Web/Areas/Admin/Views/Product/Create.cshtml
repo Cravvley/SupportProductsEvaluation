@@ -1,4 +1,4 @@
-﻿@model Compareo.Infrastructure.VMs.ProductCreateEditVM
+﻿@model Compareo.Infrastructure.DTOs.ProductDto
 @using Compareo.Infrastructure.Extensions
 
 @{
@@ -16,65 +16,68 @@
 }
 <form method="post" asp-action="Create" enctype="multipart/form-data">
     <div class="font-weight-bold text-info">
-        <input type="hidden" asp-for="Product.CategoryId" id="categoryId" />
+        <input type="hidden" asp-for="CategoryId" id="categoryId" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Product.Name" class="col-form-label">Product name:</label>
-            </div>
-            <div class="col-5">
-                <input asp-for="Product.Name" class="form-control" />
-            </div>
-            <span asp-validation-for="Product.Name" class="text-danger"></span>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Product.Description" class="col-form-label ">Product Description:</label>
-            </div>
-            <div class="col-5 ">
-                @Html.TextAreaFor(m => m.Product.Description, new { @class = "form-control", @rows = 3 })
-            </div>
-            <span asp-validation-for="Product.Description" class="text-danger"></span>
-        </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Name" class="col-form-label">Product name:</label>
+                        </div>
+                        <div class="col-5">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Description" class="col-form-label ">Product Description:</label>
+                        </div>
+                        <div class="col-5 ">
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @rows = 3 })
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Product.Price" class="col-form-label ">Product price:</label>
-            </div>
-            <div class="col-5">
-                <input asp-for="Product.Price" class="form-control" />
-            </div>
-            <span asp-validation-for="Product.Price" class="text-danger"></span>
-        </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Price" class="col-form-label ">Product price:</label>
+                        </div>
+                        <div class="col-5">
+                            <input asp-for="Price" class="form-control" />
+                        </div>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Product.Picture" class="col-form-label ">Product picture</label>
-            </div>
-            <div class="col-5">
-                <input type="file" name="files" multiple class="form-control" />
-            </div>
-        </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="Picture" class="col-form-label ">Product picture</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="file" name="files" multiple class="form-control" />
+                        </div>
+                    </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label for="Category" class="col-form-label ">Product category:</label>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label for="Category" class="col-form-label ">Product category:</label>
+                        </div>
+                        <div class="col-5">
+                            <input type="text" autocomplete="off" id="Category" placeholder="Select" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-2">
+                            <label asp-for="ShopId" class="col-form-label ">Shop: </label>
+                        </div>
+                        <div class="col-5">
+                            <select asp-for="ShopId" id="ShopId" asp-items="@ViewBag.ShopsSelectList" class="form-control"></select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-5">
-                <input type="text" autocomplete="off" id="Category" placeholder="Select" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="Product.ShopId" class="col-form-label ">Product shop location:</label>
-            </div>
-            <div class="col-5">
-                <select asp-for="@Model.Product.ShopId" id="ShopId" asp-items="Model.ShopList.ToSelectListItem(Model.Product.ShopId)" class="form-control"></select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-5 offset-2">
-                <partial name="_CreateAndBackToListButton" />
+            <div class="form-group row">
+                <div class="col-5 offset-2">
+                    <partial name="_CreateAndBackToListButton" />
+                </div>
             </div>
         </div>
     </div>
@@ -96,14 +99,14 @@
                 const instance = $('#Category').comboTree({
                     source: data,
                     selected: ['0'],
-                    isMultiple:false
+                    isMultiple: false
                 });
 
                 $('#Category').change(() => {
                     let ids = instance.getSelectedIds();
                     $("#categoryId").val(ids[0]);
                 });
-                
+
             })
         })
 
