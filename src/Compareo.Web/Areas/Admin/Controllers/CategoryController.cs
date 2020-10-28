@@ -14,34 +14,25 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
     [Area("Admin"), Authorize(Roles = SD.Admin)]
     public class CategoryController : Controller
     {
-
         private readonly ICategoryService _categoryService;
         
-
         private const int PageSize = 5;
+
         public CategoryController(ICategoryService categoryService)
         {
-            _categoryService = categoryService;
-            
+            _categoryService = categoryService; 
         }
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByCategory = null)
         {
+            var (categories, categoriesCount) = await _categoryService.GetFiltered(searchByCategory, PageSize, productPage);
+
             var categoryListVM = new CategoryListVM()
             {
-                Categories = await _categoryService.GetAll(c => c.ParentCategoryId == null)
+                Categories = categories
             };
 
-            var count = categoryListVM.Categories.Count;
-
-            categoryListVM.Categories = await _categoryService.GetPaginated(c => c.ParentCategoryId == null, PageSize, productPage);
-
-            if (searchByCategory != null)
-            {
-                categoryListVM.Categories = await _categoryService.GetPaginated(c => c.Name.ToLower().Contains(searchByCategory.ToLower()) && c.ParentCategoryId == null,
-                                                                                PageSize, productPage);
-                count = categoryListVM.Categories.Count;
-            }
+            var count = categoriesCount;
 
             const string Url = "/Admin/Category/Index?productPage=:";
 
@@ -159,7 +150,6 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
             var trees = categories.BuildTrees();
             return Json(trees);
         }
-
     }
 }
 

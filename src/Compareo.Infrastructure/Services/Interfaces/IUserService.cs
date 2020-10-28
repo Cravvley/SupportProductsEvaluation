@@ -12,8 +12,10 @@ namespace Compareo.Infrastructure.Services.Interfaces
 
         Task<bool> Lock(string userId, bool lockUser);
 
-        Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> filter = null);
+        Task<IList<User>> GetAll(Expression<Func<User, bool>> filter = null);
 
         Task<IList<User>> GetPaginated(Expression<Func<User, bool>> filter = null, int pageSize = 0, int productPage = 0);
+
+        Task<(IList<User> users, int usersCount)> GetFiltered(string userId,string userEmail = null, int? pageSize = null, int? productPage = null);
     }
 }

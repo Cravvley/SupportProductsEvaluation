@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
     {
         Task<User> Get(string id);
         
-        Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> filter = null);
+        Task<IList<User>> GetAll(Expression<Func<User, bool>> filter = null);
         
         Task Update(User user);
 

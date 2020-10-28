@@ -22,7 +22,7 @@ namespace Compareo.Infrastructure.Repositories
         public async Task<User> Get(string id)
                 => await _db.User.SingleOrDefaultAsync(u => u.Id == id);
 
-        public async Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> filter = null)
+        public async Task<IList<User>> GetAll(Expression<Func<User, bool>> filter = null)
             => await _db.User.AsNoTracking().Where(filter).AsQueryable().ToListAsync();
 
         public async Task<IList<User>> GetPaginated(Expression<Func<User, bool>> filter, int pageSize = 0, int productPage = 0)

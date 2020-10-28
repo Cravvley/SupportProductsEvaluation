@@ -29,24 +29,14 @@ namespace Compareo.Web.Areas.Admin.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            var users = await _userService.GetAll(u => u.Id != claim.Value);
+            var (users, usersCount) = await _userService.GetFiltered(claim.Value, searchByEmail, PageSize, productPage);
 
             var userListVM = new UserListVM()
             {
-                Users = users.ToList()
+                Users = users
             };
 
-            var count = userListVM.Users.Count;
-
-            userListVM.Users = await _userService.GetPaginated(u => u.Id != claim.Value, PageSize, productPage);
-
-            if (!(searchByEmail is null))
-            {
-                userListVM.Users = await _userService.GetPaginated(u => u.Email.ToLower()
-                                      .Contains(searchByEmail.ToLower()) && u.Id != claim.Value, PageSize, productPage);
-
-                count = userListVM.Users.Count;
-            }
+            var count = usersCount;
 
             const string Url = "/Admin/User/Index?productPage=:";
 

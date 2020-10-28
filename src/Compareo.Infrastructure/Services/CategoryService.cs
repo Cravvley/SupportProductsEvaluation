@@ -91,5 +91,25 @@ namespace Compareo.Infrastructure.Services
 
             return await _categoryRepository.GetPaginated(filter, pageSize, productPage);
         }
+
+        public async Task<(IList<Category> categories, int categoriesCount)> GetFiltered(string categoryName = null, int? pageSize = null, int? productPage = null)
+        {
+            var categories = await GetAll(c=>c.ParentCategoryId==null);
+
+            if ((pageSize is null || productPage is null)&&categoryName is null)
+            {
+                return (categories,categories.Count);
+            }
+            else if (categoryName is null)
+            {
+                return (await GetPaginated(c => c.ParentCategoryId == null, pageSize.Value, productPage.Value),categories.Count);
+            }
+            else
+            {
+                categories = await GetAll(c=>c.Name==categoryName);
+                return (await GetPaginated(c => c.Name.ToLower().Contains(categoryName.ToLower()) && c.ParentCategoryId == null,
+                                                                                pageSize.Value, productPage.Value),categories.Count);
+            }
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
         private readonly IProductPropositionService _productPropositionService;
 
         private const int PageSize = 5;
-        public ProductController(IProductService productService, IShopService shopService, 
+        public ProductController(IProductService productService, IShopService shopService,
             ICategoryService categoryService, IProductPropositionService productPropositionService)
         {
             _productService = productService;
@@ -32,7 +32,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             _productPropositionService = productPropositionService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null, string searchByShop = null)
         {
             var productListVM = new ProductListVM()
             {
@@ -43,7 +43,16 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
             productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
 
-            if (!(searchByProduct is null || searchByCategory is null))
+            if (!(searchByProduct is null || searchByCategory is null || searchByShop is null))
+            {
+                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower()) && s.Shop.Name.ToLower()
+                                      .Contains(searchByShop.ToLower()));
+
+                count = productListVM.Products.Count;
+            }
+            else if (!(searchByProduct is null || searchByCategory is null))
             {
                 productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                       .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
@@ -51,20 +60,40 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
                 count = productListVM.Products.Count;
             }
+            else if (!(searchByProduct is null || searchByShop is null))
+            {
+                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
+                                      .Contains(searchByProduct.ToLower()) && s.Shop.Name.ToLower()
+                                      .Contains(searchByShop.ToLower()));
 
+                count = productListVM.Products.Count;
+            }
+            else if (!(searchByCategory is null || searchByShop is null))
+            {
+                productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
+                                      .Contains(searchByCategory.ToLower()) && s.Shop.Name.ToLower()
+                                      .Contains(searchByShop.ToLower()));
+
+                count = productListVM.Products.Count;
+            }
             else if (!(searchByProduct is null))
             {
                 productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
                                       .Contains(searchByProduct.ToLower()));
 
-
                 count = productListVM.Products.Count;
             }
-
             else if (!(searchByCategory is null))
             {
                 productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
                                       .Contains(searchByCategory.ToLower()));
+
+                count = productListVM.Products.Count;
+            }
+            else if (!(searchByShop is null))
+            {
+                productListVM.Products = await _productService.GetPaginated(s => s.Shop.Name.ToLower()
+                                      .Contains(searchByShop.ToLower()));
 
                 count = productListVM.Products.Count;
             }
@@ -171,7 +200,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
             return View(await _productService.GetDto(id));
         }
-            
+
 
         [HttpPost, ActionName("Edit"), ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPOST(ProductDto productDto)

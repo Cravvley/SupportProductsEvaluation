@@ -31,7 +31,7 @@ namespace Compareo.Infrastructure.Services
             return userEntity;
         }
 
-        public async Task<IEnumerable<User>> GetAll(Expression<Func<User, bool>> filter = null)
+        public async Task<IList<User>> GetAll(Expression<Func<User, bool>> filter = null)
                         => await _userRepository.GetAll(filter);
 
         public async Task<bool> Lock(string userId, bool lockUser)
@@ -69,6 +69,26 @@ namespace Compareo.Infrastructure.Services
             }
 
             return await _userRepository.GetPaginated(filter, pageSize, productPage);
+        }
+
+        public async Task<(IList<User> users, int usersCount)> GetFiltered(string userId, string userEmail = null, int? pageSize = null, int? productPage = null)
+        {
+            var users = await GetAll(u => u.Id != userId);
+
+            if ((pageSize is null || productPage is null) && userEmail is null)
+            {
+                return (users, users.Count);
+            }
+            else if (userEmail is null)
+            {
+                return (await GetPaginated(u => u.Id != userId, pageSize.Value, productPage.Value), users.Count);
+            }
+            else
+            {
+                users = await GetAll(c => c.Email == userEmail);
+                return (await GetPaginated(u => u.Id != userId && u.Email.ToLower().Contains(userEmail.ToLower()),
+                                                                                pageSize.Value, productPage.Value), users.Count);
+            }
         }
 
     }
