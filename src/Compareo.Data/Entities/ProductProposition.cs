@@ -29,7 +29,6 @@ namespace Compareo.Data.Entities
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
 
-        [Required]
         public byte[] Picture { get; set; }
 
         public string AdditionalInformation { get; set; }

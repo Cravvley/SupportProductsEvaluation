@@ -7,6 +7,7 @@ using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -295,6 +296,11 @@ namespace Compareo.Web.Controllers
                     }
                 }
                 productProposition.Picture = p1;
+            }
+            else
+            {
+                byte[] p1 = { 0 };
+                productProposition.Picture=p1;
             }
 
             await _productPropositionService.Create(productProposition);
