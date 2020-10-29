@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
     {
         Task Create(Report report);
 
-        Task Delete(int? id);
+        Task Delete(Report report);
 
         Task Update(Report report);
 

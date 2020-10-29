@@ -26,6 +26,17 @@ namespace Compareo.Infrastructure.Services.Interfaces
             await _commentRepository.Add(comment);
         }
 
+        public async Task Delete(int? id)
+        {
+            var commentEntity=await _commentRepository.Get(id);
+            if(commentEntity is null)
+            {
+                throw new ArgumentNullException("comment doesn't exist");
+            }
+
+            await _commentRepository.Delete(commentEntity);
+        }
+
         public async Task<IList<Comment>> GetPaginated(Expression<Func<Comment, bool>> filter=null, int pageSize = 1, int productPage = 1)
         {
             if (filter is null)

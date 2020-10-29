@@ -34,7 +34,7 @@ namespace Compareo.Infrastructure.Services
                 return;
             }
 
-            await _productPropositionRepository.Delete(id);
+            await _productPropositionRepository.Delete(productPropositionEntity);
         }
 
         public async Task<ProductProposition> Get(int? id)

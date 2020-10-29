@@ -26,16 +26,14 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(int? id)
+        public async Task Delete(Category category)
         {
-            var subcategoryList = await GetAll(x => x.ParentCategoryId == id);
+            var subcategoryList = await GetAll(x => x.ParentCategoryId == category.Id);
 
             foreach (var subcategory in subcategoryList)
             {
-                await Delete(subcategory.Id);
+                await Delete(subcategory);
             }
-
-            var category = await Get(id);
 
             _db.Category.Remove(category);
 

@@ -22,20 +22,21 @@ namespace Compareo.Infrastructure.Repositories
         public async Task Create(Product product)
         {
             await _db.Product.AddAsync(product);
+
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(int? id)
+        public async Task Delete(Product product)
         {
-            var productEntity = await Get(id);
-            _db.Product.Remove(productEntity);
+            _db.Product.Remove(product);
+
             await _db.SaveChangesAsync();
         }
 
         public async Task<Product> Get(int? id)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(co => co.Comments).ThenInclude(u => u.User)
-                                .Include(r => r.Rates).FirstOrDefaultAsync(p => p.Id == id);
+                                .Include(r => r.Rates).ThenInclude(u => u.User).FirstOrDefaultAsync(p => p.Id == id);
 
 
         public async Task Update(Product product)
@@ -52,7 +53,7 @@ namespace Compareo.Infrastructure.Repositories
 
         public async Task<Product> Get(Expression<Func<Product, bool>> filter)
                     => await _db.Product.Include(s => s.Shop).Include(s => s.Category)
-                    .Include(s => s.Rates).FirstOrDefaultAsync(filter);
+                    .Include(s => s.Rates).ThenInclude(u=>u.User).FirstOrDefaultAsync(filter);
 
         public async Task<IList<Product>> GetAll(Expression<Func<Product, bool>> filter)
                 => await _db.Product.AsNoTracking().Include(s => s.Shop)

@@ -86,15 +86,29 @@
     <ul>
         @foreach (var comment in Model.Product.Comments)
         {
-            <li class="card text-center mb-3">
-                <div class="card-header row">
-                    <p class="text-left col-6">@comment.User.Name</p>
-                    <p class="text-right col-6">@comment.UpdateAt</p>
+        <li class="card text-center mb-3">
+            <div class="card-header row">
+                <p class="text-left col-6">@comment.User.Name</p>
+                <p class="text-right col-6">@comment.UpdateAt</p>
+            </div>
+            <div class="card-body text-left">
+                <p class="card-text">@comment.Description</p>
+            </div>
+            @{ 
+                
+                var claimsIdentity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+            }
+            @if (claim.Value == comment.UserId || User.IsInRole(Constants.Admin))
+            {
+                <div class="card-footer bg-transparent ">
+                    <a class="btn btn-danger text-white mr-2 offset-11" style="width:50px" asp-action="DeleteComment" asp-route-id="@comment.Id" asp-route-productId="@Model.Product.Id">
+                <i class="fas fa-trash-alt"></i>    
+                    </a>
                 </div>
-                <div class="card-body text-left">
-                    <p class="card-text">@comment.Description</p>
-                </div>
-            </li>
+            }
+        </li>
         }
     </ul>
 </div>

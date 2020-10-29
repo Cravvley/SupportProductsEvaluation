@@ -37,13 +37,15 @@ namespace Compareo.Infrastructure.Services
             {
                 return;
             }
-            await _productRepository.Delete(id);
+
+            await _productRepository.Delete(productEntity);
         }
 
         public async Task<Product> Get(int? id)
         {
             var productEntity = await _productRepository.Get(id);
             productEntity.Rates = productEntity.Rates.Where(x=>x.User.LockoutEnd==null||x.User.LockoutEnd<DateTime.Now).ToList();
+            
             if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");

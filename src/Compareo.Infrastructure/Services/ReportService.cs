@@ -46,7 +46,7 @@ namespace Compareo.Infrastructure.Services
             var reports = await _reportRepository.GetAll(r => true);
             foreach (var report in reports)
             {
-                await _reportRepository.Delete(report.Id);
+                await _reportRepository.Delete(report);
             }
 
             var products = await _productRepository.GetAll(p => true);
@@ -69,7 +69,7 @@ namespace Compareo.Infrastructure.Services
                 return;
             }
 
-            await _reportRepository.Delete(id);
+            await _reportRepository.Delete(report);
         }
 
         public async Task<Report> Get(int? id)

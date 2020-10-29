@@ -22,13 +22,14 @@ namespace Compareo.Infrastructure.Repositories
         public async Task Create(ShopProposition shopProposition)
         {
             await _db.ShopProposition.AddAsync(shopProposition);
+
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(int? id)
+        public async Task Delete(ShopProposition shopProposition)
         {
-            var shopPropositionEntity = await Get(id);
-            _db.ShopProposition.Remove(shopPropositionEntity);
+            _db.ShopProposition.Remove(shopProposition);
+
             await _db.SaveChangesAsync();
         }
 

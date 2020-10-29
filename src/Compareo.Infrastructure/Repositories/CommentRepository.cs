@@ -22,8 +22,19 @@ namespace Compareo.Infrastructure.Repositories
             comment.UpdateAt = DateTime.Now;
 
             await _db.Comment.AddAsync(comment);
+
             await _db.SaveChangesAsync();
         }
+
+        public async Task Delete(Comment comment)
+        {
+            _db.Remove(comment);
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<Comment> Get(int? id)
+            => await _db.Comment.SingleOrDefaultAsync(c => c.Id == id);
 
         public async Task<IList<Comment>> GetPaginated(Expression<Func<Comment, bool>> filter, int pageSize = 1, int productPage = 1)
                         => await _db.Comment.AsNoTracking().Include(u=>u.User).Include(p=>p.Product)

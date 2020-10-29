@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
     {
         Task Create(Product product);
 
-        Task Delete(int? id);
+        Task Delete(Product product);
 
         Task Update(Product product);
 

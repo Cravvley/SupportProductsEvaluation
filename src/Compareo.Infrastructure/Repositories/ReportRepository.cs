@@ -24,10 +24,10 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task Delete(int? id)
+        public async Task Delete(Report report)
         {
-            var reportEntity = await  Get(id);
-            _db.Report.Remove(reportEntity);
+            _db.Report.Remove(report);
+
             await _db.SaveChangesAsync();
         }
 

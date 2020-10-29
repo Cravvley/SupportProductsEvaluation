@@ -8,7 +8,7 @@ namespace Compareo.Data.Repositories
     {
         Task Create(ProductProposition productProposition);
 
-        Task Delete(int? id);
+        Task Delete(ProductProposition productProposition);
 
         Task<ProductProposition> Get(int? id);
 

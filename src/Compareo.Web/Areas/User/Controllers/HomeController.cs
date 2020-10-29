@@ -42,7 +42,7 @@ namespace Compareo.Web.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null, string searchByShop = null)
         {
-            var (products, productsCount) = await _productService.GetFiltered(searchByProduct, searchByCategory, searchByShop,PageSize,productPage);
+            var (products, productsCount) = await _productService.GetFiltered(searchByProduct, searchByCategory, searchByShop, PageSize, productPage);
 
             var homeVM = new HomeVM()
             {
@@ -131,7 +131,7 @@ namespace Compareo.Web.Controllers
 
             var count = productDetailsVM.Product.Comments.Count;
 
-            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.ProductId == id&&(x.User.LockoutEnd==null||x.User.LockoutEnd<DateTime.Now), PageSize, productPage);
+            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.ProductId == id && (x.User.LockoutEnd == null || x.User.LockoutEnd < DateTime.Now), PageSize, productPage);
 
             string url = $"/User/Home/ProductDetails/{id}?productPage=:";
 
@@ -265,6 +265,14 @@ namespace Compareo.Web.Controllers
             await _shopPropositionService.Create(shopProposition);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
+        public async Task<IActionResult> DeleteComment(int? id, int? productId)
+        {
+            await _commentService.Delete(id);
+
+            return RedirectToAction("ProductDetails", new { Id = productId});
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

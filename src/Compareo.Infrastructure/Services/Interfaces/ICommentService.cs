@@ -10,6 +10,8 @@ namespace Compareo.Infrastructure.Services.Interfaces
     {
         Task Add(Comment comment);
 
+        Task Delete(int ? id);
+
         Task<IList<Comment>> GetPaginated(Expression<Func<Comment, bool>> filter = null, int pageSize = 1, int productPage = 1);
     }
 }

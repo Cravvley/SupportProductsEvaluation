@@ -35,7 +35,7 @@ namespace Compareo.Infrastructure.Services
                 return;
             }
 
-            await _categoryRepository.Delete(id);
+            await _categoryRepository.Delete(categoryEntity);
         }
 
         public async Task<Category> Get(int? id)

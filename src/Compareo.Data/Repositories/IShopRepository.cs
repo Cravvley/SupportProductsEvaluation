@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
     {
         Task Create(Shop shop);
         
-        Task Delete(int ?id);
+        Task Delete(Shop shop);
         
         Task Update(Shop shop);
 
