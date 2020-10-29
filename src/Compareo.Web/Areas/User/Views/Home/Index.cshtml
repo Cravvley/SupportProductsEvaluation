@@ -5,7 +5,7 @@
 
 <form asp-action="Index" method="get">
     <div class="row container">
-        @if (User.IsInRole(Compareo.Infrastructure.Utility.SD.Admin) || User.IsInRole(Compareo.Infrastructure.Utility.SD.User))
+        @if (User.IsInRole(Constants.Admin) || User.IsInRole(Constants.User))
         {
             <a asp-action="" class="btn btn-outline-info  form-control  productPropositionModal col-5 col-md-2 " data-toggle="modal">
                 Your Product
@@ -22,7 +22,7 @@
         }
     </div>
     <br />
-    <partial name="_SearchByProductAndByCategory" />
+    <partial name="_SearchByProductByCategoryAndByShop" />
     <div class="mt-4">
         @foreach (var product in Model.Products)
         {
@@ -47,7 +47,7 @@
                         <div class="row col-12 text-justify d-none d-md-block">
                             <p>@Html.Raw(product.Description)</p>
                         </div>
-                        @if (User.IsInRole(Compareo.Infrastructure.Utility.SD.Admin) || User.IsInRole(Compareo.Infrastructure.Utility.SD.User))
+                        @if (User.IsInRole(Constants.User) || User.IsInRole(Constants.User))
                         {
                             <div class="col-md-3 col-sm-12 offset-md-9 text-center " style="position:absolute;bottom:0;right:1%;">
                                 <a asp-action="ProductDetails" class="btn btn-info form-control" asp-route-id="@product.Id">Details</a>

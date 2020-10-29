@@ -35,13 +35,20 @@ using Compareo.Data.Entities;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Areas\Admin\Views\_ViewImports.cshtml"
-using Compareo.Infrastructure.Extensions;
+using Compareo.Infrastructure.Common.Extensions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Areas\Admin\Views\_ViewImports.cshtml"
+using Compareo.Infrastructure.Common.StaticFiles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"9d0062c1a0e923c53845c51fa87b7d03c15d31c3", @"/Areas/Admin/Views/Report/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5025cf660f4ba621b61ddc232ef21b9953b55372", @"/Areas/Admin/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1f96e4e23c96da6a5498a869800c9afd98578714", @"/Areas/Admin/Views/_ViewImports.cshtml")]
     public class Areas_Admin_Views_Report_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ReportListVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("name", "_SearchByProductAndByCategory", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -86,9 +93,9 @@ using Compareo.Infrastructure.Extensions;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n<br />\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9d0062c1a0e923c53845c51fa87b7d03c15d31c35677", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9d0062c1a0e923c53845c51fa87b7d03c15d31c35899", async() => {
                 WriteLiteral("\r\n\r\n    <div class=\"col-12 text-center\">\r\n        <h1 class=\"text-secondary\"> Report\'s List</h1>\r\n    </div>\r\n    <br />\r\n    <br />\r\n    ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c36088", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c36310", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -150,7 +157,7 @@ using Compareo.Infrastructure.Extensions;
 #line hidden
 #nullable disable
                 WriteLiteral("\r\n                        </td>\r\n                        <td>\r\n                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c39082", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c39304", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -181,7 +188,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = item.Id;
 #line hidden
 #nullable disable
                 WriteLiteral("            </table>\r\n            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c311036", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c311258", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -222,7 +229,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = Model.PagingInfo;
 #line hidden
 #nullable disable
                 WriteLiteral("    </div>\r\n    <br />\r\n    <div class=\"col-6 offset-6 text-right\">\r\n        ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c313279", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "9d0062c1a0e923c53845c51fa87b7d03c15d31c313501", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

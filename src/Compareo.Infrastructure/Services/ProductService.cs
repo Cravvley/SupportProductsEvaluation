@@ -130,5 +130,75 @@ namespace Compareo.Infrastructure.Services
                 await _productRepository.Create(product);
             }
         }
+
+        public async Task<(IList<ProductDto> products, int productsCount)> GetFiltered(string productName = null, string categoryName = null, string shopName = null, int? pageSize = null, int? productPage = null)
+        {
+            var products = await GetAllHeaders();
+
+            if (productName is null && categoryName is null && shopName is null)
+            {
+                return (await GetPaginated(s => true, pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(productName is null || categoryName is null || shopName is null))
+            {
+                products = await GetAllHeaders(p => p.Name.ToLower()
+                                  .Contains(productName.ToLower()) && p.Category.Name.ToLower()
+                                  .Contains(categoryName.ToLower()) && p.Shop.Name.Contains(shopName));
+
+                return (await GetPaginated(p => p.Name.ToLower()
+                                  .Contains(productName.ToLower()) && p.Category.Name.ToLower()
+                                  .Contains(categoryName.ToLower()) && p.Shop.Name.Contains(shopName), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(productName is null || categoryName is null))
+            {
+                products = await GetAllHeaders(p => p.Name.ToLower()
+                                      .Contains(productName.ToLower()) && p.Category.Name.ToLower()
+                                      .Contains(categoryName.ToLower()));
+
+                return (await GetPaginated(p => p.Name.ToLower()
+                                   .Contains(productName.ToLower()) && p.Category.Name.ToLower()
+                                   .Contains(categoryName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(productName is null || shopName is null))
+            {
+                products = await GetAllHeaders(p => p.Name.ToLower()
+                                      .Contains(productName.ToLower()) && p.Shop.Name.ToLower()
+                                      .Contains(shopName.ToLower()));
+
+                return (await GetPaginated(p => p.Name.ToLower()
+                                   .Contains(productName.ToLower()) && p.Shop.Name.ToLower()
+                                   .Contains(shopName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(categoryName is null || shopName is null))
+            {
+                products = await GetAllHeaders(p => p.Shop.Name.ToLower()
+                                      .Contains(shopName.ToLower()) && p.Category.Name.ToLower()
+                                      .Contains(categoryName.ToLower()));
+
+                return (await GetPaginated(p => p.Shop.Name.ToLower()
+                                   .Contains(shopName.ToLower()) && p.Category.Name.ToLower()
+                                   .Contains(categoryName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(productName is null))
+            {
+                products = await GetAllHeaders(p => p.Name.ToLower().Contains(productName.ToLower()));
+
+                return (await GetPaginated(p => p.Name.ToLower().Contains(productName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(categoryName is null))
+            {
+                products = await GetAllHeaders(p => p.Category.Name.ToLower().Contains(categoryName.ToLower()));
+
+                return (await GetPaginated(p => p.Category.Name.ToLower().Contains(categoryName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+            else if (!(shopName is null))
+            {
+                products = await GetAllHeaders(p => p.Shop.Name.ToLower().Contains(shopName.ToLower()));
+
+                return (await GetPaginated(p => p.Shop.Name.ToLower().Contains(shopName.ToLower()), pageSize.Value, productPage.Value), products.Count);
+            }
+
+            return (products, products.Count);
+        }
     }
 }

@@ -26,8 +26,15 @@ using Compareo.Infrastructure.VMs;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 3 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Views\_ViewImports.cshtml"
+using Compareo.Infrastructure.Common.StaticFiles;
+
+#line default
+#line hidden
+#nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"7be557c596be2d25aeb9c80d2defc8962bfc80fc", @"/Views/Shared/_DetailsAndBackToListButton.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"caa2fa65991832fd91170479f23ced5f0ba65e49", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"62e13e5110a8d60cc934e7b815dba461c7126df5", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__DetailsAndBackToListButton : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<int>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "Edit", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -60,7 +67,7 @@ using Compareo.Infrastructure.VMs;
         {
             WriteLiteral("\r\n");
             WriteLiteral("\r\n<div class=\"row\">\r\n    <div class=\"col-6\">\r\n        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7be557c596be2d25aeb9c80d2defc8962bfc80fc4597", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7be557c596be2d25aeb9c80d2defc8962bfc80fc4800", async() => {
                 WriteLiteral("Edit");
             }
             );
@@ -92,7 +99,7 @@ using Compareo.Infrastructure.VMs;
             Write(__tagHelperExecutionContext.Output);
             __tagHelperExecutionContext = __tagHelperScopeManager.End();
             WriteLiteral("\r\n    </div>\r\n    <div class=\"col-6\">\r\n        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7be557c596be2d25aeb9c80d2defc8962bfc80fc6881", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7be557c596be2d25aeb9c80d2defc8962bfc80fc7084", async() => {
                 WriteLiteral("Back to List");
             }
             );

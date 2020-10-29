@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Compareo.Data.Entities;
+using Compareo.Infrastructure.Common.StaticFiles;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -6,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Compareo.Data.Entities;
-using Compareo.Infrastructure.Utility;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -88,16 +88,16 @@ namespace Compareo.Web.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    if(!await _roleManager.RoleExistsAsync(SD.User))
+                    if(!await _roleManager.RoleExistsAsync(Constants.User))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.User));
+                        await _roleManager.CreateAsync(new IdentityRole(Constants.User));
                     }
-                    if (!await _roleManager.RoleExistsAsync(SD.Admin))
+                    if (!await _roleManager.RoleExistsAsync(Constants.Admin))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Admin));
+                        await _roleManager.CreateAsync(new IdentityRole(Constants.Admin));
                     }
 
-                    await _userManager.AddToRoleAsync(user, SD.User);
+                    await _userManager.AddToRoleAsync(user, Constants.User);
 
                     _logger.LogInformation("User created a new account with password.");
 

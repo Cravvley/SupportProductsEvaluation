@@ -1,8 +1,8 @@
 ﻿using Compareo.Data.Entities;
-using Compareo.Infrastructure.Extensions;
-using Compareo.Infrastructure.Pagination;
+using Compareo.Infrastructure.Common.Extensions;
+using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
 {
 
-    [Area("Admin"), Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = Constants.Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -32,15 +32,13 @@ namespace SupportProductsEvaluation.Web.Areas.Admin.Controllers
                 Categories = categories
             };
 
-            var count = categoriesCount;
-
             const string Url = "/Admin/Category/Index?productPage=:";
 
             categoryListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = categoriesCount,
                 UrlParam = Url
             };
 

@@ -35,13 +35,20 @@ using Compareo.Data.Entities;
 #nullable disable
 #nullable restore
 #line 4 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Areas\Admin\Views\_ViewImports.cshtml"
-using Compareo.Infrastructure.Extensions;
+using Compareo.Infrastructure.Common.Extensions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Areas\Admin\Views\_ViewImports.cshtml"
+using Compareo.Infrastructure.Common.StaticFiles;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d8157686557c65cbea2488d1d3a5081ae490b4d6", @"/Areas/Admin/Views/Shop/ShopPropositionList.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"5025cf660f4ba621b61ddc232ef21b9953b55372", @"/Areas/Admin/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1f96e4e23c96da6a5498a869800c9afd98578714", @"/Areas/Admin/Views/_ViewImports.cshtml")]
     public class Areas_Admin_Views_Shop_ShopPropositionList : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ShopPropositionListVM>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-action", "ShopPropositionDetails", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -88,7 +95,7 @@ using Compareo.Infrastructure.Extensions;
 #line hidden
 #nullable disable
             WriteLiteral("\r\n<br />\r\n<div class=\"col-12 text-center\">\r\n    <h1 class=\"text-secondary\"> Shop\'s  proposition list</h1>\r\n</div>\r\n");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d66439", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d66661", async() => {
                 WriteLiteral("\r\n    <br />\r\n    <br />\r\n    <div class=\"p-1\">\r\n");
 #nullable restore
 #line 16 "C:\Users\HP\Desktop\Compareo\src\Compareo.Web\Areas\Admin\Views\Shop\ShopPropositionList.cshtml"
@@ -148,7 +155,7 @@ using Compareo.Infrastructure.Extensions;
 #line hidden
 #nullable disable
                 WriteLiteral("\r\n                        </td>\r\n                        <td>\r\n                            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d69062", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d69284", async() => {
                     WriteLiteral("Details");
                 }
                 );
@@ -188,7 +195,7 @@ using Compareo.Infrastructure.Extensions;
 #line hidden
 #nullable disable
                 WriteLiteral("            </table>\r\n            ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d8157686557c65cbea2488d1d3a5081ae490b4d611770", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d8157686557c65cbea2488d1d3a5081ae490b4d611992", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -229,7 +236,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = Model.PagingInfo;
 #line hidden
 #nullable disable
                 WriteLiteral("    </div>\r\n    <div class=\"col-12\">\r\n        ");
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d613999", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d8157686557c65cbea2488d1d3a5081ae490b4d614221", async() => {
                     WriteLiteral("\r\n            Back\r\n        ");
                 }
                 );

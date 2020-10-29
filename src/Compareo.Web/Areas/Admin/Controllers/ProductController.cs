@@ -1,20 +1,18 @@
-﻿using Compareo.Infrastructure.DTOs;
-using Compareo.Infrastructure.Pagination;
+﻿using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
+using Compareo.Infrastructure.DTOs;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Compareo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = Constants.Admin)]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -34,69 +32,12 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null, string searchByShop = null)
         {
+            var (products, productsCount) = await _productService.GetFiltered(searchByProduct, searchByCategory, searchByShop, PageSize, productPage);
+
             var productListVM = new ProductListVM()
             {
-                Products = await _productService.GetAllHeaders(),
+                Products = products,
             };
-
-            var count = productListVM.Products.Count;
-
-            productListVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
-
-            if (!(searchByProduct is null || searchByCategory is null || searchByShop is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()) && s.Shop.Name.ToLower()
-                                      .Contains(searchByShop.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByProduct is null || searchByCategory is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByProduct is null || searchByShop is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.Shop.Name.ToLower()
-                                      .Contains(searchByShop.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByCategory is null || searchByShop is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()) && s.Shop.Name.ToLower()
-                                      .Contains(searchByShop.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByProduct is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                      .Contains(searchByProduct.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByCategory is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
-            else if (!(searchByShop is null))
-            {
-                productListVM.Products = await _productService.GetPaginated(s => s.Shop.Name.ToLower()
-                                      .Contains(searchByShop.ToLower()));
-
-                count = productListVM.Products.Count;
-            }
 
             const string Url = "/Admin/Product/Index?productPage=:";
 
@@ -104,7 +45,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = productsCount,
                 UrlParam = Url
             };
 
@@ -121,7 +62,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
             {
                 Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
-                Id = p.Id
+                p.Id
             }), "Id", "Text");
 
             return View(new ProductDto());
@@ -135,7 +76,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
             {
                 Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
-                Id = p.Id
+                p.Id
             }), "Id", "Text");
 
             if (!ModelState.IsValid)
@@ -195,7 +136,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
             {
                 Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
-                Id = p.Id
+                p.Id
             }), "Id", "Text");
 
             return View(await _productService.GetDto(id));

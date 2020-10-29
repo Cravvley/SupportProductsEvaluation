@@ -1,5 +1,5 @@
 ﻿using Compareo.Data.Entities;
-using Compareo.Infrastructure.Pagination;
+using Compareo.Infrastructure.Common.Pagination;
 
 namespace Compareo.Infrastructure.VMs
 {

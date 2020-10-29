@@ -95,15 +95,7 @@
                             <label asp-for="CategoryName" class="col-form-label font-weight-bold text-info">Category name :</label>
                         </div>
                         <div class="col-10">
-                            <input asp-for="CategoryName" disabled class="form-control" value=${data.categoryName} />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-2">
-                            <label asp-for="SubCategoryName" class="col-form-label font-weight-bold text-info">Subcategory name :</label>
-                        </div>
-                        <div class="col-10">
-                            <input asp-for="SubCategoryName" disabled class="form-control" value=${data.subCategoryName} />
+                            <input asp-for="CategoryName" disabled class="form-control" value=${data.category.name} />
                         </div>
                     </div>
                     <div class="form-group row">

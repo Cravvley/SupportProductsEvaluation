@@ -113,5 +113,39 @@ namespace Compareo.Infrastructure.Services
 
             await _reportRepository.Update(report);
         }
+
+        public async Task<(IList<Report> reports, int reportsCount)> GetFiltered(string productName = null, string categoryName = null, int? pageSize = null, int? productPage = null)
+        {
+            var reports = await GetAll();
+
+            if (productName is null && categoryName is null)
+            {
+                return (await GetPaginated(s => true, pageSize.Value, productPage.Value), reports.Count);
+            }
+            else if (!(productName is null || categoryName is null))
+            {
+                reports = await GetAll(r => r.ProductName.ToLower()
+                                     .Contains(productName.ToLower()) && r.Category.Name.ToLower()
+                                     .Contains(categoryName.ToLower()));
+
+                return (await GetPaginated(r => r.ProductName.ToLower()
+                                    .Contains(productName.ToLower()) && r.Category.Name.ToLower()
+                                    .Contains(categoryName.ToLower()), pageSize.Value, productPage.Value), reports.Count);
+            }
+            else if (!(productName is null))
+            {
+                reports = await GetAll(r => r.ProductName.ToLower().Contains(productName.ToLower()));
+
+                return (await GetPaginated(r => r.ProductName.ToLower().Contains(productName.ToLower()), pageSize.Value, productPage.Value), reports.Count);
+            }
+            else if (!(categoryName is null))
+            {
+                reports = await GetAll(r => r.Category.Name.ToLower().Contains(categoryName.ToLower()));
+
+                return (await GetPaginated(r => r.Category.Name.ToLower().Contains(categoryName.ToLower()), pageSize.Value, productPage.Value), reports.Count);
+            }
+
+            return (reports, reports.Count);
+        }
     }
 }

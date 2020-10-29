@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Compareo.Data.Entities;
-using Compareo.Infrastructure.Pagination;
+﻿using Compareo.Data.Entities;
+using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Compareo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = Constants.Admin)]
     public class ShopController : Controller
     {
         private readonly IShopService _shopService;
@@ -25,36 +25,12 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByShop = null, string searchByCity = null)
         {
+            var (shops, shopsCount) = await _shopService.GetFiltered(searchByShop,searchByCity, PageSize, productPage);
 
             var shopListVM = new ShopListVM()
             {
-                Shops = await _shopService.GetAllHeaders()
+                Shops = shops
             };
-
-            var count = shopListVM.Shops.Count;
-
-            shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => true, PageSize, productPage);
-
-            if (!(searchByShop is null || searchByCity is null))
-            {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower()
-                                    .Contains(searchByShop.ToLower()) && s.City.ToLower()
-                                    .Contains(searchByCity.ToLower()), PageSize, productPage);
-
-                count = shopListVM.Shops.Count;
-            }
-            else if (!(searchByShop is null))
-            {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.Name.ToLower().Contains(searchByShop.ToLower()), PageSize, productPage);
-
-                count = shopListVM.Shops.Count;
-            }
-            else if (!(searchByCity is null))
-            {
-                shopListVM.Shops = await _shopService.GetPaginatedHeaders(s => s.City.ToLower().Contains(searchByCity.ToLower()), PageSize, productPage);
-
-                count = shopListVM.Shops.Count;
-            }
 
             const string Url = "/Admin/Shop/Index?productPage=:";
 
@@ -62,7 +38,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = shopsCount,
                 UrlParam = Url
             };
 
@@ -155,7 +131,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
             shopPropositionListVM.ShopPropositions = await _shopPropositionService.GetPaginated(PageSize, productPage);
 
-
             const string Url = "/Admin/Shop/ShopPropositionList?productPage=:";
 
             shopPropositionListVM.PagingInfo = new PagingInfo
@@ -185,6 +160,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
         public async Task<IActionResult> ShopPropositionDiscard(int id)
         {
             await _shopPropositionService.Delete(id);
+
             return RedirectToAction("ShopPropositionList");
         }
 

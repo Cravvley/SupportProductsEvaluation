@@ -1,6 +1,6 @@
 ﻿using Compareo.Data.Entities;
+using Compareo.Infrastructure.Common.Pagination;
 using Compareo.Infrastructure.DTOs;
-using Compareo.Infrastructure.Pagination;
 using System.Collections.Generic;
 
 namespace Compareo.Infrastructure.VMs

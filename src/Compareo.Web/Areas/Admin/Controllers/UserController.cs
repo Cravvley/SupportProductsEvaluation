@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Compareo.Infrastructure.Pagination;
+﻿using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
-using System;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Compareo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = Constants.Admin)]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -36,15 +34,13 @@ namespace Compareo.Web.Areas.Admin.Controllers
                 Users = users
             };
 
-            var count = usersCount;
-
             const string Url = "/Admin/User/Index?productPage=:";
 
             userListVM.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = usersCount,
                 UrlParam = Url
             };
 

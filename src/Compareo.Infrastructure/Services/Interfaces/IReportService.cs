@@ -20,5 +20,7 @@ namespace Compareo.Infrastructure.Services.Interfaces
         Task<IList<Report>> GetAll(Expression<Func<Report, bool>> filter=null);
 
         Task<IList<Report>> GetPaginated(Expression<Func<Report, bool>> filter = null, int pageSize = 1, int productPage = 1);
+
+        Task<(IList<Report> reports, int reportsCount)> GetFiltered(string productName = null, string categoryName = null, int? pageSize = null, int? productPage = null);
     }
 }

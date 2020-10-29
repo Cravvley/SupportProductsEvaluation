@@ -107,7 +107,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task AcceptProposition(ShopProposition shopProposition)
         {
-            var shop =  _mapper.Map<ShopProposition, Shop>(shopProposition);
+            var shop = _mapper.Map<ShopProposition, Shop>(shopProposition);
 
             var exist = await Exist(s => s.City.ToLower() == shop.City.ToLower() && s.Country.ToLower()
                                   == shop.Country.ToLower() && s.Name.ToLower() == shop.Name.ToLower() && s.PostalCode.ToLower()
@@ -121,6 +121,40 @@ namespace Compareo.Infrastructure.Services
             {
                 await _shopRepository.Create(shop);
             }
+        }
+
+        public async Task<(IList<ShopDto> shops, int shopsCount)> GetFiltered(string shopName = null, string cityName = null, int? pageSize = null, int? productPage = null)
+        {
+            var shops = await GetAllHeaders();
+
+            if (shopName is null && cityName is null)
+            {
+                return (await GetPaginatedHeaders(s => true, pageSize.Value, productPage.Value), shops.Count);
+            }
+            else if (!(shopName is null || cityName is null))
+            {
+                shops = await GetAllHeaders(s => s.Name.ToLower()
+                                    .Contains(shopName.ToLower()) && s.City.ToLower()
+                                    .Contains(cityName.ToLower()));
+
+                return (await GetPaginatedHeaders(s => s.Name.ToLower()
+                                    .Contains(shopName.ToLower()) && s.City.ToLower()
+                                    .Contains(cityName.ToLower()), pageSize.Value, productPage.Value), shops.Count);
+            }
+            else if (!(shopName is null))
+            {
+                shops = await GetAllHeaders(s => s.Name.ToLower().Contains(shopName.ToLower()));
+
+                return (await GetPaginatedHeaders(s => s.Name.ToLower().Contains(shopName.ToLower()), pageSize.Value, productPage.Value), shops.Count);
+            }
+            else if (!(cityName is null))
+            {
+                shops = await GetAllHeaders(s => s.City.ToLower().Contains(cityName.ToLower()));
+
+                return (await GetPaginatedHeaders(s => s.City.ToLower().Contains(cityName.ToLower()), pageSize.Value, productPage.Value), shops.Count);
+            }
+
+            return (shops, shops.Count);
         }
     }
 }

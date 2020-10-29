@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Compareo.Data.Entities;
-using Compareo.Infrastructure.Pagination;
+﻿using Compareo.Data.Entities;
+using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
-using System.Linq;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Compareo.Web.Areas.Admin.Controllers
 {
-    [Area("Admin"), Authorize(Roles = SD.Admin)]
+    [Area("Admin"), Authorize(Roles = Constants.Admin)]
     public class ReportController : Controller
     {
         private readonly IReportService _reportService;
@@ -23,37 +22,14 @@ namespace Compareo.Web.Areas.Admin.Controllers
             _productService = productService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, int? searchByCategory = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
+            var (reports, reportsCount) = await _reportService.GetFiltered(searchByProduct, searchByCategory, PageSize, productPage);
+
             var reportListVM = new ReportListVM()
             {
-                Reports = await _reportService.GetAll()
+                Reports = reports
             };
-
-            var count = reportListVM.Reports.Count;
-
-            reportListVM.Reports = await _reportService.GetPaginated(null, PageSize, productPage);
-
-            if (!(searchByProduct is null || searchByCategory is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && s.CategoryId==searchByCategory, PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
-            else if (!(searchByProduct is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(s => s.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()), PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
-            else if (!(searchByCategory is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(s => s.CategoryId==searchByCategory, PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
 
             const string Url = "/Admin/Report/Index?productPage=:";
 
@@ -61,7 +37,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = reportsCount,
                 UrlParam = Url
             };
 
@@ -76,8 +52,7 @@ namespace Compareo.Web.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost,ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Report report)
         {
             if (ModelState.IsValid)

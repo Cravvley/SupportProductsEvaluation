@@ -1,13 +1,11 @@
 ﻿using Compareo.Data.Entities;
-using Compareo.Infrastructure.Pagination;
-using Compareo.Infrastructure.Services;
+using Compareo.Infrastructure.Common.Pagination;
+using Compareo.Infrastructure.Common.StaticFiles;
 using Compareo.Infrastructure.Services.Interfaces;
-using Compareo.Infrastructure.Utility;
 using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -41,43 +39,16 @@ namespace Compareo.Web.Controllers
             _shopService = shopService;
         }
 
-        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
+        public async Task<IActionResult> Index(int productPage = 1, string searchByProduct = null, string searchByCategory = null, string searchByShop = null)
         {
+            var (products, productsCount) = await _productService.GetFiltered(searchByProduct, searchByCategory, searchByShop,PageSize,productPage);
+
             var homeVM = new HomeVM()
             {
-                Products = await _productService.GetAllHeaders(),
+                Products = products,
                 ProductProposition = new ProductProposition(),
                 ShopProposition = new ShopProposition()
             };
-
-            var count = homeVM.Products.Count;
-
-            homeVM.Products = await _productService.GetPaginated(null, PageSize, productPage);
-
-            if (!(searchByProduct is null || searchByCategory is null))
-            {
-                homeVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                        .Contains(searchByProduct.ToLower()) && s.Category.Name.ToLower()
-                                        .Contains(searchByCategory.ToLower()), PageSize, productPage);
-
-                count = homeVM.Products.Count;
-            }
-
-            else if (!(searchByProduct is null))
-            {
-                homeVM.Products = await _productService.GetPaginated(s => s.Name.ToLower()
-                                       .Contains(searchByProduct.ToLower()));
-
-                count = homeVM.Products.Count;
-            }
-
-            else if (!(searchByCategory is null))
-            {
-                homeVM.Products = await _productService.GetPaginated(s => s.Category.Name.ToLower()
-                                      .Contains(searchByCategory.ToLower()));
-
-                count = homeVM.Products.Count;
-            }
 
             const string Url = "/User/Home/Index?productPage=:";
 
@@ -85,7 +56,7 @@ namespace Compareo.Web.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = productsCount,
                 UrlParam = Url
             };
 
@@ -94,44 +65,21 @@ namespace Compareo.Web.Controllers
             ViewBag.ShopsSelectList = new SelectList(shops.Select(p => new
             {
                 Text = $"Shop: {p.Name}, {p.City} {p.StreetAddress} {p.PostalCode}",
-                Id = p.Id
+                p.Id
             }), "Id", "Text");
 
             return View(homeVM);
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
-        public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, int? searchByCategory = null)
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
+        public async Task<IActionResult> Reports(int productPage = 1, string searchByProduct = null, string searchByCategory = null)
         {
+            var (reports, reportsCount) = await _reportService.GetFiltered(searchByProduct, searchByCategory, PageSize, productPage);
+
             var reportListVM = new ReportListVM()
             {
-                Reports = await _reportService.GetAll()
+                Reports = reports
             };
-
-            var count = reportListVM.Reports.Count;
-
-            reportListVM.Reports = await _reportService.GetPaginated(r => true, PageSize, productPage);
-
-            if (!(searchByProduct is null && searchByCategory is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(r => r.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()) && r.CategoryId == searchByCategory, PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
-            else if (!(searchByProduct is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(r => r.ProductName.ToLower()
-                                      .Contains(searchByProduct.ToLower()), PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
-            else if (!(searchByCategory is null))
-            {
-                reportListVM.Reports = await _reportService.GetPaginated(r => r.CategoryId == searchByCategory, PageSize, productPage);
-
-                count = reportListVM.Reports.Count;
-            }
 
             const string Url = "/User/Home/Reports?productPage=:";
 
@@ -139,14 +87,14 @@ namespace Compareo.Web.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItem = count,
+                TotalItem = reportsCount,
                 UrlParam = Url
             };
+
             return View(reportListVM);
         }
 
-
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> ProductDetails(int id, int productPage = 1)
         {
             var product = await _productService.Get(id);
@@ -197,7 +145,7 @@ namespace Compareo.Web.Controllers
             return View(productDetailsVM);
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddComentToProduct(Comment comment)
         {
             await _commentService.Add(comment);
@@ -205,10 +153,9 @@ namespace Compareo.Web.Controllers
             return RedirectToAction("ProductDetails", new { Id = comment.ProductId });
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRateToProduct(Rate rate)
         {
-
             var rateEntity = await _rateService.Get(rate.Id);
 
             if (rateEntity is null)
@@ -223,17 +170,16 @@ namespace Compareo.Web.Controllers
             return RedirectToAction("ProductDetails", new { Id = rate.ProductId });
         }
 
-
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> ReportDetails(int? id)
                     => Json(await _reportService.Get(id));
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> Comparison()
         {
             var productEntities = await _productService.GetAllHeaders();
 
-            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name,CategoryName=x.Category.Name, CategoryId = x.CategoryId })
+            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryName = x.Category.Name, x.CategoryId })
                                                 .Distinct();
 
             ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
@@ -245,7 +191,7 @@ namespace Compareo.Web.Controllers
             return View();
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> ProductsLocalization(string productName = null, int? categoryId = null)
         {
             var products = await _productService.GetAllHeaders();
@@ -262,7 +208,7 @@ namespace Compareo.Web.Controllers
             return Json(lolcalizationSelectList);
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User)]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> ProductByShop(string productName = null, int? categoryId = null, string shopName = null, string country = null, string city = null, string street = null, string postalCode = null)
         {
             var productEntity = await _productService.Get(p => p.Name.ToLower() == productName.ToLower() && p.Category.Id == categoryId
@@ -274,14 +220,13 @@ namespace Compareo.Web.Controllers
             return Json(productDto);
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> ProductProposition(ProductProposition productProposition)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             productProposition.UserId = claim.Value;
-
 
             var files = HttpContext.Request.Form.Files;
             if (files.Count > 0)
@@ -308,7 +253,7 @@ namespace Compareo.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = SD.Admin + ", " + SD.User), HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = Constants.Admin + ", " + Constants.User), HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> ShopProposition(ShopProposition shopProposition)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;

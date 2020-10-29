@@ -3,7 +3,7 @@ using Compareo.Infrastructure.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Compareo.Infrastructure.Extensions
+namespace Compareo.Infrastructure.Common.Extensions
 {
     public static class CategoryExtensions
     {

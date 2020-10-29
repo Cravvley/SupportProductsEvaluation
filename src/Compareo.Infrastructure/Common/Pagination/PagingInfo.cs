@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Compareo.Infrastructure.Pagination
+namespace Compareo.Infrastructure.Common.Pagination
 {
     public class PagingInfo
     {

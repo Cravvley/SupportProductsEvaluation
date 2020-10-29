@@ -26,5 +26,7 @@ namespace Compareo.Infrastructure.Services.Interfaces
         Task<IList<ShopDto>> GetAllHeaders(Expression<Func<Shop, bool>> filter=null);
         
         Task<IList<ShopDto>> GetPaginatedHeaders(Expression<Func<Shop, bool>> filter = null, int pageSize = 0, int productPage = 0);
+
+        Task<(IList<ShopDto> shops, int shopsCount)> GetFiltered(string shopName = null, string cityName = null, int? pageSize = null, int? productPage = null);
     }
 }
