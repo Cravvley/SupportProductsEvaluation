@@ -11,6 +11,11 @@
     <div class="col-12 text-center">
         <h1 class="text-secondary"> Report's List</h1>
     </div>
+    <div class="col-12">
+        <div class="offset-8 col-2">
+            <a class="btn btn-warning form-control updateReportWarningModal">Update Reports</a>
+        </div>
+    </div>
     <br />
     <br />
     <partial name="_SearchByProductAndByCategory" />
@@ -59,3 +64,33 @@
     </div>
 </form>
 
+<div class="modal fade" id="modalUpdateReportsWarning" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog-centered modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-light ">
+                <div class="col-10 offset-1 text-center">
+                    <h4 class="modal-title">Are you sure you want update  all reports ?</h4>
+                </div>
+            </div>
+            <div class="modal-body justify-content-center" id="myModalContent">
+                <div class="col-md-12 row">
+                    <a asp-action="GenerateReports" class="btn btn-warning form-control col-4 offset-2">Yes</a>
+                    <button class="btn-secondary form-control col-4 text-center offset-1" data-dismiss="modal" aria-label="Close">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(() => {
+            $(".updateReportWarningModal").click(() => {
+                $('#modalUpdateReportsWarning').modal('show');
+            });
+        });
+    </script>
+}

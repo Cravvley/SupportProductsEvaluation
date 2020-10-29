@@ -5,6 +5,7 @@ using Compareo.Infrastructure.DTOs;
 using Compareo.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -42,6 +43,7 @@ namespace Compareo.Infrastructure.Services
         public async Task<Product> Get(int? id)
         {
             var productEntity = await _productRepository.Get(id);
+            productEntity.Rates = productEntity.Rates.Where(x=>x.User.LockoutEnd==null||x.User.LockoutEnd<DateTime.Now).ToList();
             if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");

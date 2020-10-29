@@ -10,14 +10,17 @@ namespace Compareo.Infrastructure.Services.Interfaces
     {
         Task Create(Report report);
 
+        Task GenerateReports();
+
         Task Delete(int? id);
 
         Task Update(Report report);
+
         Task<Report> Get(int? id);
 
         Task<bool> Exist(Expression<Func<Report, bool>> filter);
 
-        Task<IList<Report>> GetAll(Expression<Func<Report, bool>> filter=null);
+        Task<IList<Report>> GetAll(Expression<Func<Report, bool>> filter = null);
 
         Task<IList<Report>> GetPaginated(Expression<Func<Report, bool>> filter = null, int pageSize = 1, int productPage = 1);
 

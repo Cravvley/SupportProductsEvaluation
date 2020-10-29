@@ -3,6 +3,7 @@ using Compareo.Data.Repositories;
 using Compareo.Infrastructure.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -38,6 +39,25 @@ namespace Compareo.Infrastructure.Services
             report.MaxPrice = await _productRepository.GetMaxPrice(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
             await _reportRepository.Create(report);
+        }
+
+        public async Task GenerateReports()
+        {
+            var reports = await _reportRepository.GetAll(r => true);
+            foreach (var report in reports)
+            {
+                await _reportRepository.Delete(report.Id);
+            }
+
+            var products = await _productRepository.GetAll(p => true);
+
+            var uniqueProducts = products.Select(x => new { ProductName = x.Name, x.CategoryId}).Distinct();
+
+            foreach (var product in uniqueProducts)
+            {
+                await Create(new Report() { ProductName = product.ProductName, CategoryId = product.CategoryId});
+            }
+
         }
 
         public async Task Delete(int? id)

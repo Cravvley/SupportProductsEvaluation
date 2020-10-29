@@ -86,6 +86,13 @@ namespace Compareo.Web.Areas.Admin.Controllers
             return View(report);
         }
 
+        public async Task<IActionResult> GenerateReports()
+        {
+            await _reportService.GenerateReports();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> Edit(int? id)
         {
             ViewBag.ProductExist = true;

@@ -6,6 +6,7 @@ using Compareo.Infrastructure.VMs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -130,7 +131,7 @@ namespace Compareo.Web.Controllers
 
             var count = productDetailsVM.Product.Comments.Count;
 
-            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.ProductId == id, PageSize, productPage);
+            productDetailsVM.Product.Comments = await _commentService.GetPaginated(x => x.ProductId == id&&(x.User.LockoutEnd==null||x.User.LockoutEnd<DateTime.Now), PageSize, productPage);
 
             string url = $"/User/Home/ProductDetails/{id}?productPage=:";
 
