@@ -28,7 +28,7 @@ namespace Compareo.Infrastructure.Services
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            report.UpdateAt = DateTime.Now;
+            report.UpdateAt = DateTime.UtcNow;
 
             report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 
@@ -75,6 +75,7 @@ namespace Compareo.Infrastructure.Services
         public async Task<Report> Get(int? id)
         {
             var report = await _reportRepository.Get(id);
+            report.UpdateAt = report.UpdateAt.Date;
 
             if (report is null)
             {
@@ -121,7 +122,7 @@ namespace Compareo.Infrastructure.Services
                 throw new ArgumentNullException("report doesn't exist");
             }
 
-            report.UpdateAt = DateTime.Now;
+            report.UpdateAt = DateTime.UtcNow;
 
             report.AvgRate = await _productRepository.GetAvgGrade(p => p.Name.ToLower() == report.ProductName.ToLower() && p.Category.Id == report.CategoryId);
 

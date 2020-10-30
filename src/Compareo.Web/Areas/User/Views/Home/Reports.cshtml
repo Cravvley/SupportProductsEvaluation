@@ -22,7 +22,6 @@
                             Category name
                         </th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 @foreach (var item in Model.Reports)
@@ -158,6 +157,7 @@
                     cache: false,
                     datatyype: "json",
                     success: data => {
+                        console.log(data);
                         $modalContent.html('');
                         $modalContent.html(createReportForm(data));
                         $("#reportModal").modal('show');
