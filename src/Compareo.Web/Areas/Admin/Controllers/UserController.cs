@@ -23,7 +23,6 @@ namespace Compareo.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int productPage = 1, string searchByEmail = null)
         {
-
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 

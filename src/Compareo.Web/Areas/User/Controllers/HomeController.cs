@@ -176,21 +176,9 @@ namespace Compareo.Web.Controllers
                     => Json(await _reportService.Get(id));
 
         [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
-        public async Task<IActionResult> Comparison()
-        {
-            var productEntities = await _productService.GetAllHeaders();
+        public IActionResult Comparison()
+                => View();
 
-            var uniqueProducts = productEntities.Select(x => new { ProductName = x.Name, CategoryName = x.Category.Name, x.CategoryId })
-                                                .Distinct();
-
-            ViewBag.ProductsSelectList = new SelectList(uniqueProducts.Select(p => new
-            {
-                Text = $"Product: {p.ProductName}, Category: {p.CategoryName}",
-                Url = $"User/Home/ProductsLocalization?productName={p.ProductName}&categoryId={p.CategoryId}"
-            }), "Url", "Text");
-
-            return View();
-        }
 
         [Authorize(Roles = Constants.Admin + ", " + Constants.User)]
         public async Task<IActionResult> ProductsLocalization(string productName = null, int? categoryId = null)
@@ -272,7 +260,7 @@ namespace Compareo.Web.Controllers
         {
             await _commentService.Delete(id);
 
-            return RedirectToAction("ProductDetails", new { Id = productId});
+            return RedirectToAction("ProductDetails", new { Id = productId });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

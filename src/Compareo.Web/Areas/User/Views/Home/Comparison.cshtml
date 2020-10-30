@@ -5,17 +5,29 @@
 }
 
 <h1 class="text-center text-info">Product Comparison</h1>
-
-<div class="form-group row col-md-12">
-    <div class="col-1">
-        <label for="ProductsId" class="col-form-label text-info text-uppercase mt-3 ml-2">Product:</label>
+<br />
+<div class="row container">
+    <div class="col-11">
+        <div class="row" style="padding-top:10px">
+            <div class="col-6">
+                <input id="productName" placeholder="Product name..." class="form-control" />
+            </div>
+            <div class="col-6">
+                <input type="text" autocomplete="off" id="Category" placeholder="Category name..." />
+            </div>
+        </div>
     </div>
-    <div class="col-4">
-        <select id="ProductsId" class="custom-select col-md-12 ml-5 my-3" asp-items="@ViewBag.ProductsSelectList "></select>
+    <div class="col-1">
+        <div class="row" style="padding-top:10px;">
+            <button id="productSearch" type="submit" name="submit" value="Search" class="btn btn-info form-control">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
     </div>
 </div>
-
-<div class="col-12  row mb-4">
+<br />
+<br />
+<div class="col-12 row mb-4">
     <div class="form-group row col-sm-7 col-md-5 col-11">
         <div class="col-1 ">
             <label for="FirstShopsId" class="col-form-label text-info text-uppercase mt-3 ml-2">Shop:</label>
@@ -35,40 +47,61 @@
 </div>
 
 <div class="row col-12">
-    <div id="firstProduct" class="col-md-5 mb-5"></div>
-    <div id="secondProduct" class="col-md-5 offset-1"></div>
+    <div id="firstProduct" class="col-md-5 border p-3 pt-5"></div>
+    <div id="secondProduct" class="col-md-5 offset-md-1 mt-4 mt-md-0 border p-3 pt-5"></div>
 </div>
 
-<div class="col-5">
+<div class="col-5 mt-5">
     <a asp-action="Index" class="btn btn-secondary form-control">Back</a>
 </div>
 
 
 
 @section Scripts{
-
+    <script src="~/js/comboTreePlugin.js"></script>
     <script type="text/javascript">
+
+        let ids = 0;
+        let productName = $("#productName").val();
+        let urlShops = `/User/Home/ProductsLocalization?productName=${productName}&categoryId=${ids}`;
+        const url = "/Admin/Category/GetCategories";
 
         $(document).ready(() => {
 
-            getProducts();
-
-            $('#ProductsId').change(()=> {
-                getProducts();
-            });
             $('#FirstShopsId').change(() => {
                 getProductFromFirstShop();
             });
             $('#SecondShopsId').change(() => {
                 getProductFromSecondShop ();
             });
-        });
-
-        const getProducts= () => {
-            const source = '#ProductsId';
-            const url = '@Url.Content("~/")' + $(source).val();
 
             $.getJSON(url, data => {
+                const instance = $('#Category').comboTree({
+                    source: data,
+                    selected: ['0'],
+                    isMultiple: false
+                });
+
+                $('#Category').change(() => {
+                    ids = instance.getSelectedIds();
+                    urlShops = `/User/Home/ProductsLocalization?productName=${productName}&categoryId=${ids}`;
+            
+                });
+
+            })
+
+            $('#productName').change(() => {
+                productName = $("#productName").val();
+                urlShops = `/User/Home/ProductsLocalization?productName=${productName}&categoryId=${ids}`;
+            });
+        });
+
+        $('#productSearch').click(() => {
+            getProducts();
+        })
+
+        const getProducts= () => {
+            $.getJSON(urlShops, data => {
 
                 let items = '';
 
@@ -123,7 +156,6 @@
             const $list = $('#firstProduct');
 
             $.getJSON(url, data => {
-                console.log(data);
                 $list.html('');
                 $list.append(createProductForm(data));
             })
@@ -138,7 +170,6 @@
             const $list = $('#secondProduct');
 
             $.getJSON(url, data => {
-                console.log(data.price);
                 $list.html('');
                 $list.append(createProductForm(data));
             })
