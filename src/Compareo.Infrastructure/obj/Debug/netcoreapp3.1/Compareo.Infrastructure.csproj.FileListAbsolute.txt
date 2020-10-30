@@ -10,7 +10,7 @@ C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\bin\Debug\netcoreapp3.1
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.csprojAssemblyReference.cache
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.AssemblyInfoInputs.cache
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.AssemblyInfo.cs
-C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.csproj.CoreCompileInputs.cache
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.csproj.CopyComplete
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.dll
 C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.pdb
+C:\Users\HP\Desktop\Compareo\src\Compareo.Infrastructure\obj\Debug\netcoreapp3.1\Compareo.Infrastructure.csproj.CoreCompileInputs.cache
