@@ -11,7 +11,7 @@ namespace Compareo.Data.Repositories
         
         Task Update(Rate category);
         
-        Task<Rate> Get(int Id);
+        Task<Rate> Get(int id);
 
         Task<Rate> Get(Expression<Func<Rate, bool>> filter);
     }

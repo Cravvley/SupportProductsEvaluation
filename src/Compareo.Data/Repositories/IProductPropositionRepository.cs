@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
 
         Task Delete(ProductProposition productProposition);
 
-        Task<ProductProposition> Get(int? id);
+        Task<ProductProposition> Get(int id);
 
         Task<IList<ProductProposition>> GetPaginated(int pageSize = 1, int productPage = 1);
 

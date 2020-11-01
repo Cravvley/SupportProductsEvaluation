@@ -33,7 +33,7 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Comment> Get(int? id)
+        public async Task<Comment> Get(int id)
             => await _db.Comment.SingleOrDefaultAsync(c => c.Id == id);
 
         public async Task<IList<Comment>> GetPaginated(Expression<Func<Comment, bool>> filter, int pageSize = 1, int productPage = 1)

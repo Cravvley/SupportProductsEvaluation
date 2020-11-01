@@ -32,7 +32,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task Delete(int? id)
         {
-            var productEntity = await _productRepository.Get(id);
+            var productEntity = await _productRepository.Get(id.Value);
             if (productEntity is null)
             {
                 return;
@@ -43,7 +43,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task<Product> Get(int? id)
         {
-            var productEntity = await _productRepository.Get(id);
+            var productEntity = await _productRepository.Get(id.Value);
             productEntity.Rates = productEntity.Rates.Where(x=>x.User.LockoutEnd==null||x.User.LockoutEnd<DateTime.Now).ToList();
             
             if (productEntity is null)
@@ -57,7 +57,7 @@ namespace Compareo.Infrastructure.Services
                     => await _productRepository.Get(filter);
         public async Task<ProductDto> GetDto(int? id)
         {
-            var productEntity = await _productRepository.Get(id);
+            var productEntity = await _productRepository.Get(id.Value);
             if (productEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");

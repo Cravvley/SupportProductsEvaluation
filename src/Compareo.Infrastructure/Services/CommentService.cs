@@ -28,7 +28,7 @@ namespace Compareo.Infrastructure.Services.Interfaces
 
         public async Task Delete(int? id)
         {
-            var commentEntity=await _commentRepository.Get(id);
+            var commentEntity= await _commentRepository.Get(id.Value);
             if(commentEntity is null)
             {
                 throw new ArgumentNullException("comment doesn't exist");

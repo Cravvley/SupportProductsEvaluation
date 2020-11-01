@@ -30,7 +30,7 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<ProductProposition> Get(int? id)
+        public async Task<ProductProposition> Get(int id)
             => await _db.ProductProposition.Include(u => u.User).Include(s => s.Shop).Include(c => c.Category).SingleOrDefaultAsync(sp => sp.Id == id);
 
         public async Task<IList<ProductProposition>> GetAll()

@@ -30,7 +30,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task Delete(int? id)
         {
-            var shopPropositionEntity = await _shopPropositionRepository.Get(id);
+            var shopPropositionEntity = await _shopPropositionRepository.Get(id.Value);
             if (shopPropositionEntity is null)
             {
                 return;
@@ -41,7 +41,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task<ShopProposition> Get(int? id)
         {
-            var shopPropositionEntity = await _shopPropositionRepository.Get(id);
+            var shopPropositionEntity = await _shopPropositionRepository.Get(id.Value);
             if (shopPropositionEntity is null)
             {
                 throw new ArgumentNullException("shop doesn't exist");

@@ -14,7 +14,7 @@ namespace Compareo.Data.Repositories
 
         Task Update(Product product);
 
-        Task<Product> Get(int? id);
+        Task<Product> Get(int id);
 
         Task<Product> Get(Expression<Func<Product, bool>> filter);
 

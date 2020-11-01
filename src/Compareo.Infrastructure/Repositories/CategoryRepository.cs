@@ -40,7 +40,7 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Category> Get(int? id)
+        public async Task<Category> Get(int id)
             => await _db.Category.Include(s=>s.ChildrenCategories).Include(c=>c.ParentCategory)
                       .SingleOrDefaultAsync(s => s.Id == id);
 

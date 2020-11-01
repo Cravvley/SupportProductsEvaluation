@@ -10,7 +10,7 @@ namespace Compareo.Data.Repositories
     {
         Task Add(Comment comment);
 
-        Task<Comment> Get(int ?id);
+        Task<Comment> Get(int id);
 
         Task Delete(Comment comment);
 

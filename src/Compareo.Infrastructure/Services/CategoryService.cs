@@ -29,7 +29,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task Delete(int? id)
         {
-            var categoryEntity = await _categoryRepository.Get(id);
+            var categoryEntity = await _categoryRepository.Get(id.Value);
             if (categoryEntity is null)
             {
                 return;
@@ -40,7 +40,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task<Category> Get(int? id)
         {
-            var categoryEntity = await _categoryRepository.Get(id);
+            var categoryEntity = await _categoryRepository.Get(id.Value);
             if (categoryEntity is null)
             {
                 throw new ArgumentNullException("category doesn't exist");

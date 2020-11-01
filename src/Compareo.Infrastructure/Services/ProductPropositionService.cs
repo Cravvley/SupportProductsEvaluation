@@ -28,7 +28,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task Delete(int? id)
         {
-            var productPropositionEntity = await _productPropositionRepository.Get(id);
+            var productPropositionEntity = await _productPropositionRepository.Get(id.Value);
             if (productPropositionEntity is null)
             {
                 return;
@@ -39,7 +39,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task<ProductProposition> Get(int? id)
         {
-            var productPropositionEntity = await _productPropositionRepository.Get(id);
+            var productPropositionEntity = await _productPropositionRepository.Get(id.Value);
             if (productPropositionEntity is null)
             {
                 throw new ArgumentNullException("product doesn't exist");

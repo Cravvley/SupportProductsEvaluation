@@ -31,7 +31,7 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Report> Get(int? id)
+        public async Task<Report> Get(int id)
                 =>await _db.Report.Include(c => c.Category).SingleOrDefaultAsync(r => r.Id == id);
 
         public async Task<Report> Get(Expression<Func<Report, bool>> filter)

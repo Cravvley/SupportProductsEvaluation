@@ -33,7 +33,7 @@ namespace Compareo.Infrastructure.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public async Task<Product> Get(int? id)
+        public async Task<Product> Get(int id)
                 => await _db.Product.Include(s => s.Shop).Include(c => c.Category)
                                 .Include(co => co.Comments).ThenInclude(u => u.User)
                                 .Include(r => r.Rates).ThenInclude(u => u.User).FirstOrDefaultAsync(p => p.Id == id);

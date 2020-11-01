@@ -62,7 +62,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task Delete(int? id)
         {
-            var report = await _reportRepository.Get(id);
+            var report = await _reportRepository.Get(id.Value);
 
             if (report is null)
             {
@@ -74,7 +74,7 @@ namespace Compareo.Infrastructure.Services
 
         public async Task<Report> Get(int? id)
         {
-            var report = await _reportRepository.Get(id);
+            var report = await _reportRepository.Get(id.Value);
             report.UpdateAt = report.UpdateAt.Date;
 
             if (report is null)
